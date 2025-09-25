@@ -1,0 +1,192 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 72px;
+  min-height: 100vh;
+  overflow: hidden;
+  background-color: #ffffff;
+  position: relative;
+  bottom: 100px;
+}
+
+.forms h1 {
+  font-size: 38px;
+  margin-bottom: 12px;
+  font-weight: bold;
+  font-weight: 700;
+  color: #8ea5ff;
+}
+
+.box-form {
+  position: relative;
+  margin-bottom: 24px;
+}
+.box-form input {
+  width: 100%;
+  height: 45px;
+  outline: none;
+  border-radius: 10px;
+  border: none;
+  padding: 18px;
+  font-size: 16px;
+  background-color: rgba(165, 165, 165, 0.162);
+}
+.box-form input::placeholder {
+  color: rgba(114, 152, 255, 0.6);
+}
+.box-form i {
+  position: absolute;
+  font-size: 20px;
+  right: 10px;
+  top: 27%;
+  color: rgba(116, 153, 255, 0.6);
+}
+.box-container {
+  display: flex;
+  align-items: center;
+  font-size: 14.5px;
+  margin-bottom: 15px;
+  justify-content: space-between;
+}
+.box-container label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #758ff7;
+}
+.box-container label input {
+  accent-color: rgba(113, 148, 245, 0.6);
+}
+.box-container a {
+  text-decoration: none;
+  color: #000956;
+  cursor: pointer;
+}
+.box-container a:hover {
+  text-decoration: underline;
+}
+.btn {
+  width: 100%;
+  height: 45px;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  cursor: pointer;
+  background-color: #7e95f3;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s;
+  margin-top: 28px;
+}
+.btn:hover {
+  background-color: #6c89ff;
+  transform: translateY(-3px);
+}
+
+.divider-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  gap: 12px;
+  font-size: 12px;
+  font-weight: 300;
+  margin: 26px 0px; /* top e bottom */
+  width: 100%;
+}
+
+.line {
+  flex: 1; /* linhas crescem igualmente */
+  height: 1px;
+  background-color: #2c2c2c;
+  opacity: 0.5;
+}
+
+.register-link {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 15px;
+  font-weight: 400;
+  color: #000956;
+}
+.register{
+     text-decoration: none;
+    text-align: center;
+    color: #8ea5ff;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.register:hover {
+    text-decoration: underline;
+}
+.icons{
+  display:flex;
+  justify-content:center;   
+  align-items:center;
+  gap: 38px;                  
+  margin-top:16px;
+}
+.icons button{
+   width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 50%;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.25);
+  padding: 0;
+}
+.icons button:hover {
+  transform: rotate(10deg);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.icons i{
+    margin:0;
+    color: #000956;
+    font-size: 38px;
+    line-height: 1;
+}
+.facebook i{
+    color: #2b6dfa;
+}
+
+.icon-btn {
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 50%;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+  padding: 0;
+}
+
+.icon-btn:hover {
+  transform: rotate(10deg);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.google-icon img {
+  width: 32px;
+  height: 32px;
+}
