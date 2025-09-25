@@ -3,6 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Skill Swapp - Cadastro</title>
+    
     <link rel="stylesheet" href="css/pagina-cadastro.css" />
     <link
       href="https://cdn.boxicons.com/fonts/basic/boxicons.min.css"
@@ -10,12 +12,11 @@
     />
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
-      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXUj5jS+Yn30Wag=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <title>Skill Swapp</title>
   </head>
   <body>
     <div class="forms">
@@ -23,46 +24,69 @@
         <img src="img/logo-skill-swap.png" alt="Logo Skill Swap" width="320" />
       </div>
       
-
-      <form action="/cadastrar" method="post">
-        <div class="box-form">
-            <h3>Nome Completo: </h3>
-          <input type="text" name="Nome" id="name" placeholder="Digite seu Nome Completo" required />
-          
-        </div>
-        <div class="box-form">
-            <h3>E-mail: </h3>
-          <input type="email" name="Email"
-          id="email" placeholder="Digite seu E-mail" required />
-          <span>@gmail.com</span>
+      <form id="cadastroForm" action="/cadastrar" method="post">
         
+        <div class="box-form">
+          <h3>Nome Completo:</h3>
+          <input 
+            type="text" 
+            name="nome" 
+            id="name" 
+            placeholder="Digite seu Nome Completo" 
+            required 
+          />
         </div>
-         <div class="box-form">
-            <h3>Confirme seu E-mail: </h3>
-          <input type="email" id="email_confirm" placeholder="Confirme seu E-mail" required />
+        
+        <div class="box-form">
+          <h3>E-mail:</h3>
+          <input 
+            type="email" 
+            name="email" 
+            id="email" 
+            placeholder="Digite seu E-mail" 
+            required 
+          />
           <span>@gmail.com</span>
-          
         </div>
-         <div class="box-form">
-            <h3>Senha: </h3>
-          <input type="password" name="Senha" id="senha" placeholder="Digite sua Senha" required />
-          <i class="fa-solid fa-eye-slash"></i>
-          
+        
+        <div class="box-form">
+          <h3>Confirme seu E-mail:</h3>
+          <input 
+            type="email" 
+            id="email_confirm" 
+            placeholder="Confirme seu E-mail" 
+            required 
+          />
+          <span>@gmail.com</span>
         </div>
-         <div class="box-form">
-            <h3>Confirme sua Senha: </h3>
-          <input type="password" id="senha_confirm" placeholder="Confirme sua Senha" required />
+        
+        <div class="box-form">
+          <h3>Senha:</h3>
+          <input 
+            type="password" 
+            name="senha" 
+            id="senha" 
+            placeholder="Digite sua Senha" 
+            required 
+          />
           <i class="fa-solid fa-eye-slash"></i>
-          
+        </div>
+        
+        <div class="box-form">
+          <h3>Confirme sua Senha:</h3>
+          <input 
+            type="password" 
+            id="senha_confirm" 
+            placeholder="Confirme sua Senha" 
+            required 
+          />
+          <i class="fa-solid fa-eye-slash"></i>
         </div>
 
-        <button class="btn" type="submit"> Cadastrar-se  </button>
-        <div class="divider-flex">     
-          
-        </div>
-       
-        </div>
+        <button class="btn" type="submit"> Cadastrar-se </button>
+        <div class="divider-flex"></div>
       </form>
     </div>
+    <script src="js/main.js"></script>
   </body>
 </html>
