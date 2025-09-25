@@ -1,0 +1,24 @@
+{
+  "name": "skillswap",
+  "version": "1.0.0",
+  "description": "Projeto integrador",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "express",
+    "express-handlebars",
+    "bootstrap",
+    "mysql"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LucasOliveira09/Skillswap"
+  },
+  "author": "Grupo Skillswap",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
