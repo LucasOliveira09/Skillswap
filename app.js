@@ -1,16 +1,10 @@
 const express = require('express');
 
-const { engine } = require('express-handlebars')
-
 const mysql = require('mysql2');
 
 const app = express();
 
-app.use('/bootstrap', express.static('./node_modules/bootstrap/dist'))
-
-app.engine('handlebars', engine());
-app.set('view engine', 'handlebars');
-app.set('views', './views');
+app.use(express.static('public'));
 
 const conexao = mysql.createConnection({
     host:'localhost',
@@ -27,7 +21,7 @@ conexao.connect(function(erro){
 //rota
 
 app.get('/', function(req, res){
-    res.render('pagina-login')
+    res.sendFile(__dirname + '/public/pagina-login.html');
 })
 
 app.listen(8080);
