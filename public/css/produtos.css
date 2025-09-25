@@ -1,0 +1,167 @@
+@import url('https://fonts.googleapis.com/css2?family=Abel&display=swap');
+
+/* Container que alinha a Galeria de Fotos e as Informações do Produto lado a lado */
+.produto-detalhes {
+    display: flex;
+    gap: 30px; /* Espaço entre os dois grandes blocos */
+    align-items: flex-start; /* Alinha o conteúdo no topo */
+    padding: 20px 0;
+    /* Remover a centralização horizontal, ela será aplicada ao 'main' */
+}
+
+/* --- Novas Regras de Centralização --- */
+
+
+a {
+    color: #333;
+    text-decoration: none;
+}
+
+/* Centraliza o conteúdo principal (onde estão as fotos e a lista de relacionados) */
+main {
+    max-width: 1200px; /* Define uma largura máxima para o conteúdo */
+    margin: 0 auto; /* Centraliza o 'main' na tela */
+    padding: 0 15px; /* Adiciona um pequeno padding nas laterais para telas menores */
+}
+
+/* Estilização da tag <header> para dar um espaçamento vertical */
+header {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee; /* Linha sutil para separar do conteúdo */
+}
+
+/* Aplica Flexbox à tag <nav> dentro do header para alinhar os 3 principais blocos */
+header nav {
+    display: flex;
+    justify-content: space-between; /* Espaça a logo, a pesquisa e os links */
+    align-items: center; /* Centraliza verticalmente os itens (logo, input) */
+    max-width: 1200px; /* Mantém a largura centralizada do conteúdo principal */
+    margin: 0 auto;
+    padding: 0 10px;
+}
+
+/* Centraliza a logo */
+.nav-img-logo {
+    height: 75px; /* Tamanho da logo */
+    width: auto;
+}
+
+/* Bloco do campo de pesquisa */
+header nav > div:nth-child(2) {
+    flex-grow: 1; /* Permite que o campo de pesquisa ocupe o espaço central */
+    text-align: center;
+    
+}
+
+/* Garante que o input de pesquisa seja mais estreito */
+header nav input[type="text"] {
+    font-family: "Abel", sans-serif;
+    font-size: 15px;
+    padding: 13px 15px;
+    background-color: rgb(229, 243, 252);
+    border: 0px solid;
+    border-radius: 3px;
+    width: 60%; /* Ajuste a largura do input */
+
+}
+
+/* Bloco dos links de Entrar/Carrinho - Alinha os links um ao lado do outro */
+header nav > div:last-child {
+    font-family: "Abel", sans-serif;
+    display: flex;
+    gap: 20px; /* Espaço entre 'Entrar' e 'Carrinho' */
+    align-items: center;
+}
+
+/* Estiliza os links */
+header nav a {
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+}
+
+.inicio-links {
+    text-decoration: none;
+    color: #333;
+}
+
+/* Regra para a barra de navegação de trilha (Início > Jiu-Jitsu...) */
+body > nav {
+    /* ... (Mantenha as regras de centralização que foram adicionadas antes) ... */
+    text-decoration: none;
+    font-family: "Abel", sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 10px;
+    padding: 10px 10px;
+}
+
+body {
+    text-decoration: none;
+    /* Remove a margem padrão de todos os lados (causa o espaço em branco) */
+    margin: 0; 
+    /* Opcional: Remove o padding padrão, caso algum browser o adicione */
+    padding: 0; 
+}
+
+/* --- Ajustes para centralização da Lista de Produtos (Relacionados) --- */
+.relacionados {
+    text-align: left;
+    /* Removido o margin-left fixo para centralizar junto com o container */
+    margin: 20px 0 15px 0; /* Espaçamento padrão */
+}
+
+/* Container que alinha os 4 cards de produto lado a lado */
+.lista-produtos {
+    display: grid;
+    /* Define 4 colunas de tamanho igual */
+    grid-template-columns: repeat(4, 0.4fr); /* 1fr garante que ocupe todo o espaço disponível */
+    gap: 20px; /* Adiciona espaço entre os cards */
+    text-align: center;
+    margin-top: 15px;
+    /* O 'main' já vai centralizar esse bloco, então não precisamos de 'margin: auto' aqui */
+}
+
+/* --- Regras Existentes (com ajuste de flex-basis para melhor responsividade) --- */
+
+/* Garante que a galeria e as informações ocupem a proporção de espaço correta */
+.galeria-fotos {
+    display: flex;
+    gap: 15px;
+    flex-basis: 60%; /* Ajuste para dar mais espaço à galeria (original era 20% e parecia um erro) */
+}
+
+aside {
+    flex-basis: 40%; /* Ocupa o restante do espaço */
+}
+
+/* Alinha as miniaturas de forma vertical */
+.miniaturas {
+    display: flex;
+    flex-direction: column; /* Coloca as miniaturas em coluna */
+    gap: 10px;
+}
+
+/* Garante que a imagem principal ocupe o espaço restante na galeria */
+.imagem-principal {
+    flex-grow: 1;
+}
+
+/* Container que alinha os dois blocos do footer (Contato + Download) lado a lado */
+.main-footer {
+    background-color: rgb(12, 12, 102);
+    color: rgb(255, 255, 255);
+    padding: 40px 10%; /* Padding lateral e vertical */
+    display: flex;
+    justify-content: space-between; /* Espaça os blocos Contato e Download */
+    align-items: flex-start;
+}
+
+.footer-download {
+    text-align: right;
+}
+
+.footer-download a img {
+    display: block; /* Garante que os botões fiquem um abaixo do outro */
+    margin-top: 10px;
+}

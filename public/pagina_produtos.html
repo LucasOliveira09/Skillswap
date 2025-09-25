@@ -3,42 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/produtos.css" />
     <title>Aulas de Jiu-Jitsu para Menores | Skill Swap</title>
 </head>
 <body>
 
     <header>
         <nav>
-            <img src="img/logo-skill-swap.png" alt="Logo Skill Swap" width="320">
-            <input type="text" placeholder="Pesquisa...">
-            <a href="#">Entrar / Registrar-se</a>
-            <a href="#">Carrinho</a>
+            <img src="img/logo-skill-swap.png" alt="Logo Skill Swap" class="nav-img-logo">
+            <div>
+                <input type="text" placeholder="🔍︎   Procure...">
+            </div>
+            <div>
+                <a href="index.html"><img src="img/man.png" alt="Icone perfl" height="15"></a>
+                <a href="index.html">Entrar / Registrar-se</a>
+                <a href="#">Carrinho</a>
+            </div>
         </nav>
     </header>
 
     <nav>
-        <span>Início</span> > <span>Jiu-Jitsu</span> > <span>Aulas professor GB</span>
+        <span class="inicio-links"><a href="pagina-servicos.html">Início</a></span> &gt; <span>Jiu-Jitsu</span> &gt; <span>Aulas professor GB</span>
     </nav>
 
     <main>
-        <section>
-            <div>
-                <div>
-                    <img src="img/jiujitsu1.png" alt="Aula de Jiu-Jitsu">
+        <section class="produto-detalhes">
+            
+            <div class="galeria-fotos">
+                <div class="miniaturas">
+                    <div><img src="img/jiujitsu1.png" alt="Aula de Jiu-Jitsu"></div>
+                    <div><img src="img/jiujitsu2.png" alt="Aula de Jiu-Jitsu"></div>
+                    <div><img src="img/jiujitsu3.png" alt="Aula de Jiu-Jitsu"></div>
+                    <div><img src="img/jiujitsu4.png" alt="Aula de Jiu-Jitsu"></div>
                 </div>
-                <div>
-                    <img src="img/jiujitsu2.png" alt="Aula de Jiu-Jitsu">
-                </div>
-                <div>
-                    <img src="img/jiujitsu3.png" alt="Aula de Jiu-Jitsu">
-                </div>
-                <div>
-                    <img src="img/jiujitsu4.png" alt="Aula de Jiu-Jitsu">
-                </div>
-            </div>
 
-            <div>
-                <img src="img/alunosjiujitsu.png" alt="Alunos praticando Jiu-Jitsu" width="320" height="320"> <!-- ta com altura e largura modificada-->
+                <div class="imagem-principal">
+                    <img src="img/alunosjiujitsu.png" alt="Alunos praticando Jiu-Jitsu">
+                </div>
             </div>
 
             <aside>
@@ -49,42 +50,45 @@
                         <span><small>5.0</small> ★★★★★ <small>10 Avaliações</small></span>
                     </div>
                 </div>
+                
                 <h1>Aulas de jiu-jitsu para menores!</h1>
-                <p><span><small>Avaliação</small> 5.0</span> | <span><small>10 avaliações</small></span> | <span><small>150 trocagens</small></span></p>
+
                 <h2>R$ 100,00/mês</h2>
                 <p>Aulas de jiu-jitsu para seu filho se divertir e socializar com os amigos.</p>
-                <button>Entrar em contato</button>
-                <button>❤️</button>
+                
+                <div>
+                    <button>Entrar em contato</button>
+                    <button>❤️</button>
+                </div>
             </aside>
         </section>
 
         <section>
-            <h3>Relacionados</h3>
-            <div>
+            <h3 class="relacionados">Relacionados</h3>
+            <div class="lista-produtos">
                 <div>
                     <img src="img/gamepad.png" alt="Gamepad">
-                    <button>❤️</button>
                     <p>HAVIT HV-G82 Gamepad</p>
                     <p><span>$120</span> <del>$160</del></p>
                     <p><span>★★★★☆</span><small>(40)</small></p>
                 </div>
+                
                 <div>
                     <img src="img/keyboard.png" alt="Teclado com fio">
-                    <button>❤️</button>
                     <p>Ak-900 Wired Keyboard</p>
                     <p><span>$500</span> <del>$600</del></p>
                     <p><span>★★★★★</span><small>(75)</small></p>
                 </div>
+                
                 <div>
                     <img src="img/monitor.png" alt="Monitor Gamer">
-                    <button>❤️</button>
                     <p>IPS LCD Gaming Monitor</p>
                     <p><span>$370</span> <del>$480</del></p>
                     <p><span>★★★★☆</span><small>(90)</small></p>
                 </div>
+                
                 <div>
                     <img src="img/cooler.png" alt="Refrigerador de CPU">
-                    <button>❤️</button>
                     <p>RGB Liquid CPU Cooler</p>
                     <p><span>$180</span> <del>$270</del></p>
                     <p><span>★★★★☆</span><small>(35)</small></p>
@@ -93,15 +97,14 @@
         </section>
     </main>
 
-    <footer>
+    <footer class="main-footer">
         <div>
             <h1>SKILL <br> SWAP</h1>
-            <p>online em contato</p>
+            <p>Entre em contato</p>
             <p>WhatsApp: <br>4002-8922</p>
             <p>E-mail: <br>4002-8922</p>
         </div>
-        <div>
-            <p>Download</p>
+        <div class="footer-download">
             <a href="#"><img src="img/botao-app-store.png" alt="App Store"></a>
             <a href="#"><img src="img/botao-google-play.png" alt="Google Play"></a>
         </div>
