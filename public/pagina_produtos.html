@@ -23,8 +23,8 @@
         </nav>
     </header>
 
-    <nav>
-        <span class="inicio-links"><a href="pagina-servicos.html">Início</a></span> &gt; <span>Jiu-Jitsu</span> &gt; <span>Aulas professor GB</span>
+    <nav class="inicio-links">
+        <span><a href="pagina-servicos.html" class="inicio-links">Início</a></span> &gt; <span>Jiu-Jitsu</span> &gt; <span>Aulas professor GB</span>
     </nav>
 
     <main>
@@ -48,7 +48,7 @@
                     <img src="img/foto-perfil-gilberto.png" alt="Foto de perfil">
                     <div>
                         <h4>GILBERTO DO JIU</h4>
-                        <span><small>5.0</small> ★★★★★ <small>10 Avaliações</small></span>
+                        <span><small style="margin-right: 5px;">5.0</small><span style="color: gold;"> ★★★★★ </span><small style="margin-left: 5px; color: #a0a0a0;">| 10 Avaliações</small></span>
                     </div>
                 </div>
                 
@@ -59,42 +59,53 @@
 
                 <hr>
                 
-                <div>
+                <div class="div-botao">
                     <button>Entrar em contato</button>
-                    <button>❤️</button>
+                    <button>♡</button>
                 </div>
             </aside>
         </section>
 
         <section>
             <h3 class="relacionados">Relacionados</h3>
-            <div class="lista-produtos">
+            <div class="lista-produtos" style="margin-bottom: 100px;">
                 <div>
                     <img src="img/gamepad.png" alt="Gamepad">
-                    <p>HAVIT HV-G82 Gamepad</p>
-                    <p><span>$120</span> <del>$160</del></p>
-                    <p><span>★★★★☆</span><small>(40)</small></p>
+                    <p style="font-weight: bold;">HAVIT HV-G82 Gamepad</p>
+                    <p class="product-price">
+                        <span class="current-price">R$100</span> 
+                        <del class="old-price">R$160</del>
+                    </p>
+                    <p><span class="estrelas-rating">★★★★☆</span><small class="rating-produto">(40)</small></p>
                 </div>
                 
                 <div>
                     <img src="img/keyboard.png" alt="Teclado com fio">
-                    <p>Ak-900 Wired Keyboard</p>
-                    <p><span>$500</span> <del>$600</del></p>
-                    <p><span>★★★★★</span><small>(75)</small></p>
+                    <p style="font-weight: bold;">Ak-900 Wired Keyboard</p>
+                    <p class="product-price">
+                        <span class="current-price">R$200</span> 
+                        <del class="old-price">R$280</del>
+                    </p>
+                    <p><span class="estrelas-rating">★★★★★</span><small class="rating-produto">(75)</small></p>
                 </div>
                 
                 <div>
                     <img src="img/monitor.png" alt="Monitor Gamer">
-                    <p>IPS LCD Gaming Monitor</p>
-                    <p><span>$370</span> <del>$480</del></p>
-                    <p><span>★★★★☆</span><small>(90)</small></p>
+                    <p style="font-weight: bold;">IPS LCD Gaming Monitor</p>
+                    <p class="product-price">
+                        <span class="current-price">R$1015</span> 
+                        <del class="old-price">R$1450</del>
+                    </p>
+                    <p><span class="estrelas-rating">★★★★☆</span><small class="rating-produto">(90)</small></p>
                 </div>
                 
                 <div>
                     <img src="img/cooler.png" alt="Refrigerador de CPU">
-                    <p>RGB Liquid CPU Cooler</p>
-                    <p><span>$180</span> <del>$270</del></p>
-                    <p><span>★★★★☆</span><small>(35)</small></p>
+                    <p style="font-weight: bold;">RGB Liquid CPU Cooler</p>
+                    <p class="product-price">
+                        <span class="current-price">R$300</span> 
+                    </p>
+                    <p><span class="estrelas-rating">★★★★☆</span><small class="rating-produto">(35)</small></p>
                 </div>
             </div>
         </section>
@@ -102,14 +113,23 @@
 
     <footer class="main-footer">
         <div>
-            <h1>SKILL <br> SWAP</h1>
-            <p class="ultimo-f">Entre em contato</p>
-            <p class="ultimo-f">WhatsApp: <br>4002-8922</p>
-            <p class="ultimo-f">E-mail: <br>4002-8922</p>
+            <h1 class="skillswap">SKILL <br> SWAP</h1>
+            <p class="ultimo-footer">Entre em contato:</p>
+            <p class="ultimo-footer">Whatsapp: <br>1234-5678</p>
+            <p class="ultimo-footer">E-mail: <br>skillswap@email.com</p>
         </div>
+        <div class="sobre-nos">
+            <h2>Sobre nós</h2>
+            <div>
+            <p class="faqs"><a href="#" style="color: white;">FAQ</a></p>
+            <p class="faqs"><a href="#" style="color: white;">Termos de uso</a></p>
+            <p class="faqs"><a href="#" style="color: white;">Política de privacidade</a></p>
+            </div>
+        </div>   
         <div class="footer-download">
-            <a href="#"><img src="img/botao-app-store.png" alt="App Store"></a>
-            <a href="#"><img src="img/botao-google-play.png" alt="Google Play"></a>
+            <h2>Download</h2>
+            <a href="#"><img src="img/botao-app-store.png" alt="App Store" width="180"></a>
+            <a href="#"><img src="img/botao-google-play.png" alt="Google Play" width="180"></a>
         </div>
     </footer>
 

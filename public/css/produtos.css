@@ -4,6 +4,8 @@
 /*font-family: "Martel Sans", sans-serif; */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 /*font-family: "Montserrat", sans-serif; */
+@import url('https://fonts.googleapis.com/css2?family=Angkor&display=swap');
+/*font-family: "Angkor", serif;*/
 
 /* Container que alinha a Galeria de Fotos e as Informações do Produto lado a lado */
 .produto-detalhes {
@@ -17,10 +19,7 @@
 /* --- Novas Regras de Centralização --- */
 
 
-a {
-    color: #333;
-    text-decoration: none;
-}
+
 
 .foto-gilberto {
     text-align: center;
@@ -110,6 +109,11 @@ body > nav {
     padding: 10px 10px;
 }
 
+a {
+    text-decoration: none;
+}
+
+
 body {
     text-decoration: none;
     /* Remove a margem padrão de todos os lados (causa o espaço em branco) */
@@ -123,7 +127,23 @@ body {
     font-family: "Montserrat", sans-serif;
     text-align: left;
     /* Removido o margin-left fixo para centralizar junto com o container */
-    margin: 20px 0 15px 0; /* Espaçamento padrão */
+    margin: 20px 0 25px 0; /* Espaçamento padrão */
+    /* Torna o elemento flexível para alinhar o box e o texto */
+    display: flex; 
+    align-items: center; /* Alinha o texto com o centro do box */
+    gap: 8px; /* Espaço entre o box azul e a palavra "Relacionados" */
+    
+    /* Remove o margin-left fixo se ele estiver causando desalinhamento */
+}
+
+/* Cria o box azul usando a pseudoclasse ::before */
+.relacionados::before {
+    content: ""; /* Necessário para pseudoclasse */
+    display: block;
+    width: 12px; /* Largura do box */
+    height: 24px; /* Altura do box (ajustada ao tamanho da fonte) */
+    background-color: rgba(37, 81, 136, 1); /* O azul escuro que você está usando no footer */
+    border-radius: 3px; /* Levemente arredondado */
 }
 
 /* Container que alinha os 4 cards de produto lado a lado */
@@ -132,10 +152,42 @@ body {
     display: grid;
     /* Define 4 colunas de tamanho igual */
     grid-template-columns: repeat(4, 0.4fr); /* 1fr garante que ocupe todo o espaço disponível */
-    gap: 15px; /* Adiciona espaço entre os cards */
-    text-align: center;
-    margin-top: 10px;
+    gap: 40px; /* Adiciona espaço entre os cards */
+
     /* O 'main' já vai centralizar esse bloco, então não precisamos de 'margin: auto' aqui */
+}
+
+/* 2. Estilo para o container dos preços */
+.product-price {
+    margin: 5px 0;
+}
+
+/* Estilo para o preço atual (maior e em vermelho/laranja) */
+.current-price {
+    color: #ff5722; /* Laranja/Vermelho para destaque */
+    font-size: 18px;
+    font-weight: 700;
+    margin-right: 10px;
+}
+
+/* Estilo para o preço antigo (riscado e em cinza) */
+.old-price {
+    color: #a0a0a0; /* Cinza claro */
+    font-size: 14px;
+    font-weight: 400;
+    text-decoration: line-through;
+}
+
+.rating-produto {
+    color: #a0a0a0; /* Cinza claro */
+    margin-left: 10px ;
+    font-size: 14px;
+    font-weight: 400;
+
+}
+
+.estrelas-rating {
+    color: gold
 }
 
 /* --- Regras Existentes (com ajuste de flex-basis para melhor responsividade) --- */
@@ -163,25 +215,99 @@ aside {
     flex-grow: 1;
 }
 
+.div-botao {
+    display: flex; /* Coloca os botões lado a lado */
+    gap: 15px; /* Espaço entre os botões */
+    margin-top: 25px; /* Adiciona um espaço da descrição acima */
+    /* Garante que o container de botões não ocupe 100% da largura, permitindo que os botões tenham tamanhos diferentes */
+    width: fit-content;
+}
+
+/* Estilização básica para TODOS os botões dentro desta seção */
+aside button {
+    cursor: pointer; /* Indica que é clicável */
+    border: none;
+    border-radius: 5px;
+    padding: 15px 30px;
+    font-family: "Montserrat", sans-serif;
+    font-size: 18px;
+    transition: background-color 0.3s;
+}
+
+/* 1. Estilo para o botão "Entrar em contato" (o botão principal) */
+aside button:first-child {
+    background-color: rgba(37, 81, 136, 1); /* Azul escuro da sua imagem */
+    color: white;
+    flex-grow: 1; /* Permite que ocupe a maior parte do espaço */
+}
+
+aside button:first-child:hover {
+    background-color: #1a385f; /* Cor um pouco mais escura ao passar o mouse */
+}
+
+/* 2. Estilo para o botão de coração (o botão secundário/favoritar) */
+aside button:last-child {
+    /* Define o tamanho exato do quadrado */
+    width: 60px;
+    height: 60px;
+    padding: 0; /* Remove padding para um quadrado perfeito */
+    background-color: white;
+    /* Borda cinza e sutil */
+    border: 1px solid #ccc; 
+    border-radius: 8px; /* Borda mais arredondada que o botão principal */
+    /* Alinha o conteúdo (o coração) no centro */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Estilização do ícone de coração (usando o caractere "outline heart") */
+    font-size: 28px; /* Aumenta o tamanho do coração */
+    line-height: 1; /* Garante alinhamento vertical perfeito do ícone */
+    color: #333; /* Cor do contorno do coração */
+}
+
+aside button:last-child:hover {
+    background-color: #f5f5f5;
+    border-color: #a0a0a0;
+}
+
 /* Container que alinha os dois blocos do footer (Contato + Download) lado a lado */
 .main-footer {
-    background-color: rgb(12, 12, 102);
+    background-color: rgba(37, 81, 136, 1);
     color: rgb(255, 255, 255);
-    padding: 40px 10%; /* Padding lateral e vertical */
+    padding: 10px 10%; /* Padding lateral e vertical */
     display: flex;
     justify-content: space-between; /* Espaça os blocos Contato e Download */
     align-items: flex-start;
 }
 
-.ultimo-f {
+.skillswap {
+    font-family: "Angkor", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.ultimo-footer {
     font-family: "Abel", sans-serif;
 }
 
+.sobre-nos {
+    margin-top: 40px;
+    font-family: "Abel", sans-serif;
+    text-align: center;
+}
+
+.faqs {
+    display: block;
+    margin-top: 46px;
+}
+
 .footer-download {
-    text-align: right;
+    margin-top: 40px;
+    font-family: "Abel", sans-serif;
+    text-align: center;
 }
 
 .footer-download a img {
     display: block; /* Garante que os botões fiquem um abaixo do outro */
-    margin-top: 10px;
+    margin-top: 46px;
 }
