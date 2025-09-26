@@ -1,4 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Abel&display=swap');
+/*font-family: "Abel", sans-serif; */
+@import url('https://fonts.googleapis.com/css2?family=Martel+Sans:wght@200;300;400;600;700;800;900&display=swap');
+/*font-family: "Martel Sans", sans-serif; */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+/*font-family: "Montserrat", sans-serif; */
 
 /* Container que alinha a Galeria de Fotos e as Informações do Produto lado a lado */
 .produto-detalhes {
@@ -15,6 +20,15 @@
 a {
     color: #333;
     text-decoration: none;
+}
+
+.foto-gilberto {
+    text-align: center;
+    font-family: "Martel Sans", sans-serif;
+}
+
+.aulas-jiu {
+    font-family: "Montserrat", sans-serif;
 }
 
 /* Centraliza o conteúdo principal (onde estão as fotos e a lista de relacionados) */
@@ -106,6 +120,7 @@ body {
 
 /* --- Ajustes para centralização da Lista de Produtos (Relacionados) --- */
 .relacionados {
+    font-family: "Montserrat", sans-serif;
     text-align: left;
     /* Removido o margin-left fixo para centralizar junto com o container */
     margin: 20px 0 15px 0; /* Espaçamento padrão */
@@ -113,12 +128,13 @@ body {
 
 /* Container que alinha os 4 cards de produto lado a lado */
 .lista-produtos {
+    font-family: "Martel Sans", sans-serif;
     display: grid;
     /* Define 4 colunas de tamanho igual */
     grid-template-columns: repeat(4, 0.4fr); /* 1fr garante que ocupe todo o espaço disponível */
-    gap: 20px; /* Adiciona espaço entre os cards */
+    gap: 15px; /* Adiciona espaço entre os cards */
     text-align: center;
-    margin-top: 15px;
+    margin-top: 10px;
     /* O 'main' já vai centralizar esse bloco, então não precisamos de 'margin: auto' aqui */
 }
 
@@ -155,6 +171,10 @@ aside {
     display: flex;
     justify-content: space-between; /* Espaça os blocos Contato e Download */
     align-items: flex-start;
+}
+
+.ultimo-f {
+    font-family: "Abel", sans-serif;
 }
 
 .footer-download {
