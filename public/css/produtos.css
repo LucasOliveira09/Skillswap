@@ -278,16 +278,64 @@ aside button:last-child:hover {
     display: flex;
     justify-content: space-between; /* Espaça os blocos Contato e Download */
     align-items: flex-start;
+    position: relative; /* FUNDAMENTAL para que o círculo absoluto funcione */
+    overflow: hidden; /* Opcional: Garante que o que estiver fora do footer seja cortado */
+}
+
+/* Estilo do Círculo */
+.footer-circle {
+    /* Forma o círculo */
+    width: 450px; /* Diâmetro do círculo (ajuste conforme necessário) */
+    height: 450px;
+    border-radius: 100%; /* Transforma o quadrado em círculo */
+    
+    /* Cores e borda */
+    background-color: #8cc63f; /* Cor verde/lima da imagem (ajuste o tom se precisar) */
+    border: 2px solid white; /* Borda branca ao redor do círculo */
+    
+    /* Posicionamento (position: absolute é crucial) */
+    position: absolute;
+    /* Move o círculo para o canto inferior direito e o posiciona parcialmente fora da tela */
+    bottom: 60px; /* Levanta o círculo 120px de baixo */
+    right: -90px; /* Move o círculo 100px para a esquerda da borda direita */
+    
+    /* Z-index para controle de camadas (se precisar que ele fique atrás de algo) */
+    z-index: 1;
+}
+
+/* Estilo do Círculo */
+.footer-circletwo {
+    /* Forma o círculo */
+    width: 500px; /* Diâmetro do círculo (ajuste conforme necessário) */
+    height: 500px;
+    border-radius: 100%; /* Transforma o quadrado em círculo */
+    
+    /* Cores e borda */
+    background-color: #8bc63f00; /* Cor verde/lima da imagem (ajuste o tom se precisar) */
+    border: 2px solid white; /* Borda branca ao redor do círculo */
+    
+    /* Posicionamento (position: absolute é crucial) */
+    position: absolute;
+    /* Move o círculo para o canto inferior direito e o posiciona parcialmente fora da tela */
+    bottom: 36px; /* Levanta o círculo 120px de baixo */
+    right: -115px; /* Move o círculo 100px para a esquerda da borda direita */
+    
+    /* Z-index para controle de camadas (se precisar que ele fique atrás de algo) */
+    z-index: 1;
 }
 
 .skillswap {
     font-family: "Angkor", serif;
-    font-weight: 400;
-    font-style: normal;
+    font-weight: 200;
+    font-size: 39px;
 }
 
 .ultimo-footer {
     font-family: "Abel", sans-serif;
+}
+
+.tel-email {
+    display: flex;
 }
 
 .sobre-nos {
@@ -305,9 +353,11 @@ aside button:last-child:hover {
     margin-top: 40px;
     font-family: "Abel", sans-serif;
     text-align: center;
+    z-index: 2;
 }
 
 .footer-download a img {
     display: block; /* Garante que os botões fiquem um abaixo do outro */
     margin-top: 46px;
+    z-index: 2;
 }
