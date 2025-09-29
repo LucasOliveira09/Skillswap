@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/pagamentos.css">
     <title>Pagamento | Skill Swap</title>
 </head>
 <body>
@@ -10,9 +11,9 @@
     <header>
         <nav>
             <div>
-                <button>Menu</button>
+                <button class="button-menu"><img src="img/menu.png" alt="Botao Menu" width="48"></button>
                 <a href="#">
-                    <img src="img/logo-skill-swap.png" alt="Logotipo Skill Swap" width="320">
+                    <img class="img-logo-skill" src="img/logo-skill-swap.png" alt="Logo Skill Swap" width="140">
                 </a>
             </div>
             <div>
@@ -24,49 +25,52 @@
             </div>
         </nav>
     </header>
-
+    <br>
+    <br>
+    <br>
     <main>
-        <h3>Pagamento</h3>
+        <h3 class="fonte-pagamento">Pagamento</h3>
         
         <form action="#" method="post">
             <div>
-                <button>
-                    <img src="img/cartoes-exemplo.png" alt="Compra por Cartao">
-                    <span>Cartões</span>
+                <button class="button-cartoes">
+                    <img src="img/cartoes-exemplo.png" alt="Compra por Cartao" width="30px" height="30px">
                 </button>
-                <button>
-                    <img src="img/cartao-nubank.png" alt="NuBanl">
-                    <span>NuBank</span>
+                <button class="button-nubank">
+                    <img src="img/cartao-nubank.png" alt="NuBank" width="40px" height="30px">
                 </button>
-                <button>
-                    <img src="img/pix-compra.png" alt="Pix">
-                    <span>Pix</span>
+                <button class="button-pix">
+                    <img src="img/pix-compra.png" alt="Pix" width="30px" height="30">
                 </button>
             </div>
-            
+            <br>
             <div>
-                <div>
-                    <label for="nome_cartao">Nome no cartão</label>
+                <div class="box-form">
+                    <label class="fontes" for="nome_cartao">Nome no cartão</label>
+                    <br>
                     <input type="text" id="nome_cartao" name="nome_cartao">
                 </div>
-                <div>
-                    <label for="numero_cartao">Número do cartão</label>
+                <br>
+                <div class="box-form">
+                    <label class="fontes" for="numero_cartao">Número do cartão</label>
+                    <br>
                     <input type="text" id="numero_cartao" name="numero_cartao" placeholder="1234 1234 1234 1234">
-                    <img src="img/bandeira-cartao-visa-mastercard.png" alt="Bandeira do Cartão">
+                    <img class="bandeiras" src="img/bandeira-cartao-visa-mastercard.png" alt="Bandeira do Cartão">
                 </div>
+                <br>
                 <div>
-                    <div>
-                        <label for="validade">Validade</label>
+                    <div class="box-form-val-cvv">
+                        <label class="fontes" for="validade">Validade</label> // <label class="fontes" for="cvv">CVV</label>
+                        <br>
                         <input type="text" id="validade" name="validade" placeholder="MM/AA">
-                    </div>
-                    <div>
-                        <label for="cvv">CVV</label>
                         <input type="text" id="cvv" name="cvv" placeholder="CVV">
                     </div>
                 </div>
+                <br>
                 <div>
-                    <label for="pais">País</label>
-                    <select id="pais" name="pais">
+                    <label class="fontes" for="pais">País</label>
+                    <br>
+                    <select class="select" id="pais" name="pais">
                         <option value="brasil">Brasil</option>
                         <option value="outro">Outro País</option>
                     </select>
@@ -74,22 +78,35 @@
             </div>
         </form>
     </main>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <footer class="main-footer">
+        <div>
+            <h1 class="skillswap">SKILL<br>SWAP</h1>
+          
 
-    <footer>
-        <div>
-            <h1>SKILL <br> SWAP</h1>
-            <h4>Entre em contato</h4>
-            <p>
-                WhatsApp<br>
-                4002-8922
-            </p>
-            <p>
-                Ligue<br>
-                4002-8922
-            </p>
+            <p class="ultimo-footer" style="margin-right: 50px;">Whatsapp: <br>(00)1234-5678</p>
+            <p class="ultimo-footer">E-mail: <br>skillswap@email.com</p>
+
         </div>
-        <div>
-            <h4>Download</h4>
+
+        <div class="sobre-nos">
+            <h2>Sobre nós</h2>
+            <div>
+            <p class="faqs"><a href="#" style="color: white;">FAQ</a></p>
+            <p class="faqs"><a href="#" style="color: white;">Termos de uso</a></p>
+            <p class="faqs"><a href="#" style="color: white;">Política de privacidade</a></p>
+            </div>
+        </div>  
+
+        <div class="footer-circle"></div>
+        <div class="footer-circletwo"></div>
+
+        <div class="footer-download">
+            <h2>Download</h2>
             <a href="#"><img src="img/botao-app-store.png" alt="App Store" width="180"></a>
             <a href="#"><img src="img/botao-google-play.png" alt="Google Play" width="180"></a>
         </div>
