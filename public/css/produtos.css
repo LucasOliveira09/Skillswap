@@ -18,24 +18,46 @@
 
 /* --- Novas Regras de Centralização --- */
 
-
-
-
-.foto-gilberto {
-    text-align: center;
-    font-family: "Martel Sans", sans-serif;
+/* Botão do menu (sem absolute) */
+.button-menu {  
+    width: 0px;
+    height: 0px;
+    background: var(--bg);
+    border: var(--border);
+    outline: 0;
+    box-shadow: var(--shadow);
+    display: inline-grid;
+    place-items: center;
+    color: #fff;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform .12s ease, filter .12s ease, box-shadow .12s ease;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    border-radius: 8px;
+    padding: 0;
+    display: flex;
+    align-items: left;
+    justify-content: left;
 }
 
-.aulas-jiu {
-    font-family: "Montserrat", sans-serif;
+.button-menu:hover {
+    filter: brightness(.9);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(79,70,229,0.28);
 }
 
-/* Centraliza o conteúdo principal (onde estão as fotos e a lista de relacionados) */
-main {
-    max-width: 1200px; /* Define uma largura máxima para o conteúdo */
-    margin: 0 auto; /* Centraliza o 'main' na tela */
-    padding: 0 15px; /* Adiciona um pequeno padding nas laterais para telas menores */
+.button-menu:active {
+    transform: translateY(0);
+    filter: brightness(.85);
+    box-shadow: 0 6px 14px rgba(79,70,229,0.22);
 }
+
+.button-menu:focus-visible {
+    box-shadow: 0 0 0 4px rgba(79,70,229,0.14);
+}
+
 
 /* Estilização da tag <header> para dar um espaçamento vertical */
 header {
@@ -48,15 +70,24 @@ header nav {
     display: flex;
     justify-content: space-between; /* Espaça a logo, a pesquisa e os links */
     align-items: center; /* Centraliza verticalmente os itens (logo, input) */
-    max-width: 1200px; /* Mantém a largura centralizada do conteúdo principal */
+    max-width: 1500px; /* Mantém a largura centralizada do conteúdo principal */
     margin: 0 auto;
-    padding: 0 10px;
+    padding: 0 20px;
+    gap: 0px;
 }
 
 /* Centraliza a logo */
 .nav-img-logo {
     height: 75px; /* Tamanho da logo */
-    width: auto;
+    padding-left: 120px;
+}  
+
+/* Container da logo e menu */
+header nav > div:first-child {
+    display: flex;           /* Alinha em linha */
+    align-items: center;     /* Centraliza verticalmente */
+    gap: 100px;  /* Espaço entre menu e logo */
+    flex-shrink: 0;
 }
 
 /* Bloco do campo de pesquisa */
@@ -121,6 +152,23 @@ body {
     /* Opcional: Remove o padding padrão, caso algum browser o adicione */
     padding: 0; 
 }
+
+.foto-gilberto {
+    text-align: center;
+    font-family: "Martel Sans", sans-serif;
+}
+
+.aulas-jiu {
+    font-family: "Montserrat", sans-serif;
+}
+
+/* Centraliza o conteúdo principal (onde estão as fotos e a lista de relacionados) */
+main {
+    max-width: 1300px; /* Define uma largura máxima para o conteúdo */
+    margin: 0 auto; /* Centraliza o 'main' na tela */
+    padding: 0 15px; /* Adiciona um pequeno padding nas laterais para telas menores */
+}
+
 
 /* --- Ajustes para centralização da Lista de Produtos (Relacionados) --- */
 .relacionados {
