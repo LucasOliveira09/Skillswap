@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/editarPerfil.css" />
     <title>Editar Perfil | Skill Swap</title>
 </head>
 <body>
@@ -10,29 +11,34 @@
     <header>
         <nav>
             <div>
-                <button>Menu</button>
-                <a href="#">
-                    <img src="img/logo-skill-swap.png" alt="Logo Skill Swap" width="320">
+                <button class="button-menu"><img src="img/menu.png" alt="Botao Menu" width="48"></button>
+                <a href="pagina-servicos.html">
+                    <img class="img-logo-skill" src="img/logo-skill-swap.png" alt="Logo Skill Swap" width="140">
                 </a>
             </div>
             <div>
-                <input type="text" placeholder="Pesquisar...">
+                <input type="text" placeholder="🔍︎   Procure...">
             </div>
             <div>
-                <a href="#">Olá, Otavio</a>
+                <a href="#"><img src="img/man.png" alt="Icone perfl" height="15"></a>
+                <a href="#">Olá, Otávio</a>
+                <a href="#"><img src="img/carrinho.png" alt="Carrinho icone" height="15"></a>
                 <a href="#">Carrinho</a>
             </div>
         </nav>
     </header>
 
+    <div class="inicio-bemvindo">
     <nav>
-        <span>Principal</span> / <span>Minha conta</span>
+        <span><a href="pagina-servicos.html" class="inicio-links">Início</a></span> &gt; <span>Minha Conta</span>
     </nav>
+    <nav>
+        <span>Bem vindo, Otávio</span>
+    </nav>
+    </div>
 
     <main>
-        <div>
-            <h3>Bem-vindo, Otavio</h3>
-        </div>
+        
 
         <div>
             <aside>
@@ -52,22 +58,28 @@
             <section>
                 <h3>Edite seu perfil</h3>
                 <form action="#" method="post">
-                    <div>
+                    <div class="nome-sobrenome">
+                        <div>
                         <label for="primeiro_nome">Primeiro nome</label>
-                        <input type="text" id="primeiro_nome" name="primeiro_nome" value="Nome">
-                    </div>
-                    <div>
+                        <input type="text" id="primeiro_nome" name="primeiro_nome" placeholder="Nome" class="input-duplo">
+                        </div>
+                        <div>
                         <label for="sobrenome">Sobrenome</label>
-                        <input type="text" id="sobrenome" name="sobrenome" value="Sobrenome">
+                        <input type="text" id="sobrenome" name="sobrenome" placeholder="Sobrenome" class="input-duplo">
+                        </div>
                     </div>
-                    <div>
+                    
+                    <div class="nome-sobrenome">
+                        <div>
                         <label for="email">E-mail</label>
-                        <input type="email" id="email" name="email" value="exemplo@email.com">
-                    </div>
-                    <div>
+                        <input type="email" id="email" name="email" placeholder="exemplo@email.com" class="input-duplo">
+                        </div>
+                        <div>
                         <label for="endereco">Endereço</label>
-                        <input type="text" id="endereco" name="endereco" value="Ourinhos, 5236, Brasil">
+                        <input type="text" id="endereco" name="endereco" placeholder="Ourinhos, 5236, Brasil" class="input-duplo">
+                        </div>
                     </div>
+                    
                     <div>
                         <h4>Mudar senha</h4>
                         <div>
@@ -92,21 +104,30 @@
         </div>
     </main>
 
-    <footer>
+    <footer class="main-footer">
         <div>
-            <h1>SKILL <br> SWAP</h1>
-            <h4>Entre em contato</h4>
-            <p>
-                WhatsApp<br>
-                4002-8922
-            </p>
-            <p>
-                Ligue<br>
-                40028922
-            </p>
+            <h1 class="skillswap">SKILL<br>SWAP</h1>
+          
+
+            <p class="ultimo-footer" style="margin-right: 50px;">Whatsapp: <br>(00)1234-5678</p>
+            <p class="ultimo-footer">E-mail: <br>skillswap@email.com</p>
+
         </div>
-        <div>
-            <h4>Download</h4>
+
+        <div class="sobre-nos">
+            <h2>Sobre nós</h2>
+            <div>
+            <p class="faqs"><a href="#" style="color: white;">FAQ</a></p>
+            <p class="faqs"><a href="#" style="color: white;">Termos de uso</a></p>
+            <p class="faqs"><a href="#" style="color: white;">Política de privacidade</a></p>
+            </div>
+        </div>  
+
+        <div class="footer-circle"></div>
+        <div class="footer-circletwo"></div>
+
+        <div class="footer-download">
+            <h2>Download</h2>
             <a href="#"><img src="img/botao-app-store.png" alt="App Store" width="180"></a>
             <a href="#"><img src="img/botao-google-play.png" alt="Google Play" width="180"></a>
         </div>
