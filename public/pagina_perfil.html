@@ -3,23 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/perfil.css">
     <title>Perfil - Skill Swap</title>
 </head>
 <body>
 
     <header>
         <nav>
-            <a href="#">
-                <img src="img/logo-skill-swap.png" alt="Logo Skill Swap" width="320">
-            </a>
-            <input type="text" placeholder="Buscar">
-            <a href="#">Entrar/Registrar-se</a>
-            <a href="#">Carrinho</a>
+            <div>
+                <button class="button-menu"><img src="img/menu.png" alt="Botao Menu" width="48"></button>
+                <a href="pagina-servicos.html">
+                    <img class="img-logo-skill" src="img/logo-skill-swap.png" alt="Logo Skill Swap" width="140">
+                </a>
+            </div>
+            <div>
+                <input type="text" placeholder="🔍︎   Procure...">
+            </div>
+            <div>
+                <a href="index.html"><img src="img/man.png" alt="Icone perfl" height="15"></a>
+                <a href="index.html">Entrar / Registrar-se</a>
+                <a href="#"><img src="img/carrinho.png" alt="Carrinho icone" height="15"></a>
+                <a href="#">Carrinho</a>
+            </div>
         </nav>
     </header>
 
-    <main>
-        <aside>
+    <main class="container-principal">
+
+        <aside class="coluna-esquerda">
             <div>
                 <img src="img/foto-perfil-gilberto.png" alt="Foto de perfil de Gilberto do Jiu">
                 <h2>Gilberto do Jiu</h2>
@@ -32,7 +43,27 @@
                 <p>Habilidades: Aulas de jiu-jitsu, preparação física</p>
                 <p>A PROFESSOR AVALIA SUA NOTA E AJUSTA QUAL ESPORTE HABILITA.</p>
             </div>
+        </aside>
 
+        <section class="coluna-central">
+            <article>
+                <header class="perfil-display">
+                    <img src="img/foto-perfil-postagem.png" alt="Foto de perfil do Gilberto">
+                    <h3>Gilberto do Jiu</h3>
+                    <p>13 respostas</p>
+                </header>
+                <div>
+                    <img src="img/foto-postagem-jiu-jitsu.png" alt="Foto de aula de Jiu-Jitsu">
+                </div>
+                <footer>
+                    <p><strong>R$15,00/hora</strong></p>
+                    <p>Aulas de JIU-JITSU para todas idades</p>
+                    <p><strong>Troca por:</strong> A combinar</p>
+                </footer>
+            </article>
+        </section>
+
+        <aside class="coluna-direita">
             <div>
                 <h3>Detalhes</h3>
                 <ul>
@@ -63,41 +94,34 @@
             </div>
         </aside>
 
-        <section>
-            <h1>POSTAGENS</h1>
-            <article>
-                <header>
-                    <img src="img/foto-perfil-postagem.png" alt="Foto de perfil do Gilberto">
-                    <h3>Gilberto do Jiu</h3>
-                    <p>13 respostas</p>
-                </header>
-                <div>
-                    <img src="img/foto-postagem-jiu-jitsu.png" alt="Foto de aula de Jiu-Jitsu">
-                </div>
-                <footer>
-                    <p><strong>R$15,00/hora</strong></p>
-                    <p>Aulas de JIU-JITSU para todas idades</p>
-                    <p><strong>Troca por:</strong> A combinar</p>
-                </footer>
-            </article>
-        </section>
     </main>
     
-    <footer>
-        
-        <nav>
-            <ul>
-                <h1>SKILL <br> SWAP</h1>
-                <li><a href="#">Sobre nós</a></li>
-                <li><a href="#">FAQ</a></li>
-                <li><a href="#">Termos de uso</a></li>
-                <li><a href="#">Política de privacidade</a></li>
-            </ul>
-        </nav>
+    <footer class="main-footer">
         <div>
-            <p>Baixe nosso app</p>
-            <a href="#"><img src="img/botao-app-store.png" alt="Disponível na App Store" width="180"></a>
-            <a href="#"><img src="img/botao-google-play.png" alt="Disponível no Google Play" width="180"></a>
+            <h1 class="skillswap">SKILL<br>SWAP</h1>
+          
+
+            <p class="ultimo-footer" style="margin-right: 50px;">Whatsapp: <br>(00)1234-5678</p>
+            <p class="ultimo-footer">E-mail: <br>skillswap@email.com</p>
+
+        </div>
+
+        <div class="sobre-nos">
+            <h2>Sobre nós</h2>
+            <div>
+            <p class="faqs"><a href="#" style="color: white;">FAQ</a></p>
+            <p class="faqs"><a href="#" style="color: white;">Termos de uso</a></p>
+            <p class="faqs"><a href="#" style="color: white;">Política de privacidade</a></p>
+            </div>
+        </div>  
+
+        <div class="footer-circle"></div>
+        <div class="footer-circletwo"></div>
+
+        <div class="footer-download">
+            <h2>Download</h2>
+            <a href="#"><img src="img/botao-app-store.png" alt="App Store" width="180"></a>
+            <a href="#"><img src="img/botao-google-play.png" alt="Google Play" width="180"></a>
         </div>
     </footer>
 
