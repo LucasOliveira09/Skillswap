@@ -15,6 +15,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <title>Skill Swap</title>
   </head>
   <body>
@@ -24,7 +25,8 @@
       </div>
       <h1>Entrar</h1>
 
-      <form action="/cadastrar" method="post">
+
+      <form id="loginForm" action="/login" method="post">
         <div class="box-form">
           <input type="email" placeholder="Email"
           name="email" required />
@@ -71,7 +73,9 @@
           <a href="pagina_cadastro.html">Cadastrar-se</a>
         </div>
       </form>
+
     </div>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="js/login.js"></script>
   </body>
 </html>

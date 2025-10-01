@@ -21,6 +21,8 @@ async function setupDatabase() {
         );
     `);
 
+   
+
     console.log("Banco de dados 'skillswap.db' pronto.");
     return db;
 }

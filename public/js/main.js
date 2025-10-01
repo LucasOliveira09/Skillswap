@@ -20,11 +20,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 2. Validação Básica (Frontend)
         if (email !== emailConfirm) {
-            alert('Erro: Os campos de E-mail não coincidem!');
+            Toastify({
+                text: "Os emails não coincidem",
+                duration: 3000,
+                newWindow: true,
+                close: true,
+                gravity: "top",
+                position: "right", 
+                stopOnFocus: true,
+                style: {
+                background: "linear-gradient(to right, #00b09b, #96c93d)",
+                },
+            }).showToast();
             return;
         }
         if (senha !== senhaConfirm) {
-            alert('Erro: Os campos de Senha não coincidem!');
+            Toastify({
+                text: "As senhas não coincidem",
+                duration: 3000,
+                newWindow: true,
+                close: true,
+                gravity: "top",
+                position: "right", 
+                stopOnFocus: true,
+                style: {
+                background: "linear-gradient(to right, #00b09b, #96c93d)",
+                },
+            }).showToast();
             return;
         }
 
@@ -32,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const dadosCadastro = {
             nome: nome,
             email: email,
-            senha: senha // Lembre-se, estamos enviando sem criptografia (TESTE)
+            senha: senha
         };
 
         // 4. Envia a Requisição POST para o Servidor Node.js
@@ -42,18 +64,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: {
                     'Content-Type': 'application/json' // Indica que o corpo é JSON
                 },
-                body: JSON.stringify(dadosCadastro) // Converte o objeto JS para string JSON
+                body: JSON.stringify(dadosCadastro)
             });
 
             const resultado = await response.json();
 
             // 5. Trata a Resposta da API
             if (response.ok && response.status === 201) {
-                alert(`Cadastro realizado com sucesso! Bem-vindo(a), ${resultado.nome}.`);
-                cadastroForm.reset(); // Limpa o formulário após sucesso
+                Toastify({
+                text: 'Cadastro realizado com sucesso, ' + resultado.nome + "!",
+                duration: 3000,
+                newWindow: true,
+                close: true,
+                gravity: "top",
+                position: "right", 
+                stopOnFocus: true,
+                style: {
+                background: "linear-gradient(to right, #00b09b, #96c93d)",
+                },
+            }).showToast(); 
+                cadastroForm.reset(); 
                 
-                // Redirecionar para a página de login/perfil
-                // window.location.href = 'pagina-de-login.html'; 
+                setTimeout(function(){
+                    window.location.href = 'index.html'; 
+                }, 2000);
+                
             } else {
                 // Trata erros de validação (ex: email duplicado, status 409)
                 alert(`Falha no Cadastro: ${resultado.error || 'Erro desconhecido.'}`);
