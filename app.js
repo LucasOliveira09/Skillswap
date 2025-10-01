@@ -41,13 +41,11 @@ async function startServer() {
         }
 
         try {
-            // AQUI: Inserção no SQLite (Sem criptografia - APENAS PARA TESTE)
             const result = await db.run(
                 'INSERT INTO usuarios (nome, email, senha_hash) VALUES (?, ?, ?)',
                 [nome, email, senha] 
             );
 
-            // Responde ao frontend com sucesso
             res.status(201).json({ 
                 id: result.lastID, 
                 nome, 
@@ -56,7 +54,6 @@ async function startServer() {
             });
 
         } catch (error) {
-            // Trata erro de e-mail duplicado (código 19 no SQLite)
             if (error.errno === 19) {
                 return res.status(409).json({ error: 'O e-mail já está em uso.' });
             }
@@ -65,13 +62,10 @@ async function startServer() {
         }
     });
 
-    // Rota POST: /api/usuarios/login
-    // Verifica as credenciais de login
     app.post('/api/usuarios/login', async (req, res) => {
         const { email, senha } = req.body;
 
         try {
-            // Consulta no SQLite para verificar se existe um usuário com este email E senha
             const usuario = await db.get(
                 'SELECT id, nome, email FROM usuarios WHERE email = ? AND senha_hash = ?', 
                 [email, senha] 
@@ -81,15 +75,19 @@ async function startServer() {
                 return res.status(401).json({ error: 'Credenciais inválidas.' });
             }
 
-            // Login bem-sucedido
-            res.json({ id: usuario.id, nome: usuario.nome, email: usuario.email, message: 'Login bem-sucedido.' });
+            res.json({ 
+                id: usuario.id, 
+                nome: usuario.nome, 
+                email: usuario.email, 
+                message: 'Bem vindo ' + usuario.nome + '!' });
+
+            
 
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
     });
     
-    // Rota GET: /api/usuarios (Opcional para debug)
     app.get('/api/usuarios', async (req, res) => {
         try {
             const usuarios = await db.all('SELECT id, nome, email FROM usuarios');
@@ -100,9 +98,6 @@ async function startServer() {
     });
 
 
-    // ------------------------------------
-    // INICIALIZAÇÃO DO SERVIDOR HTTP
-    // ------------------------------------
     app.listen(PORT, () => {
         console.log(`Servidor rodando em http://localhost:${PORT}`);
         console.log(`Acesse http://localhost:${PORT} no seu navegador para ver o frontend.`);
