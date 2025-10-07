@@ -1,116 +1,270 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Skill Swap</title>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-</head>
-<body>
+    <link rel="icon" type="image/png" href="./img/logo-seta.png">
+    <link rel="stylesheet" type="text/css" href="./css/servicos.css" />
+    <!-- no <head> -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Angkor&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css"
+/>
+<!-- Estilos mínimos pra você enxergar os cards (opcional, pode remover) -->
+
+  </head>
+  <body>
     <header>
-        <nav>
-            <a href="#">
-                <img src="img/logo-skill-swap.png" alt="Logo Skill Swap" width="320">
-            </a>
-            <input type="text" placeholder="Buscar por serviços ou produtos...">
-            <a href="#">Entrar</a>
-            <a href="#">Cadastrar</a>
-            <a href="#">Carrinho</a>
-        </nav>
+      <nav>
+        <div>
+          <button class="menu-button" >
+            <img src="img/menu.png" alt="Botao Menu" width="42" />
+          </button>
+          <a href="pagina-servicos.html">
+            <img
+              class="img-logo-skill"
+              src="img/logo-skill-swap.png"
+              alt="Logo Skill Swap"
+              width="140"
+            />
+          </a>
+        </div>
+        <div>
+          <input type="text" placeholder="🔍︎   Procure..." />
+          <i></i>
+        </div>
+        <div class="button-anunciar">
+          <button>Anunciar</button>
+        </div>
+      
+        <div class="icon-entrar-carrinho">
+          <a href="index.html">
+            <img src="img/man.png" alt="Ícone perfil" height="15" />
+            Entrar / Registrar-se
+          </a>
+          <a href="#">
+            <img src="img/carrinho.png" alt="Ícone carrinho" height="15" />
+            Carrinho
+          </a>
+        </div>
+      </nav>
     </header>
 
-    <section>
+  
+
+<section class="hero-figma">
+  <div class="hero-card">
+    <!-- círculos verdes com 2 bordas -->
+    <span class="ring ring-big"></span>
+    <span class="ring ring-small"></span>
+
+    <!-- bolhas laterais (decor) -->
+    <span class="paddle left"></span>
+    <span class="paddle right"></span>
+
+    <div class="hero-text">
+      <p class="hero-kicker">Sua habilidade vale muito<br>troque, colabore, cresça</p>
+      <h1 class="hero-title">SKILL<br>SWAP</h1>
+      <p class="hero-sub">Aqui, cada talento tem valor<br>troque e aproveite.</p>
+      <span class="hero-dots" aria-hidden="true">—•••••—</span>
+    </div>
+  </div>
+</section>
+
+
+    <!-- <main class="latest-posts">
+      <h2>Últimos postados...</h2>
+      <div>
+        <div class="categories-services">
+          <img src="img/aula-fut.png" alt="Serviço de aulas de futebol" />
+          <h4>Aulas de FUTEBOL</h4>
+          <p>Educação / Aulas particulares</p>
+          <p><strong>Troca por:</strong> A combinar</p>
+        </div>
+      </div>
+    </main> -->
+
+
+
+<main class="products">
+  <h2>Últimos postados...</h2>
+  
+  <!-- PAGINADOR -->
+  <div class="section-pager -end">
+    <button class="pager-prev" aria-label="Anterior"></button>
+    <div class="pager-dots">
+      <button class="pager-dot is-active" aria-label="Página 1"></button>
+      <button class="pager-dot" aria-label="Página 2"></button>
+      <button class="pager-dot" aria-label="Página 3"></button>
+      <button class="pager-dot" aria-label="Página 4"></button>
+    </div>
+    <button class="pager-next" aria-label="Próximo"></button>
+  </div>
+  <div class="products-container"></div> <!-- mantém vazio -->
+</main>
+
+
+
+    <div class="container-setting">
+    <section class="search-categories">
+      <h2>Talvez você esteja procurando...</h2>
+      <div class="categories-icons">
         <div>
-            <h1>Sua habilidade vale muito, troque, colabore, cresça</h1>
-            <p>Aqui, cada talento tem valor, troque e aproveite.</p>
+          <img src="img/icone-eletronicos.png" alt="Ícone Eletrônicos" />
+          <p>Eletrônicos</p>
         </div>
         <div>
-            <button>&lt;</button>
-            <button>&gt;</button>
+          <img src="img/icone-servico.png" alt="Ícone Serviços" />
+          <p>Serviços</p>
         </div>
-    </section>
-
-    <section>
-        <h2>Últimos postados</h2>
         <div>
-            <div>
-                <img src="img/aula-fut.png" alt="Serviço de aulas de futebol">
-                <h3>Aulas de FUTEBOL</h3>
-                <p>Educação / Aulas particulares</p>
-                <p><strong>Troca por:</strong> A combinar</p>
-            </div>
-            </div>
-    </section>
-
-    <section>
-        <h2>Talvez você esteja procurando...</h2>
-        <div>
-            <div>
-                <img src="img/icone-eletronicos.png" alt="Ícone Eletrônicos">
-                <p>Eletrônicos</p>
-            </div>
-            <div>
-                <img src="img/icone-servico.png" alt="Ícone Serviços">
-                <p>Serviços</p>
-            </div>
-            <div>
-                <img src="img/icone-moveis.png" alt="Ícone Móveis">
-                <p>Móveis</p>
-            </div>
-            </div>
-    </section>
-
-    <section>
-        <h2>Produtos mais pesquisados</h2>
-        <div>
-            <div>
-                <img src="img/simbolo-apple.png" alt="iPhone">
-                <p>Ver mais +</p>
-            </div>
-            <div>
-                <img src="img/simbolo-xiaomi.png" alt="Xiaomi">
-                <p>Ver mais +</p>
-            </div>
+          <img src="img/icone-moveis.png" alt="Ícone Móveis" />
+          <p>Móveis</p>
         </div>
+          
+      </div>
     </section>
 
-    <section>
-        <h2>Serviços mais procurados</h2>
+    <section class="most-searched">
+      <h2>Produtos mais pesquisados...</h2>
+      <div class="categories-searched">
         <div>
-            <div>
-                <img src="img/eletricista-icone.png" alt="Eletricista">
-                <p>Eletricista</p>
-            </div>
-            <div>
-                <img src="img/professor-icone.png" alt="Professor">
-                <p>Professor</p>
-            </div>
-            <div>
-                <img src="img/encanador-icone.png" alt="Encanador">
-                <p>Encanador</p>
-            </div>
-            </div>
-    </section>
-
-    <footer>
-        
-        <nav>
-            <ul>
-                <h1>SKILL <br> SWAP</h1>
-                <li><a href="#">Sobre nós</a></li>
-                <li><a href="#">FAQ</a></li>
-                <li><a href="#">Termos de uso</a></li>
-                <li><a href="#">Política de privacidade</a></li>
-            </ul>
-        </nav>
-        <div>
-            <p>Baixe nosso app</p>
-            <a href="#"><img src="img/botao-app-store.png" alt="Disponível na App Store" width="180"></a>
-            <a href="#"><img src="img/botao-google-play.png" alt="Disponível no Google Play" width="180"></a>
+          <img src="img/iphone-pesquisados.png" alt="iPhone" />
+          
         </div>
-    </footer>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <script src="servicos.js"></script>
-</body>
+        <div>
+          <img src="img/Samsung-pesquisados.png" alt="Samsung" />
+          
+        </div>
+         <div>
+          <img src="img/eletricista-pesquisados.png" alt="Eletricista" />
+          
+        </div>
+        <div>
+          <img src="img/Perfume.png" alt="perfume" />
+          
+        </div>
+        <div>
+          <img src="" alt="" />
+          
+        </div>
+        <div>
+          <img src="" alt="" />
+          
+        </div>
+      </div>
+     <!-- PAGINADOR -->
+  <div class="section-pager">
+    <button class="pager-prev" aria-label="Anterior"></button>
+    <div class="pager-dots">
+      <button class="pager-dot is-active" aria-label="Página 1"></button>
+      <button class="pager-dot" aria-label="Página 2"></button>
+      <button class="pager-dot" aria-label="Página 3"></button>
+    </div>
+    <button class="pager-next" aria-label="Próximo"></button>
+  </div>
+</section>
+
+    <section class="most-services">
+      <h2>Serviços mais procurados...</h2>
+      <div class="service-icon">
+        <div>
+          <img src="img/eletricista-servico.png" alt="Eletricista" />
+          <p>Eletricista</p>
+        </div>
+        <div>
+          <img src="img/professor-icone.png" alt="Professor" />
+          <p>Professor</p>
+        </div>
+       
+         <div>
+          <img src="img/encanador-icone.png" alt="Encanador" />
+          <p>Encanador</p>
+        </div>
+        <div>
+
+        </div>
+        <div>
+
+        </div>
+        <div>
+
+        </div>
+        <div>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- PAGINADOR -->
+  <div class="section-pager">
+    <button class="pager-prev" aria-label="Anterior"></button>
+    <div class="pager-dots">
+      <button class="pager-dot is-active" aria-label="Página 1"></button>
+      <button class="pager-dot" aria-label="Página 2"></button>
+    </div>
+    <button class="pager-next" aria-label="Próximo"></button>
+  </div>
+    </section>
+    </div>
+
+   <footer class="main-footer">
+  <!-- Coluna ESQUERDA -->
+  <div class="footer-col">
+    <h1 class="skillswap">SKILL<br>SWAP</h1>
+
+  <div class="tel-email">
+  <div class="contact-item">
+    <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+    <div class="contact-text">
+      <span class="label">WhatsApp</span>
+      <a href="https://wa.me/550012345678" target="_blank" rel="noopener">(00) 1234-5678</a>
+    </div>
+  </div>
+
+  <div class="contact-item">
+    <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+    <div class="contact-text">
+      <span class="label">E-mail</span>
+      <a href="mailto:skillswap@email.com">skillswap@email.com</a>
+    </div>
+  </div>
+</div>
+    <div class="footer-download">
+      <h2>Download</h2>
+      <div class="stores">
+        <a href="#"><img src="img/botao-app-store.png" alt="App Store" width="180"></a>
+        <a href="#"><img src="img/botao-google-play.png" alt="Google Play" width="180"></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Coluna CENTRAL (agora filha direta do footer) -->
+  <div class="sobre-nos">
+    <h2>Sobre</h2>
+    <div class="hover-sobre">
+    <p class="faqs"><a href="#" style="color:white">FAQ</a></p>
+    <p class="faqs"><a href="#" style="color:white">Termos de uso</a></p>
+    <p class="faqs"><a href="#" style="color:white">Política de privacidade</a></p>
+    </div>
+<p class="footer-note -clamp">
+  © 2025 Skill Swap — Todos os direitos reservados. Licenças e direitos de uso vigentes até 2027...
+</p>
+
+  </div>
+
+  <!-- Decoração -->
+  <div class="footer-circle"></div>
+  <div class="footer-circletwo"></div>
+</footer>
+
+    <!-- carregue com defer -->
+<script src="./js/servicePage.js" defer></script>
+  </body>
 </html>

@@ -1,0 +1,1434 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+button-nav-menu {
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+header nav {
+    display: flex;
+    justify-content: space-between; /* Espaça a logo, a pesquisa e os links */
+    align-items: center; /* Centraliza verticalmente os itens (logo, input) */
+    max-width: 1500px; /* Mantém a largura centralizada do conteúdo principal */
+    margin: 0 auto;
+    padding: 0 40px;
+    gap: 0px;
+}
+
+/* Centraliza a logo */
+.nav-img-logo {
+    height: 75px; /* Tamanho da logo */
+    padding-left: 120px;
+}  
+
+/* Container da logo e menu */
+header nav > div:first-child {
+    display: flex;           /* Alinha em linha */
+    align-items: center;     /* Centraliza verticalmente */
+    gap: 100px;  /* Espaço entre menu e logo */
+    flex-shrink: 0;
+}
+
+/* Bloco do campo de pesquisa */
+header nav > div:nth-child(2) {
+    flex-grow: 1; /* Permite que o campo de pesquisa ocupe o espaço central */
+    text-align: center;
+    
+}
+
+/* Garante que o input de pesquisa seja mais estreito */
+header nav input[type="text"] {
+  position: relative;
+    font-family: "Poppins", sans-serif;
+    font-size: 15px;
+    padding: 13px 15px;
+    background-color: rgb(240, 246, 250);
+    border-radius: 8px;
+    width: 60%; /* Ajuste a largura do input */
+    border: none;
+    outline: none;
+ 
+}
+
+/* Bloco dos links de Entrar/Carrinho - Alinha os links um ao lado do outro */
+header nav > div:last-child {
+    font-family: "Poppins", sans-serif;
+    display: flex;
+    gap: 20px; /* Espaço entre 'Entrar' e 'Carrinho' */
+    align-items: center;
+}
+
+/* Estiliza os links */
+header nav a {
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+}
+header nav a:hover {
+    text-decoration: underline;
+}
+.icon-entrar-carrinho a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px; /* espaço entre o ícone e o texto */
+  text-decoration: none;
+  color: inherit;
+}
+.menu-button {
+  margin-left: 50px;
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.menu-button:hover {
+    transform: scale(1.15);
+    opacity: 0.85;
+}
+
+.menu-button:focus {
+    outline: none;
+}
+.button-anunciar button {
+    background-color: #8bc046; /* Cor de fundo azul */
+    color: rgb(255, 255, 255); /* Cor do texto branca */
+    border: none; /* Remove a borda padrão */
+    border-radius: 18px; /* Bordas arredondadas */
+    padding: 8px 14px; /* Espaçamento interno */
+    font-size: 14px; /* Tamanho da fonte */
+    margin-right: 26px;
+    cursor: pointer; /* Cursor de ponteiro ao passar o mouse */
+    font-family: "Josefin Suns", sans-serif; /* Fonte */
+    transition: background-color 0.3s ease; /* Transição suave para a cor de fundo */
+}
+.button-anunciar button:hover {
+    background-color: #9cd654; /* Cor de fundo mais escura ao passar o mouse */
+}
+
+
+
+
+
+
+/* Paleta igual ao footer */
+:root{
+  --blue:#255188;           /* rgb(37,81,136) */
+  --green:#8bc63f;
+  --line:#ffffff;           /* linhas brancas */
+  --accent:#33a0ff;         /* azul da borda do banner */
+}
+
+/* container do hero */
+.hero-figma{
+  display: block;
+  width: 100%;
+  padding: 10px clamp(12px,3vw,24px);
+  background: #ffffff;  
+  margin-top:15px;   /* leve para destacar o card */
+}
+
+
+/* card do banner */
+.hero-card{
+  position: relative;
+  min-height: clamp(110px, 20vw, 190x);
+ 
+  border-radius: 18px;
+  background: var(--blue);
+  border: 3px solid none;
+  box-shadow: 0 12px 28px rgba(0,0,0,.16);
+  overflow: hidden;
+  color:#ffffff;
+  z-index: 1;
+  transition: 0.8s;
+   box-shadow: rgba(0, 0, 0, 0.11) 0px 10px 20px, rgba(0, 0, 0, 0.08) 0px 8px 8px;
+  display:flex;
+  flex-direction:column;
+  transition: transform .25s ease, box-shadow .25s ease;
+  /* não defina width aqui; a grade controla a largura */
+}
+.hero-card:hover{
+  transform: translatex(-1.5rem);
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 3px 6px, rgba(0, 0, 0, 0.12) 0px 3px 6px;
+}
+
+  
+
+  /* NOVO: grid p/ separar esquerda x direita */
+
+
+
+.hero-text{
+  grid-column: 1;
+  padding: clamp(14px,2.8vw,24px) clamp(22px,3.8vw,38px);
+  text-align: left;
+  max-width: none;
+}
+
+
+.hero-kicker{
+  display: flex;
+  text-align: left;
+  margin: 0 0 6px;
+  font: 300 clamp(18px,1.6vw,20px)/0.9 "Playfair Display", system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  opacity:.98;
+}
+
+.hero-title{
+  display: flex;
+  align-items: center;
+  margin-left: 212px;
+  margin-top: -6px;
+  font-family:"Angkor", serif;
+  font-weight:400;
+  line-height:.9;
+  font-size: clamp(24px, 6vw, 44px);
+  letter-spacing: .5px;
+}
+
+.hero-sub{
+  position: absolute;
+  bottom: 0; /* Alinha o texto à parte inferior do container */
+  left: 0; 
+  padding: 7px;
+  grid-column: 2;
+  justify-self: center;
+  text-align: center;
+  margin-left: 280px;
+  margin-top: -85px;
+
+  max-width: 26ch;                 /* ~2 linhas com esse texto */
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+  line-height: 1.25;
+
+  font: 300 clamp(16px,1.5vw,20px)/1.25 "Playfair Display", system-ui;
+  color:#ffffff;
+  z-index: 3; 
+}
+
+.hero-dots{
+  position: absolute;
+  bottom: 22px;
+  left: 75px;
+  display:inline-block;
+  color:#ffffff; opacity:1.25; font-weight:900; font-size: 16px;
+  letter-spacing:5px;
+}
+
+/* === DECORAÇÕES === */
+
+/* Círculo grande no topo-direito, com 2 bordas brancas */
+.ring{
+  position:absolute; border-radius:50%; z-index:1; pointer-events:none;
+}
+.ring-big{
+  width: 130px; height: 120px;
+  right: -55px; top: -85px;
+  background: var(--green);
+  border: 2px solid var(--line);
+}
+.ring-big::after{
+  content:""; position:absolute; inset:-10px; border-radius:50%;
+  border: 2px solid var(--line);
+}
+
+/* Semicírculo pequeno no canto inferior direito, também com 2 bordas */
+.ring-small{
+  width: 90px; height: 90px;
+  right: 100px; bottom: -55px;
+  background: var(--green);
+  border: 2px solid var(--line);
+}
+.ring-small::after{
+  content:""; position:absolute; inset:-10px; border-radius:50%;
+  border:2px solid var(--line);
+}
+/* mantém a composição, mas com tamanhos menores */
+.ring-big{
+  width: 275px; height: 275px;
+  right: 48px; top: -130px;
+}
+.ring-big::after{ inset:-10px; }
+
+.ring-small{
+  width: 205px; height: 205px;
+  right: 260px; bottom: -115px;
+}
+.ring-small::after{ inset:-10px; }
+
+/* responsivo */
+@media (max-width: 900px){
+  .hero-card{ width: min(100%, calc(100% - 28px)); }
+  .hero-card{ --notch: 48px; --nav: 32px; }
+  .ring-big{ width:360px; height:360px; right:-60px; top:-100px; }
+  .ring-small{ width:200px; height:200px; right:96px; bottom:-96px; }
+}
+
+
+/* não vamos usar as bolhas antigas */
+.paddle{ display:none !important; }
+
+/* variáveis do notch e da seta (fácil de ajustar) */
+.hero-card{ --notch: 60px; --nav: 30px; }
+
+/* recorte "rasgado" (côncavo) nas laterais do card */
+.hero-card::before,
+.hero-card::after{
+  content:"";
+  position:absolute; top:50%; translate:0 -50%;
+  width: var(--notch); height: var(--notch);
+  border-radius: 50%;
+  background: #fff;                          /* cor do fundo da página p/ parecer recorte */
+  box-shadow: 0 0 0 2px var(--blue), 0 10px 20px rgba(255, 251, 251, 0.06); /* linha clara + leve sombra */
+  z-index: 2;
+}
+.hero-card::before{ left: calc(-.5 * var(--notch)); }   /* meio “pra fora” */
+.hero-card::after { right: calc(-.5 * var(--notch)); }
+
+/* seta dentro do rasgado */
+
+
+
+/* responsivo: reduz paddles em telas pequenas */
+@media (max-width: 560px){
+  .paddle{ width:36px; height:36px; }
+  .ring-big{ width:300px; height:300px; right:-80px; top:-110px; }
+  .ring-small{ width:150px; height:150px; right:96px; bottom:-75px; }
+}
+/* deixa o card mais compacto e centralizado */
+.hero-figma{ padding: 8px 0 4px; 
+
+}
+
+.hero-card{
+  /* largura e altura do banner */
+  width: min(1180px, calc(100% - 64px));     /* mais estreito e com respiro nas laterais */
+  min-height: clamp(140px, 22vw, 210px);     /* altura menor */
+  margin: 10px auto;                         /* centraliza */
+  border-width: 2px;
+}
+.hero-text{ max-width: 520px; padding: clamp(16px,2.8vw,28px) clamp(22px,3.8vw,40px); }
+
+
+
+
+
+
+
+
+  /* --- Ajustes para centralização da Lista de Produtos (Relacionados) --- */
+.search-categories  {
+    font-family: "Montserrat", sans-serif;
+    text-align: left;
+    /* Removido o margin-left fixo para centralizar junto com o container */
+    margin: 20px 0 25px 0; /* Espaçamento padrão */
+    /* Torna o elemento flexível para alinhar o box e o texto */
+    display: flex; 
+    align-items: center; /* Alinha o texto com o centro do box */
+    gap: 8px; /* Espaço entre o box azul e a palavra "Relacionados" */
+    
+    /* Remove o margin-left fixo se ele estiver causando desalinhamento */
+}
+
+/* --- TÍTULO EM CIMA --- */
+.search-categories{
+  font-family: "Montserrat", sans-serif;
+  margin: 20px 0 18px 70px;
+  display: flex;
+  flex-direction: column;     /* empilha o conteúdo em coluna */
+  align-items: flex-start; 
+ /* alinha à esquerda */
+}
+
+.search-categories h2{
+  margin: bottom 6px;
+  font-size: 16px;
+  font-weight: 400;
+  color: #a0a0a0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* quadradinho azul AGORA no h2 */
+.search-categories h2::before{
+  content: "";
+  display: inline-block;
+  width: 12px;
+  height: 24px;
+  background-color: rgba(37,81,136,1);
+  border-radius: 3px;
+}
+
+/* --- ÍCONES ALINHADOS DA ESQUERDA --- */
+.categories-icons{
+  font-family: "Martel Sans", sans-serif;
+  display: flex;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 40px;
+  padding: 20px 12px; /* margem sutil entre o container e os cards */
+  justify-items: start;    /* começa da esquerda */
+}
+
+.categories-icons div{ text-align: center; 
+box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease;
+}
+
+
+.categories-icons > div:hover {
+  transform: translateY(-5px);
+}
+
+.categories-icons img{
+  width: 100px; height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  background:#f2f2f2;
+}
+
+.categories-icons p{
+  margin-top: 8px;
+  font-weight: bold;
+}
+
+/* TÍTULO EM CIMA COM CAIXA AZUL */
+.most-searched {
+  font-family: "Montserrat", sans-serif;
+  margin: 60px 20px 18px 70px;
+  display: flex;
+  flex-direction: column; /* empilha verticalmente */
+  align-items: flex-start;
+}
+
+.most-searched h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+  color: #a0a0a0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* quadradinho azul ao lado do texto */
+.most-searched h2::before {
+  content: "";
+  display: inline-block;
+  width: 12px;
+  height: 24px;
+  background-color: rgba(37, 81, 136, 1);
+  border-radius: 3px;
+}
+
+.categories-searched {
+  font-family: "Martel Sans", sans-serif;
+  display: flex;
+  gap: 14px;
+  padding: 20px 12px; /* margem sutil entre o container e os cards */
+  justify-content: flex-start;
+}
+
+.categories-searched > div {
+  background: rgba(225, 219, 219, 0.42);
+  border-radius: 12px;
+  padding: 0;
+  margin: 0;
+  min-width: 180px;
+  max-width: 210px;
+  flex: 0 0 auto;
+  
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease;
+}
+
+
+.categories-searched > div:hover {
+  transform: translateY(-5px);
+}
+
+.categories-searched img {
+  width: 100%;
+  height: auto;
+  object-fit: cover; /* pode usar contain se quiser imagem toda visível */
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+
+.categories-searched p {
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 14px;
+  color: #ff0000;
+  text-align: left;
+}
+
+
+/* TÍTULO EM CIMA COM CAIXA AZUL */
+.products {
+  font-family: "Montserrat", sans-serif;
+  margin: 60px 20px 18px 70px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column; /* empilha verticalmente */
+  align-items: flex-start;
+}
+
+.products h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+  color: #a0a0a0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.products h2 {
+background-color: rgb(255, 255, 255);
+}
+
+/* quadradinho azul ao lado do texto */
+.products h2::before {
+  content: "";
+  display: inline-block;
+  width: 12px;
+  height: 24px;
+  background-color: rgba(37, 81, 136, 1);
+  border-radius: 3px;
+}
+
+/* ÍCONES ALINHADOS DA ESQUERDA */
+
+/* TÍTULO EM CIMA COM CAIXA AZUL */
+.most-services {
+  font-family: "Montserrat", sans-serif;
+  margin: 60px 20px 18px 70px;
+  display: flex;
+  flex-direction: column; /* empilha verticalmente */
+  align-items: flex-start;
+}
+
+.most-services h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+  color: #a0a0a0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* quadradinho azul ao lado do texto */
+.most-services h2::before {
+  content: "";
+  display: inline-block;
+  width: 12px;
+  height: 24px;
+  background-color: rgba(37, 81, 136, 1);
+  border-radius: 3px;
+}
+
+/* ---- SERVICE ICON: correção de margem/espaço ---- */
+.service-icon{
+  display: flex;
+  gap: 36px;
+  padding:  20px 12px;           /* respiro sutil no container */
+  margin: 0;
+}
+
+.service-icon > div{
+  /* card “clean” sem folga */
+  background:rgba(225, 219, 219, 0.28);
+  border-radius: 14px;
+  padding: 0;             /* remove acolchoamento interno */
+  margin: 0;
+  width: 150px;           /* ajuste como preferir */
+  overflow: hidden;       /* corta qualquer sobra */
+  box-shadow: 0 2px 6px rgba(0,0,0,.06);
+  transition: transform .2s ease;
+  display: grid;          /* layout bem previsível */
+  grid-template-rows: 90px auto; /* foto em cima + faixa de título */
+  align-items: stretch;
+}
+.service-icon > div:hover {
+  transform: translateY(-5px);
+}
+
+.service-icon > div > *{  /* zera margens internas dos filhos */
+  margin: 0;
+}
+
+/* imagem “encaixada” sem bordas/margens */
+.service-icon img{
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;      /* ou 'contain' se quiser ver a imagem toda */
+  background: #ffffff;
+  border-radius: 0;
+}
+
+/* faixa do título — margem sutil e altura enxuta */
+.service-icon p{
+  background: #ffffff;    /* seu vermelho */
+  color: #111;
+  font-weight: 700;
+  font-size: 14px;
+  text-align: center;
+  padding: 8px 10px;      /* FAIXA BAIXA (sutil) */
+  line-height: 1.1;
+  border-top: 1px solid rgba(0,0,0,.04); /* detalhe fino, “pro” */
+}
+
+
+
+/* barra com linhas finas ao lado dos pontinhos */
+.section-pager{
+  display:flex; align-items:center; justify-content:center;
+  gap: 12px;
+  margin-top: clamp(12px,1.5vw,18px);
+  color: var(--blue);
+}
+
+.section-pager::before,
+.section-pager::after{
+  content:"";
+  width: 32px; height: 2px;
+  background: rgba(0,0,0,.15);
+  border-radius: 4px;
+}
+
+/* pontinhos */
+.pager-dots{ display:flex; gap:8px; align-items:center; }
+.pager-dot{
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #cfd8e3;
+  border: 1px solid #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,.20);
+  cursor: pointer;
+}
+.pager-dot.is-active{
+  background: #ffffff;
+  outline: 2px solid var(--blue);
+  outline-offset: 0;
+}
+
+/* setinhas pequenas (opcional) */
+.pager-prev, .pager-next{
+  width: 28px; height: 28px; border-radius: 50%;
+  background:#8cc63f; border:1px solid #e7e9ee;
+  color: var(--blue);
+  display:grid; place-items:center;
+  box-shadow: 0 6px 12px rgba(0,0,0,.12);
+  cursor:pointer;
+}
+.pager-prev::before{ content:"‹"; font-size:16px; line-height:1; }
+.pager-next::before{ content:"›"; font-size:16px; line-height:1; }
+/* páginas internas (geradas via JS) */
+.sp-pages{ position: relative; }
+.sp-page{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: var(--space-3, 24px);
+}
+.sp-page[hidden]{ display: none; }
+
+/* transição sutil ao trocar de página */
+@keyframes spFade { from{opacity:.0; transform: translateY(6px);} to{opacity:1; transform:none;} }
+.sp-fade-in{ animation: spFade .28s ease; }
+
+/* estados do paginador (reusa seu CSS existente) */
+.section-pager[hidden]{ display:none; }
+.pager-dot[aria-current="page"]{ background:#fff; outline:2px solid var(--blue); }
+.pager-prev[disabled], .pager-next[disabled]{
+  opacity:.45; cursor:not-allowed; box-shadow:none;
+}
+.products .section-pager{ 
+  margin-left: 1160px;
+  margin-bottom: 6px;
+  
+ }
+ .most-services .section-pager{ 
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  margin-top: 40px;
+  margin-bottom: 45px;
+  margin-left: 540px;
+  .pager-prev, .pager-next{
+    background: #255188;
+    color: #ffffff;
+  }
+ }
+ 
+
+
+
+
+
+/* ===========================
+   PRODUTOS – GRADE E CARDS
+   =========================== */
+
+/* Wrapper da seção de produtos */
+.products {
+   font-family: "Martel Sans", sans-serif; 
+   display: flex; 
+   flex-wrap: wrap;
+    margin-bottom: 18px;
+     gap: 30px; 
+     justify-content: flex-start; 
+     padding-left: 12px;
+ }
+
+/* Grade responsiva dos cards */
+.products-container{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  height: auto;
+  gap: px;
+}
+
+/* ⚠️ IMPORTANTE: NÃO use regras genéricas para todas as <img> dentro do container,
+   tipo `.products-container img { width:200px; height:105px; }`
+   Isso distorce as fotos dos cards.
+*/
+/* Linha com título + preço */
+.product-head{
+  display: grid;
+  grid-template-columns: 1fr auto;  /* título expande, preço gruda à direita */
+  align-items: baseline;
+  column-gap: 12px;
+  margin: 0 0 8px;
+}
+
+/* Card */
+.product-card{
+  background:#ffffff;
+  width: 270px;
+  border-radius:20px;
+  overflow:hidden;                       /* corta a imagem nas bordas arredondadas */
+  transition: 0.5s;
+   box-shadow: rgba(0, 0, 0, 0.15) 0px 13px 25px, rgba(0, 0, 0, 0.12) 0px 10px 10px;
+  display:flex;
+  flex-direction:column;
+  transition: transform .25s ease, box-shadow .25s ease;
+  /* não defina width aqui; a grade controla a largura */
+}
+
+.product-card:hover{
+  transform: translateY(-1rem);
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+/* Imagem full-bleed com proporção fixa */
+.products-img{
+  display:block;
+  width:100%;
+  aspect-ratio: 19 / 9;                  /* mantém 16:9 */
+  object-fit:cover;
+  object-position:center;
+  /* Se preferir altura fixa, troque por:
+     height:260px; e REMOVA o aspect-ratio. */
+}
+
+/* Conteúdo do card */
+.products-info{
+  padding:22px 24px 24px;
+  text-align:left;                        /* garante texto alinhado à esquerda */
+}
+
+.products-name{
+  margin: 0;           /* sem espaçamento extra */
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #333;
+}
+
+/* Novo estilo do preço quando está na linha do título */
+.products-price{
+  margin: 0;           /* não empurra nada pra baixo */
+  font-weight: 800;
+  font-size: 1.1rem;   /* ajuste se quiser maior/menor */
+  color: #a0a0a0;
+  white-space: nowrap;
+  margin-bottom: 16px;
+  gap: 8px; /* evita quebrar em duas linhas */
+}
+
+.products-description{
+  margin:0 0 10px;
+  color:#555555;
+  font-size:.95rem;
+}
+
+
+.products-button{
+  width:100%;
+  padding:12px 14px;
+  border:0;
+  border-radius:12px;
+  background:#4743c3;
+  color:#ffffff;
+  font-weight:700;
+  font-size:1rem;
+  cursor:pointer;
+  transition: background .2s ease, transform .1s ease;
+}
+
+.products-button:hover{
+  background:#3d39b5;                     /* tom mais escuro no hover */
+}
+
+.products-button:active{
+  transform: translateY(1px);
+}
+
+/* Responsivo */
+@media (max-width:560px){
+  .products{ padding: 0 12px; }
+  /* Se usar altura fixa na imagem, pode reduzir aqui:
+     .products-img{ height:200px; } */
+}
+/* encostar o conteúdo logo abaixo da imagem */
+.products-info{
+  padding: 12px 24px 20px;   /* antes estava ~22px no topo */
+}
+
+.products-name{
+  margin-top: 0;             /* garante que não soma margem extra */
+}
+
+/* já tem isso, mas reforço para não sobrar 'linha' por ser inline */
+.products-img{
+  display: block;
+}
+
+
+.product-star{ color:#f5a623; font-size:.9rem; }
+
+/* bloco de perfil dentro do card */
+.product-footer{
+  margin-top:12px;
+  padding-top:12px;
+  border-top:1px solid #eee;      /* “linha” do Figma */
+  display:flex; align-items:center; gap:10px;
+}
+
+.author-avatar{
+  width:36px; height:36px;
+  border-radius:999px;
+  object-fit:cover; object-position:center;
+  flex:0 0 36px;                  /* não estica */
+}
+
+.author-meta{ line-height:1.1; }
+.author-name{ display:block; font-weight:600; color:#333; font-size:.95rem; }
+.author-stars{ color:#f5a623; font-size:.7rem; letter-spacing:.5px; }
+
+/* garante que a imagem principal encoste no topo do conteúdo */
+.products-img{ display:block; }
+.products-info{ padding:16px 24px 24px; }  /* topo mais curto, sem gap */
+
+:root{
+  --brand:#8cc63f;        /* cor da marca */
+  --ink:#1f2937;
+  --muted:#6b7280;
+  --ink-strong:#111827;
+}
+
+/* reduzir espaço TÍTULO → CARDS em .products */
+.products{
+  row-gap: clamp(18px, .9vw, 10px);   /* era maior; agora mais justo */
+}
+.products > h2{
+  margin: 0;                         /* zera margem padrão do h2 */
+  padding-bottom: 0;
+}
+.products h2 + .products-container{
+  margin-top: clamp(4px, .6vw, 8px) !important;  /* override de regras antigas */
+}
+
+
+/* IMG + CHIP */
+.img-wrap{ position:relative; line-height:0; }
+.products-img{
+  display:block; width:100%;
+  aspect-ratio:16/9; object-fit:cover; object-position:center;
+}
+.chip{
+  position:absolute; left:12px; top:12px;
+  background:#0b122033; backdrop-filter: blur(4px);
+  color:#ffffff; font-weight:700; font-size:.75rem; letter-spacing:.2px;
+  padding:6px 10px; border-radius:999px; border:1px solid #ffffff33;
+}
+
+/* CONTEÚDO */
+.products-info{ padding:16px 18px 18px; }
+.product-head{
+  display:grid; grid-template-columns:1fr auto; align-items:baseline; column-gap:12px;
+  margin:0 0 6px;
+}
+.products-name{ margin:0; font-size:1.14rem; font-weight:800; color:var(--ink-strong); }
+.products-price{ margin:0; font-weight:900; color:var(--brand); white-space:nowrap; }
+.products-description{ margin:8px 0 12px; color:var(--muted); line-height:1.5; }
+
+/* FOOTER COM AUTOR + CTA */
+.product-footer{
+  margin-top:8px; padding-top:10px; border-top:1px solid #eef0f4;
+  display:grid; grid-template-columns:auto 1fr auto; align-items:center; column-gap:10px;
+}
+
+
+/* Grade (se ainda não tiver) */
+.products-container{
+  display:grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap:24px;
+}
+:root{
+  --brand:#8cc63f;         /* sua cor */
+  --ink:#1f2937;
+  --muted:#6b7280;
+}
+
+/* imagem + chip */
+
+
+/* topo: nome + preço com label */
+.product-head{
+  display:grid; grid-template-columns:1fr auto; align-items:end; column-gap:12px;
+  margin:0 0 10px;
+}
+.products-name{ margin:0; font-weight:800; color:#111827; font-size:1.18rem; }
+
+.price-stack{ text-align:right; }
+
+.products-price{
+  margin:0; font-weight:900; color:var(--brand); white-space:nowrap; font-size:1.1rem;
+}
+.products-price small{ font-weight:700; font-size:.85em; color:#7f8a99; }
+
+/* barra “Troco por” com chips */
+.meta-bar{
+  display:grid; grid-template-columns:auto 1fr; align-items:center; gap:10px;
+  background:#f7f9fb; border:1px solid #eef1f5; border-radius:12px; padding:8px 10px; margin:4px 0 10px;
+}
+.meta-title{ color:#465063; font-weight:700; font-size:.85rem; display:flex; align-items:center; gap:6px; }
+.needs{ display:flex; flex-wrap:wrap; gap:8px; }
+
+
+/* specs enxutas (em vez de parágrafo longo) */
+.specs{ list-style:none; margin:8px 0 12px; padding:0; color:#555; }
+.specs li{ display:flex; align-items:center; gap:8px; margin:3px 0; }
+.specs i{ opacity:.75; }
+
+/* footer (autor + CTA) já do seu layout recente */
+.product-footer{
+  margin-top:8px; padding-top:10px; border-top:1px solid #eef0f4;
+  display:grid; grid-template-columns:auto 1fr auto; align-items:center; column-gap:10px;
+}
+.author-avatar{ width:32px; height:32px; border-radius:50%; object-fit:cover; }
+.author-meta{ line-height:1.1; }
+.author-name{ display:block; font-weight:700; color:#333; }
+.author-stars{ color:#f4b400; font-size:.9rem; }
+
+/* mantém chip só na imagem */
+.img-wrap .chip{ display:inline-flex; }
+.products-info .chip{ display:none !important; }
+
+/* desativa efeitos de hover antigos que traziam chip pro box */
+.product-card:hover .img-wrap .chip{
+  opacity:1 !important; visibility:visible !important; transform:none !important;
+}
+/* footer com 3 colunas: avatar | autor | meta de postagem */
+.product-footer{
+  margin-top:8px; padding-top:10px; border-top:1px solid #eef0f4;
+  display:grid; grid-template-columns:auto 1fr auto; align-items:center; column-gap:10px;
+}
+
+.post-meta{
+  color:#8a94a6; font-size:.86rem; font-weight:600;
+  display:flex; align-items:center; gap:8px;
+  flex-wrap: wrap;          /* permite quebrar */
+  white-space: normal;      /* deixa quebrar */
+  max-width:100%;
+}
+.location{ display:inline-flex; align-items:center; gap:6px; }
+
+.post-meta i{ opacity:.8; }
+.post-meta .dot{ opacity:.35; margin:0 2px; }
+.location{ display:inline-flex; align-items:center; gap:6px; }
+
+/* responsivo: quebra linha da meta se precisar */
+@media (max-width:420px){
+  .product-footer{ grid-template-columns:auto 1fr; row-gap:8px; }
+  .post-meta{ grid-column: 1 / -1; justify-self: start; }
+}
+.products-container{
+display: flex;
+  flex-wrap: nowrap;
+}
+/* ===== SCHEDULE & GROUP (lista compacta) ===== */
+.specs{
+  list-style: none;
+  padding: 0;
+  margin: 6px 0 8px;           /* bem colado no resto */
+  color: #8a94a6;              /* cinza do texto */
+  display: grid;
+  row-gap: 6px;                /* espaço entre linhas */
+}
+
+.spec{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: .95rem;
+  line-height: 1.35;
+}
+
+.spec i{
+  font-size: 1rem;
+  opacity: .8;                 /* ícone mais discreto */
+  flex: 0 0 18px;              /* largura fixa do ícone */
+}
+
+/* cores dos ícones por tipo */
+.spec--schedule i{ color: #5d6471; }  /* azul: relógio */
+.spec--group    i{ color: #525a6a; }  /* verde: turma */
+
+/* se precisar “apertar” ainda mais: */
+/* .specs{ margin:4px 0 6px; } */
+
+/* container da seção */
+.products{
+  --cols-xl: 5;                                   /* mude aqui: 5 cards */
+  --gap: clamp(14px, 2vw, 22px);
+  --gutter: clamp(16px, 2.5vw, 32px);             /* espaço lateral (start/end) */
+  max-width: 1400px;                              /* largura máx do bloco */
+  margin: 0 auto;
+  padding-inline: var(--gutter);
+}
+
+/* grade dos cards */
+.products-container{
+  display: grid;
+  grid-template-columns: repeat(var(--cols-xl), minmax(0, 1fr));
+  gap: var(--gap);
+  justify-content: center;                        /* SEM “buraco” no end: centraliza as colunas */
+}
+
+.product-card{ width: 100%; }                     /* card preenche a coluna */
+
+
+.includes-bar i{ color:#22c55e; }
+.includes{ list-style:none; margin:6px 0 8px; padding:0; display:grid; row-gap:6px; color:#4b5563; }
+.includes li{ display:flex; align-items:center; gap:8px; font-size:.95rem; }
+.includes li i{ color:#22c55e; width:18px; min-width:18px; text-align:center; }
+
+
+
+/* ===== Espaçamento vertical entre blocos (estilo Figma) ===== */
+:root{
+  /* ajuste único do respiro entre seções */
+  --section-gap: clamp(40px, 6vw, 72px);
+}
+
+/* Espaço do HERO para o restante da página */
+.hero-figma{
+  margin-bottom: var(--section-gap);
+}
+
+/* “Últimos postados…” e demais seções com o mesmo respiro */
+.products,
+.search-categories,
+.most-searched,
+.most-services
+{
+  margin-top: var(--section-gap);
+}
+
+/* Se quiser evitar margem dupla dentro do wrapper */
+.container-setting > section + section{
+  margin-top: var(--section-gap);
+}
+
+
+
+
+
+
+
+
+
+/* Container que alinha os dois blocos do footer (Contato + Download) lado a lado */
+/* Container que alinha os dois blocos do footer (Contato + Download) lado a lado */
+/* ===== FOOTER ===== */
+
+.main-footer{
+  position: relative; 
+  width: 94%;   /* pode por 14–20 conforme preferir */
+  align-items: start; 
+  margin-right: 24px; 
+  background: rgb(37,81,136);
+  color:#fff;
+  padding: 24px 3%;       /* um pouco mais alto como você pediu */
+  min-height: 190px;
+  display: grid;
+  grid-template-columns: minmax(320px,1fr) minmax(260px,380px) 1fr; /* esq | centro | dir */
+  column-gap: 48px;
+  align-items: start;
+  overflow: hidden;
+}
+.footer-col,
+.sobre-nos{
+  align-self: start;      /* topo */
+}
+/* Coluna esquerda */
+.footer-col{
+ 
+  display: grid;
+  align-content: start;
+   margin: left -16px;
+  gap: 10px;
+}
+
+/* Título */
+.skillswap{
+  font-family: "Angkor", serif;
+  font-weight: 400;
+  font-size: clamp(18px, 5vw, 40px);
+  line-height: .99;   /* junta SKILL / SWAP */
+  margin: 0;
+}
+
+/* Contatos: espaçamento entre Whats e E-mail */
+.contato{
+  margin: 0;
+  line-height: 1.3;
+}
+.contato + .contato{ margin-top: 12px; }  /* respiro entre os dois blocos */
+
+/* Download no START (título em cima, badges logo abaixo) */
+.footer-download{
+  
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  margin-left: 0;
+  margin-top: 16px; 
+  gap: 8px;            /* espaço entre "Download" e as imagens */
+}
+.footer-download h2{
+  margin: 0;
+  font: 400 16px/1 "Arial", sans-serif;
+}
+.footer-download .stores{
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.footer-download .stores img{
+  height: 44px;
+  width: auto;
+  display: block;
+}
+
+/* Coluna central — agora funciona porque é filha direta do grid */
+.sobre-nos{
+  grid-column: 2;
+  justify-self: center;
+  text-align: center;
+  align-items: center;
+  gap: 15px;
+  margin: 10px auto;
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+}
+.sobre-nos h2{
+  margin: 0 0 12px;
+  font-weight: 700;
+  font-size: clamp(22px, 2.4vw, 28px);
+  letter-spacing: .2px;
+}
+.sobre-nos .faqs{ margin: 14px 0; }
+
+/* (mantém seus círculos como estavam) */
+
+/* ===== CÍRCULO DECORATIVO COM SEGUNDA BORDA ===== */
+.footer-circle{
+  /* use se quiser variáveis para ajustar rápido */
+  --size: 300px;          /* diâmetro do círculo do Figma ~ compacto */
+  --offset-top: -54px;    /* posicionamento para "entrar" no canto */
+  --offset-right: -76px;  /* ajuste fino horizontal */
+  --gap: 8px;             /* distância entre as duas bordas */
+
+  position: absolute;
+  top: var(--offset-top);
+  right: var(--offset-right);
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: #8bc63f;                 /* verde do Figma */
+  border: 2px solid #fff;               /* 1ª borda */
+  box-sizing: border-box;
+  z-index: 0;
+}
+
+/* 2ª borda, separada e mais próxima */
+.footer-circle::after{
+  content: "";
+  position: absolute;
+  inset: calc(-1 * var(--gap));         /* afasta para fora mantendo o raio */
+  border-radius: 50%;
+  border: 2px solid #fff;               /* 2ª linha branca */
+  pointer-events: none;
+}
+/* nudge suave do START (coluna esquerda) para a esquerda */
+.main-footer .footer-col{
+  transform: translateX(12px);
+}
+
+/* mantém o "Sobre nós" centralizado */
+/* SOBRE NÓS — no meio, centralizado (horizontal e vertical) */
+.main-footer > .sobre-nos{
+  grid-column: 2;
+  justify-self: center;        /* centro horizontal da coluna */
+  align-self: center;          /* centro vertical do footer */
+  text-align: center;
+  margin: 0;
+  display: grid;
+  row-gap: 10px;               /* espaço “profissional” entre título e links */
+}
+/* micro-ajuste: se quiser um pouco mais “pra baixo”, aumente este nudge */
+.main-footer > .sobre-nos{ --nudge: 6px; transform: translateY(var(--nudge)); }
+/* Título e links do bloco central */
+.sobre-nos h2{ margin: 0; font-weight: 700; font-size: clamp(22px,2.4vw,28px); }
+.sobre-nos .faqs{ margin: 0; }
+.sobre-nos .faqs + .faqs{ margin-top: 6px; }  /* respiro entre os links */
+
+
+/* opcional: em telas menores, nudges menores para não colar na borda */
+@media (max-width: 1248px){
+  .main-footer .footer-col{ transform: translateX(-6px); }
+}
+/* ===== SOBRE NÓS: mais espaçado e elegante ===== */
+.main-footer > .sobre-nos{
+  grid-column: 2;
+  justify-self: center;           /* centro horizontal da coluna */
+  align-self: center;             /* centro vertical do footer */
+  text-align: center;
+
+  display: grid;
+  row-gap: 12px;                  /* espaço entre título e links */
+  transform: translateY(8px);     /* ↓ leve “drop”; ajuste 0–12px conforme o olho */
+}
+.sobre-nos h2{
+  margin: 0 0 10px;
+  font-weight: 700;
+  font-size: clamp(22px,2.4vw,28px);
+  letter-spacing: .2px;
+}
+.sobre-nos .faqs{ margin: 0; }
+.sobre-nos .faqs + .faqs{ margin-top: 8px; }  /* espaço entre os links */
+.sobre-nos a{
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: text-underline-offset .15s, opacity .15s;
+  opacity: .95;
+}
+.sobre-nos a:hover{
+  text-underline-offset: 5px;
+  opacity: 1;
+}
+
+/* ===== FRASE JURÍDICA NO RODAPÉ ===== */
+.footer-note{
+  grid-column: 1 / -1;
+  text-align: center;
+  margin: 18px auto 0;
+  padding-top: 62px;
+  font: 400 14px/1.4 "Poppins", sans-serif;
+  opacity: .85;
+  border-top: 1px solid rgba(255,255,255,.15);
+}
+
+@media (max-width: 1258px){
+  .footer-note{ max-width: 100%; } /* responsivo */
+}
+.footer-note.-clamp{
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+/* bloco de contatos: dois itens com ícone + texto */
+.tel-email{
+  display: grid;
+  row-gap: 12px;             /* espaço entre Whats e E-mail */
+  margin: 10px 0 14px;
+}
+
+.contact-item{
+  display: flex;
+  align-items: center;
+  gap: 10px;                 /* distância entre o ícone e o texto */
+}
+
+.contact-item i{
+  font-size: 22px;           /* tamanho do ícone */
+  line-height: 1;
+  width: 22px;               /* reserva largura fixa p/ alinhar */
+  text-align: center;
+  color: #fff;               /* branco para o fundo azul */
+  opacity: .95;
+}
+
+.contact-text .label{
+  display: block;
+  font-weight: 600;
+  line-height: 1.15;
+  margin-bottom: 2px;
+  font-family: "Poppins", sans-serif;
+}
+
+.contact-text a{
+  color: #fff;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255,255,255,.25);
+  padding-bottom: 1px;
+}
+.contact-text a:hover{
+  border-bottom-color: #fff;
+}
+
+
+
+/* ====== HOTFIX SCROLL ====== */
+html { box-sizing: border-box; }
+*, *::before, *::after { box-sizing: inherit; }
+
+/* bloqueia estourar pra lateral sem causar salto de layout */
+
+/* Footer não pode somar largura com padding */
+.main-footer{
+  width: 100%;
+  padding: 24px 3%;
+  overflow: hidden; /* já está, mantemos */
+}
+
+/* Paginador alinhado à direita sem “empurrar” com margin fixa */
+.products .section-pager{
+  margin-left: auto !important;
+  margin-right: 0 !important;
+  justify-content: flex-end;   /* usa o flex do .section-pager */
+}
+
+/* Garante que o paginador é flex e centra/termina conforme o bloco */
+
+
+/* Evita qualquer rolagem aninhada desnecessária */
+.hero-figma, .products, .container-setting { overflow: visible; }
+
+/* Unificar a grade dos cards (elimine versões conflitantes) */
+
+/* ==== HOTFIX – COMPACTAR CARDS (cole no fim) ==== */
+
+/* grade mais junta */
+.products-container{
+  gap: 18px !important;                    /* antes estava grande/variável */
+}
+
+/* bloco de conteúdo do card mais enxuto */
+.product-card{ border-radius: 18px !important; }
+.products-info{
+  padding: 12px 16px 14px !important;      /* ↓ encosta mais no topo */
+}
+
+/* topo: nome + preço */
+.product-head{
+  margin: 0 0 6px !important;
+  column-gap: 8px !important;
+}
+.products-name{
+  margin: 0 !important;
+  font-size: 1.12rem !important;
+}
+.products-price{
+  margin: 0 !important;
+  font-weight: 800 !important;
+  font-size: 1rem !important;
+}
+
+/* “Troco por” / meta-bar */
+.meta-bar{
+  padding: 6px 8px !important;
+  gap: 8px !important;
+  margin: 4px 0 8px !important;
+}
+.needs{ gap: 6px !important; }
+
+/* lista de specs / includes mais colada */
+.specs, .includes{
+  margin: 6px 0 8px !important;
+  row-gap: 4px !important;
+  color: #6b7280 !important;
+}
+.spec, .includes li{
+  gap: 6px !important;
+  font-size: .92rem !important;
+  line-height: 1.3 !important;
+}
+.spec i, .includes li i{
+  width: 16px !important;
+  min-width: 16px !important;
+}
+
+/* avatar + rodapé do card */
+.product-footer{
+  margin-top: 8px !important;
+  padding-top: 8px !important;
+  column-gap: 8px !important;
+  border-top: 1px solid #eef0f4 !important;
+}
+.author-avatar{
+  width: 28px !important; height: 28px !important;
+}
+.author-name{ font-size: .92rem !important; }
+.post-meta{
+  font-size: .82rem !important;
+  gap: 6px !important;
+  color: #8a94a6 !important;
+}
+
+/* chip da imagem um pouco menor e sem “saltar” */
+.chip{
+  padding: 4px 8px !important;
+  font-size: .72rem !important;
+  border-width: 1px !important;
+}
+
+/* imagem mantém proporção e encosta no conteúdo */
+.products-img{
+  aspect-ratio: 16/9 !important;
+  display: block !important;
+}
+
+/* reduz o respiro geral da seção de produtos */
+.products{
+  row-gap: 12px !important;
+}
+.products h2 + .products-container{
+  margin-top: 6px !important;
+}
+
+
