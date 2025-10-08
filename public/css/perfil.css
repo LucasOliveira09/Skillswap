@@ -134,24 +134,14 @@ header nav a {
     font-size: 14px;
     cursor: pointer;
     margin-right: 10px;
-}
-
-.btn-seguir[type="button"] {
-    background: transparent;
-    color: #333;
-}
-
-.btn-seguir[type="submit"] {
     background: #1f3d6d;
     color: #fff;
     font-weight: 600;
 }
 
-.btn-seguir[type="submit"]:hover {
+.btn-seguir:hover {
     background: #16325a;
 }
-
-
 
 /* BODY */
 
@@ -171,6 +161,26 @@ body > nav {
     margin-top: 10px;
     padding: 10px 10px;
 }
+
+.hashtags {
+    color: rgb(40, 99, 226);
+}
+
+.marks {
+    font-weight: 600;
+}
+.inicio-bemvindo {
+    font-family: "Abel", sans-serif;
+    text-decoration: none;
+    color: #333;
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 10px;
+    padding: 10px 10px;
+    font-size: 16px;
+}
+
 
 .inicio-links {
     text-decoration: none;
@@ -212,7 +222,7 @@ body > nav {
     border-radius: 10px;
     padding: 15px;
     margin-bottom: 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0);
 }
 
 
