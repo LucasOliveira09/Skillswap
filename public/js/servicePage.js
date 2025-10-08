@@ -4,7 +4,7 @@
 // util: "há 5 min", "há 3 h", "ontem", "12 fev"
 function timeAgo(input) {
   const d = typeof input === "number" ? new Date(input) : new Date(input);
-  if (isNaN(+d)) return ""; // entrada inválida → string vazia
+  if (isNaN(+d)) return "";
 
   const now = new Date();
   const diff = (now - d) / 1000; // seg
@@ -50,7 +50,7 @@ const produtos = [
     stars: 5,
     needs: ["Esportes"],
     postedAtMs: Date.now() - 1000 * 60 * 90, // ex.: há 5 minutos
-    location: "Madrid / ES", // <-- opcional
+    location: "Madrid / ES", 
     schedule: "Ter/Qui • 18h–19h",
     group: "Turma reduzida",
     period: ["mês"],
@@ -68,7 +68,7 @@ const produtos = [
     stars: 5,
     needs: ["Esportes"],
     postedAtMs: Date.now() - 50 * 60 * 90, // ex.: há 5 minutos
-    location: "Guarulhos /SP", // <-- opcional
+    location: "Guarulhos /SP", 
     schedule: "Seg/Sex • 14h–16h",
     group: "Aula individual",
     period: ["VIP"],
@@ -126,11 +126,11 @@ const produtos = [
 
 ];
 
-// --- ESTADO ---
+
 let textoPesquisa = "";
 let categoriaAtual = "all";
 
-// --- ELEMENTOS ---
+
 const containerProdutos = document.querySelector(".products-container");
 const inputPesquisa =
   document.querySelector("#search-main") ||
@@ -148,7 +148,7 @@ const renderStars = (n = 5) =>
   ).join("");
   
 
-// TEMPLATE (sem botão; adiciona info de data no canto direito do footer)
+
 const card = (p) => `
 
   <article class="product-card" data-id="${p.id}">
