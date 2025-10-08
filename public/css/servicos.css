@@ -153,8 +153,7 @@ header nav a:hover {
   /* não defina width aqui; a grade controla a largura */
 }
 .hero-card:hover{
-  transform: translatex(-1.5rem);
-    box-shadow: rgba(0, 0, 0, 0.12) 0px 3px 6px, rgba(0, 0, 0, 0.12) 0px 3px 6px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 3px 6px, rgba(0, 0, 0, 0.12) 0px 3px 6px;
 }
 
   
@@ -1078,6 +1077,7 @@ display: flex;
   position: relative; 
   width: 94%;   /* pode por 14–20 conforme preferir */
   align-items: start; 
+  margin-top: 38px;
   margin-right: 24px; 
   background: rgb(37,81,136);
   color:#fff;
