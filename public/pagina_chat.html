@@ -3,69 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/chat.css">
     <title>Chat | Skill Swap</title>
 </head>
 <body>
 
     <div>
-        <div>
-            <div>
-                <img src="img/foto-david.png" alt="Foto de David Peters">
-                <div>
+        <div class="coluna-esquerda">
+            <div class="detalhes-david">
+                <div class="foto-david">
+                    <img src="img/foto-david.png" alt="Foto de David Peters" height="60px">
+                </div>
+                <div class="david">
                     <h4>David Peters</h4>
                     <span>Desenvolvedor Sênior</span>
                 </div>
-                <button>Editar</button>
+                <div class="editar">
+                    <button><img src="img/lapis.png" alt="editar"></button>
+                </div>
             </div>
             
-            <div>
+            <div class="pesquisar">
                 <input type="text" placeholder="Pesquisar aqui...">
             </div>
-            
-            <div>
-                <div>
-                    <img src="img/foto-lisa.png" alt="Foto de Lisa Roy">
-                    <div>
+            <hr class="linha">
+            <div class="chat-lista">
+                <div class="chat-item">
+                    <img src="img/foto-lisa.png" class="chat-avatar" alt="Foto de Lisa Roy">
+                    <div class="chat-info">
                         <h4>Lisa Roy</h4>
                         <p>Olá, você poderia me avaliar...?</p>
                     </div>
                     <span>10:45 AM</span>
                 </div>
-                <div>
-                    <img src="img/foto-jamie.png" alt="Foto de Jamie Taylor">
-                    <div>
+                <div class="chat-item">
+                    <img src="img/foto-jamie.png" class="chat-avatar" alt="Foto de Jamie Taylor">
+                    <div class="chat-info">
                         <h4>Jamie Taylor</h4>
                         <p>OK, nós vamos seguir...</p>
                     </div>
                     <span>10:38 AM</span>
                 </div>
-                <div>
-                    <img src="img/foto-jason.png" alt="Foto de Jason Roy">
-                    <div>
+                <div class="chat-item">
+                    <img src="img/foto-jason.png" class="chat-avatar" alt="Foto de Jason Roy">
+                    <div class="chat-info">
                         <h4>Jason Roy</h4>
                         <p>Bom dia, Jason...</p>
                     </div>
                     <span>10:22 AM</span>
                 </div>
-                <div>
-                    <img src="img/foto-amy.png" alt="Foto de Amy Frost">
-                    <div>
+                <div class="chat-item">
+                    <img src="img/foto-amy.png" class="chat-avatar" alt="Foto de Amy Frost">
+                    <div class="chat-info">
                         <h4>Amy Frost</h4>
                         <p>Oi, você pode me ajudar...</p>
                     </div>
                     <span>10:12 AM</span>
                 </div>
-                <div>
-                    <img src="img/foto-paul.png" alt="Foto de Paul Wilson">
-                    <div>
+                <div class="chat-item">
+                    <img src="img/foto-paul.png" class="chat-avatar" alt="Foto de Paul Wilson">
+                    <div class="chat-info">
                         <h4>Paul Wilson</h4>
                         <p>Você pode me enviar a...</p>
                     </div>
                     <span>10:00 AM</span>
                 </div>
-                <div>
-                    <img src="img/foto-ana.png" alt="Foto de Ana Williams">
-                    <div>
+                <div class="chat-item">
+                    <img src="img/foto-ana.png" class="chat-avatar" alt="Foto de Ana Williams">
+                    <div class="chat-info">
                         <h4>Ana Williams</h4>
                         <p>Oi, o projeto...</p>
                     </div>
@@ -73,85 +78,84 @@
                 </div>
             </div>
 
-            <div>
-                <img src="img/logo-skill-swap.png" alt="Logotipo Skill Swap" width="320">
+            <div class="logo">
+                <img src="img/logo-skill-swap.png" alt="Logotipo Skill Swap" width="250">
             </div>
         </div>
 
-        <div>
-            <div>
-                <img src="img/foto-diane.png" alt="Foto de Dianne Jhonson">
-                <div>
+        <div class="coluna-meio">   
+            <div class="chat-header">
+                <img src="img/foto-diane.png" alt="Foto de Dianne Jhonson" class="user-photo">
+                <div class="user-name">
                     <h4>Dianne Jhonson</h4>
-                    <span>Desenvolvedor Júnior</span>
                 </div>
-                <button>Telefone</button>
-                <button>Vídeo</button>
-                <button>Pesquisar</button>
+                <button class="botao-acao"><img src="img/telefone.png"Telefone" width="45px"></button>
+                <button class="botao-acao"><img src="img/videochamada.png" alt="VideoChamada" width="45px"></button>
             </div>
             
-            <div>
-                <div>
-                    <img src="img/diane-pequena.png" alt="Foto de Dianne">
-                    <p>Oi David, você pegou o pdf do relatório do projeto?</p>
+            <div class="chat-messages">
+                <div class="mensagem">
+                    <img src="img/diane-pequena.png" class="foto-perfil" alt="Foto de Dianne">
+                    <p class="texto-mensagem">Oi David, você pegou o pdf do relatório do projeto?</p>
                 </div>
-                <div>
-                    <p>NÃO. Não peguei.</p>
+                <div class="mensagem enviada">
+                    <p class="texto-mensagem">NÃO. Não peguei.</p>
                 </div>
-                <div>
-                    <p>Teria que enviar por e-mail também e depois de preencher os detalhes?</p>
+                <span class="divider">Ontem</span>
+                <div class="mensagem">
+                    <img src="img/diane-pequena.png" class="foto-perfil" alt="Foto de Dianne">
+                    <p class="texto-mensagem">Ok, vou enviar agora. Por favor, preencha os detalhes até o final do dia.</p>
                 </div>
-                <span>Ontem</span>
-                <div>
-                    <img src="img/diane-pequena.png" alt="Foto de Dianne">
-                    <p>Ok, vou enviar agora. Por favor, preencha os detalhes até o final do dia.</p>
-                </div>
-                <div>
-                    <img src="img/diane-pequena.png" alt="Foto de Dianne">
-                    <div>
+                <div class="mensagem">
+                    <img src="img/diane-pequena.png" class="foto-perfil" alt="Foto de Dianne">
+                    <div class="texto-mensagem">
                         <img src="img/projeto-diane.png" alt="Miniatura do PDF">
                         <p>projeto_relatorio.pdf</p>
                     </div>
+                    <div class="mensagem enviada">
+                        <p class="texto-mensagem">Teria que enviar por e-mail também e depois de preencher os detalhes?</p>
+                    </div>
                 </div>
-                <div>
-                    <img src="img/diane-pequena.png" alt="Foto de Dianne">
-                    <p>Sim. Estarei adicionando mais membros à equipe.</p>
+                <div class="mensagem">
+                    <img src="img/diane-pequena.png" class="foto-perfil" alt="Foto de Dianne">
+                    <p class="texto-mensagem">Sim. Estarei adicionando mais membros à equipe.</p>
                 </div>
-                <div>
-                    <p>OK.</p>
+                <div class="mensagem enviada">
+                    <p class="texto-mensagem">OK.</p>
                 </div>
             </div>
             
-            <div>
+            <div class="chat-input">
                 <input type="text" placeholder="Escreva algo...">
-                <button>Microfone</button>
-                <button>Emojis</button>
-                <button>Câmera</button>
-                <button>Anexar</button>
+                <button class="chat-input-mic"><img src="img/microfone.PNG" alt="Mic" width="25px"></button>
+                <button><img src="img/emoji.PNG" alt="Emotes" width="30px"></button>
+                <button><img src="img/camera.PNG" alt="Camera" width="30px"></button>
+                <button><img src="img/clips.PNG" alt="Anexar" width="30px"></button>
+                <button><img src="img/enviar.PNG" alt="Enviar" width="60px"></button>
             </div>
         </div>
 
-        <div>
-            <div>
+        <div class="coluna-direita">
+            <div class="coluna-apresentacao">
                 <img src="img/diane-grande.png" alt="Foto de Dianne">
                 <h4>Dianne Jhonson</h4>
                 <span>Desenvolvedor Júnior</span>
             </div>
             
             <div>
-                <button>Ver Amigos</button>
-                <button>Adicionar aos Favoritos</button>
+                <button class="botao-descricao"><img src="img/amigos.png" alt="Amigos">Ver Amigos</button>
+                <button class="botao-descricao"><img src="img/favoritos.png" alt="Favoritos">Adicionar aos Favoritos</button>
             </div>
 
-            <div>
+            <div class="anexos">
                 <h4>Anexos</h4>
                 <div>
-                    <button>PDF</button>
-                    <button>VÍDEO</button>
-                    <button>MP3</button>
-                    <button>IMAGEM</button>
+                    <button class="botoes-perfil"><img src="img/pdf.PNG" alt="PDF" width="70px"></button>
+                    <button class="botoes-perfil"><img src="img/video.PNG" alt="Videos" width="70px"></button>
+                    <button class="botoes-perfil"><img src="img/mp3.PNG" alt="MP3" width="70px"></button>
+                    <button class="botoes-perfil"><img src="img/imagens.PNG" alt="Imagens" width="70px"></button>
                 </div>
-                <button>Ver Todos</button>
+                <button class="botao-ver"><img src="img/ver todos.png" alt="Ver todos" width="120px"></button>
             </div>
         </div>
     </div>

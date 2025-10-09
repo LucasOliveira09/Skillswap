@@ -1,0 +1,439 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+@import url('https://fonts.googleapis.com/css2?family=Abel&display=swap');
+/*font-family: "Abel", sans-serif; */
+@import url('https://fonts.googleapis.com/css2?family=Martel+Sans:wght@200;300;400;600;700;800;900&display=swap');
+/*font-family: "Martel Sans", sans-serif; */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+/*font-family: "Montserrat", sans-serif; */
+@import url('https://fonts.googleapis.com/css2?family=Angkor&display=swap');
+/*font-family: "Angkor", serif;*/
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  margin-top: 0px;
+  min-height: 100vh;
+  overflow: auto;
+  background-color: #ffffff;
+  position: relative;
+}
+.chat-container {
+  width: 1100px;
+  height: 650px;
+  background: #fff;
+  border-radius: 15px;
+  display: grid;
+  grid-template-columns: 250px 1fr 250px;
+  overflow: hidden;
+}
+
+/* --- COLUNA ESQUERDA --- */
+.coluna-esquerda {
+    position: relative;       /* fixa na tela */
+    left: -10px;               /* encostada na esquerda */
+    top: -30px;                /* encostada no topo */
+    width: 400px;          /* largura da coluna */
+    height: 1000px;         /* altura total da tela */
+    background-color: #F0F0F0; /* cor da coluna */
+    color: #4399FF;
+    padding: 20px;         /* espaço interno */
+}
+
+.detalhes-david {
+  position: absolute;       /* fixa na tela */
+  top: 40px;                /* encostada no topo */
+  left: 30px;               /* encostada na esquerda */
+  width: 70px;          /* largura da imagem */
+  height: 70px;         /* altura da imagem */
+  background-size: cover;              /* cobre todo o espaço */
+  background-repeat: no-repeat;        /* não repete */
+  border-radius: 10px;                 /* opcional: bordas arredondadas */
+}
+
+.foto-david {
+    position: absolute;       /* fixa na tela */
+    top: 19px;                /* encostada no topo */
+    left: 15px;               /* encostada na esquerda */
+}
+.david {
+    position: absolute;
+    top: 21px;
+    left: 100px;
+}
+
+.editar {
+    position: fixed;
+    top: 55px;
+    left: 350px;
+    width: 0px;
+    height: 0px;
+    background: var(--bg);
+    border: var(--border);
+    outline: 0;
+    box-shadow: var(--shadow);
+    display: inline-grid;
+    color: #fff;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform .12s ease, filter .12s ease, box-shadow .12s ease;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    border-radius: 8px;
+}
+
+.editar:active {
+    transform:translateY(0);
+    filter:brightness(.85);
+    box-shadow:0 6px 14px rgba(79,70,229,0.22);
+}
+
+input[type="text"] {
+  width: 300px;             /* largura da caixa */
+  height: 40px;             /* altura da caixa */
+  padding: 10px 15px;       /* espaço interno */
+  font-size: 16px;          /* tamanho da fonte */
+  border: none;             /* sem bordas */
+  border-radius: 20px;      /* cantos arredondados */
+  background-color: #ffffff; /* cor de fundo suave */
+  color: #a8a7a7;
+  outline: none;            /* remove contorno ao focar */
+  box-sizing: border-box;   /* garante que padding não quebre a largura */
+}
+
+/* Placeholder estilizado */
+input[type="text"]::placeholder {
+  color: #aaa;              /* cor cinza clara */
+  font-style: italic;       /* opcional: deixa o placeholder em itálico */
+}
+
+.pesquisar {
+    position: absolute;
+    top: 145px;
+    left: 50px;
+}
+
+.linha {
+    position: relative;
+    top: 180px;
+    left: 25px;
+    border: none;          /* Remove a borda padrão */
+    width: 295px;
+    height: 1px;           /* Define a altura da linha */
+    background-color: #ccc; /* Cor da linha */
+    margin: 3px 0;        /* Espaçamento em cima e embaixo */
+}
+
+.chat-lista {
+  width: 450px;  /* largura da lista de chats */
+  position: relative;
+  top: 190px;
+  left: 20px;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  overflow-y: auto;
+  transform: scale(0.7);
+  transform-origin: top left; 
+}
+
+.chat-item {
+  display: flex;
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  align-items: center;
+}
+
+.chat-item:last-child {
+  border-bottom: none;
+}
+
+.chat-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  margin-right: 12px;
+  object-fit: cover;
+}
+
+.chat-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.logo {
+  position: absolute;
+  left: 70px;
+  top: 600px;
+}
+
+
+
+
+
+
+.coluna-meio {
+    position: absolute;       /* fixa na tela */
+    left: 800px;
+    right: 50%;               /* encostada na esquerda */
+    top: 50%;                /* encostada no topo */
+    transform: translate(-50%, -50%); /* centraliza totalmente */
+    width: 550px;          /* largura da coluna */
+    height: 1000px;         /* altura total da tela */
+    background-color: #ffffff; /* cor da coluna */
+    color: #4399FF;
+      flex-direction: column;
+}
+
+.chat-header {
+  align-items: center;            /* Centraliza verticalmente */
+  position: relative;
+  left: -135px;
+  width: 900px;
+  height: 70px;
+  background-color: #f5f5f5;     /* Cor de fundo do cabeçalho */
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.user-photo {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  top: 15px;
+  left: 40px;
+  border-radius: 50%;  /* Deixa a foto redonda */
+  margin-right: 10px;
+  object-fit: cover;    /* Ajusta a foto sem distorcer */
+}
+
+.user-name {
+  font-weight: bold;
+  font-size: 16px;
+  position: relative;
+  top: -20px;
+  left: 100px;
+}
+
+.botao-acao {
+    position: relative;
+    top: -60px;
+    left: 750px;
+    color: var(--fg);
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: box-shadow 180ms ease, transform 120ms ease, background-color 150ms;
+    user-select: none;
+}
+
+  /* Lista de mensagens */
+.chat-messages {
+  width: 600px;  /* largura da lista de chats */
+  position: relative;
+  top: 10px;
+  left: 20px;
+  overflow-y: auto;
+  transform: scale(1.0);
+  transform-origin: top left; 
+  }
+
+.mensagem {
+  display: flex;              /* Coloca a imagem e o texto lado a lado */
+  align-items: center;        /* Alinha verticalmente no centro */
+  margin: 10px 0;             /* Espaçamento entre mensagens */
+}
+
+.foto-perfil {
+  width: 40px;                /* Tamanho da imagem */
+  height: 40px;
+  border-radius: 50%;         /* Deixa redonda */
+  margin-right: 10px;         /* Espaço entre a foto e o texto */
+  object-fit: cover;          /* Garante que a imagem não distorça */
+}
+
+.texto-mensagem {
+  background-color: #e0e0e0;  /* Fundo da mensagem */
+  padding: 10px 15px;
+  border-radius: 10px;
+  max-width: 60%;
+}
+
+.enviada {
+  justify-content: flex-end; /* Alinha mensagem à direita */
+  margin-left: 70px;
+}
+
+.enviada .texto-mensagem {
+  background-color: #4399FF;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 10px;
+  margin-left: 70px;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0; /* Espaço acima e abaixo */
+  color: #999;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #ccc; /* Linha do lado */
+  margin: 0 10px; /* Espaço entre linha e texto */
+}
+
+  /* Input na parte inferior */
+.chat-input {
+  display: flex;
+  position: relative;
+  top: 10px;
+  left: -140px;
+  align-items: center;
+  padding: 10px;
+  background-color: #e6eeff; /* ou a cor que estiver usando */
+  gap: 8px; /* espaço entre os elementos */
+  width: 910px;
+  height: 110px;
+  }
+
+.chat-input input {
+  flex: 1; /* faz o input ocupar todo o espaço possível */
+  padding: 27px 70px;
+  outline: none;
+  background-color: #fff;
+  font-size: 14px;
+  }
+
+.chat-input-mic {
+    position: relative;
+    top: 4px;
+    left: -615px;
+}
+.chat-input button {
+    border: none;
+    color: #fff;
+    margin-left: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.coluna-direita {
+    position: absolute;       /* fixa na tela */
+    right: 0px;               /* encostada na esquerda */
+    top: 0px;                /* encostada no topo */
+    width: 400px;          /* largura da coluna */
+    height: 1000px;         /* altura total da tela */
+    background-color: #F0F0F0; /* cor da coluna */
+    color: #4399FF;
+    padding: 20px;         /* espaço interno */
+}
+
+.coluna-apresentacao {
+  width: 230px;
+  position: relative;
+  top: 30px;
+  left: 70px;   
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.botao-descricao {
+    position: relative;
+    top: 100px;
+    left: 30px;
+    color: var(--fg);
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: box-shadow 180ms ease, transform 120ms ease, background-color 150ms;
+    user-select: none;
+}
+
+.anexos {
+    position: relative;
+    top: 150px;
+    left: 40px;
+}
+
+.botoes-perfil {
+  background: var(--bg);
+  color: var(--fg);
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12); /* sombra padrão */
+  transition: box-shadow 180ms ease, transform 120ms ease, background-color 150ms;
+  user-select: none;
+}
+
+/* hover — aumenta a sombra e eleva levemente o botão */
+.botoes-perfil:hover{
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+  transform: translateY(-3px);
+}
+
+/* foco acessível (teclado) */
+.botoes-perfil:focus{
+  outline: none;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25), 0 0 0 4px rgba(41,121,255,0.15);
+}
+
+/* versão desativada */
+.botoes-perfil:disabled{
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.botao-ver {
+    position: relative;
+    top: 20px;
+    left: 80px;
+    background: var(--bg);
+    color: var(--fg);
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: box-shadow 180ms ease, transform 120ms ease, background-color 150ms;
+    user-select: none;
+}
