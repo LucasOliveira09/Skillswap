@@ -49,10 +49,16 @@ function gerenciarUI() {
         
         // Substitui o conteúdo da div navAuthArea
         navAuthArea.innerHTML = `
-            <span style="display:flex; align-items:center; gap:5px; font-weight:600; color:#255188;">
-                <img src="img/man.png" alt="Ícone perfil" height="15" />
-                Olá, ${primeiroNome}!
-            </span>
+            <a href="pagina_editarPerfil.html" id="navAuthArea">
+            <img src="img/man.png" alt="Ícone perfil" height="15" />
+            Olá, ${primeiroNome}!
+          </a>
+
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
 
             <button onclick="fazerLogout()" class="btn-logout">
                 Sair
