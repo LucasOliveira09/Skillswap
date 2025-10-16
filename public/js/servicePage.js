@@ -1,6 +1,93 @@
 // js/servicePage.js
 "use strict";
 
+
+const API_SERVICOS_URL = 'http://localhost:3000/api/servicos'; 
+
+
+// ----------------------------------------------------
+// NOVO: Função Global de Logout
+// ----------------------------------------------------
+function fazerLogout() {
+    // 1. Remove os itens que definem a sessão
+    localStorage.removeItem('usuarioId');
+    localStorage.removeItem('usuarioNome');
+    
+    Toastify({
+        text: "Sessão encerrada. Até logo!",
+        duration: 2000,
+        style: { 
+            background: "linear-gradient(to right, #ff5f6d, #ffc371)", // Cor de encerramento
+            opacity: 0.9 
+        },
+    }).showToast();
+    
+    // 2. Redireciona para a página de login
+    setTimeout(() => {
+        window.location.href = 'index.html';
+    }, 1500);
+}
+
+const navLateral = document.getElementById("menuLateral")
+const buttonMenu = document.getElementById("menu-button")
+
+function abrirMenu(){
+  navLateral.style.display = "flex";
+}
+// ----------------------------------------------------
+// NOVO: Gerencia a UI (Barra de Navegação)
+// ----------------------------------------------------
+function gerenciarUI() {
+    const navAuthArea = document.getElementById('navAuthArea');
+    const usuarioNome = localStorage.getItem('usuarioNome');
+    const usuarioId = localStorage.getItem('usuarioId');
+    
+    // Verifica se o usuário está logado
+    if (usuarioNome && usuarioId && navAuthArea) {
+        // Usuário logado: mostra nome e botão Sair
+        const primeiroNome = usuarioNome.split(' ')[0];
+        
+        // Substitui o conteúdo da div navAuthArea
+        navAuthArea.innerHTML = `
+            <span style="display:flex; align-items:center; gap:5px; font-weight:600; color:#255188;">
+                <img src="img/man.png" alt="Ícone perfil" height="15" />
+                Olá, ${primeiroNome}!
+            </span>
+
+            <button onclick="fazerLogout()" class="btn-logout">
+                Sair
+            </button>
+        `;
+        
+        // Opcional: Adicionar estilo ao botão Sair
+        const btnLogout = navAuthArea.querySelector('.btn-logout');
+        if(btnLogout) {
+            Object.assign(btnLogout.style, {
+                background: 'none',
+                border: 'none',
+                color: '#ff5f6d',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: '600',
+                textDecoration: 'underline'
+            });
+        }
+    } 
+    // Se não estiver logado, o HTML estático já garante o link "Entrar / Registrar-se"
+}
+
+
+// ----------------------------------------------------
+// Início do Script
+// ----------------------------------------------------
+document.addEventListener('DOMContentLoaded', () => {
+    // Garante que a UI de login/logout está correta
+    gerenciarUI(); 
+    
+    // Aqui você deve chamar as funções para carregar os serviços
+    // Se você estiver usando o código que eu sugeri anteriormente para carregar serviços:
+    // carregarServicos(); 
+});
 // util: "há 5 min", "há 3 h", "ontem", "12 fev"
 function timeAgo(input) {
   const d = typeof input === "number" ? new Date(input) : new Date(input);
@@ -270,3 +357,4 @@ function setDescricao(id, texto) {
 }
 
 renderProdutos();
+
