@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/editarPerfil.css" />
     <title>Editar Perfil | Skill Swap</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
 <body>
 
@@ -19,12 +21,23 @@
             <div>
                 <input type="text" placeholder="🔍︎   Procure...">
             </div>
-            <div>
-                <a href="#"><img src="img/man.png" alt="Icone perfl" height="15"></a>
-                <a href="#">Olá, Otávio</a>
-                <a href="#"><img src="img/carrinho.png" alt="Carrinho icone" height="15"></a>
-                <a href="#">Carrinho</a>
+        <div class="nav-links-area">
+
+            <a href="#">
+            <img src="img/carrinho.png" alt="Carrinho icone" height="15">
+            Carrinho
+            </a>
+
+            <div class="user-menu-dropdown" id="userMenuDropdown">
+            <button class="user-menu-trigger" id="userMenuTrigger">
+            <img src="img/man.png" alt="Ícone perfil" height="15">
+            <span id="navUserName">Olá, Usuário</span>
+            </button>
+
+            <div class="user-menu-content" id="userMenuContent">
             </div>
+            </div>
+        </div>
         </nav>
     </header>
 
@@ -133,5 +146,7 @@
         </div>
     </footer>
 
+    <script src="js/perfilNav.js"></script>
+    <script src="js/editarPefil.js"></script>
 </body>
 </html>

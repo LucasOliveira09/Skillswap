@@ -1,3 +1,103 @@
+.nav-links-area {
+    display: flex;
+    gap: 20px; /* Espaço entre Carrinho e o Dropdown */
+    align-items: center;
+}
+
+.user-menu-dropdown {
+    position: relative; /* Onde o menu suspenso será ancorado */
+    font-family: "Abel", sans-serif;
+}
+
+.user-menu-trigger {
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 8px 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #333; /* Cor do texto padrão */
+    font-size: 14px;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+.user-menu-trigger:hover,
+.user-menu-dropdown.is-active .user-menu-trigger {
+    background-color: #f0f0f0;
+}
+
+/* O Conteúdo do Menu Suspenso */
+.user-menu-content {
+    position: absolute;
+    top: 100%; /* Posiciona logo abaixo do botão */
+    right: 0;
+    z-index: 1000; /* Garante que fique acima de outros elementos */
+    background: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    min-width: 180px;
+    padding: 5px 0;
+    
+    /* Estado inicial: escondido */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+    
+    /* Alinhamento dos itens */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Estado Aberto (Classe 'is-open' ativada pelo JS) */
+.user-menu-content.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.menu-item {
+    display: block; /* Ocupa toda a largura do dropdown */
+    padding: 8px 15px;
+    text-align: left;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.menu-item:hover {
+    background-color: #f7f7f7;
+    text-decoration: none;
+}
+
+.menu-logout-btn {
+    color: #e74c3c; /* Cor de destaque para o botão Sair */
+    font-weight: 600;
+}
+
+.menu-divider {
+    border: 0;
+    height: 1px;
+    background-color: #eee;
+    margin: 5px 0;
+}
+
+/* Garante que o ícone de perfil no menu tenha o tamanho correto */
+.user-menu-trigger img {
+    height: 15px;
+}
+
+
+
 * {
     margin: 0;
     padding: 0;

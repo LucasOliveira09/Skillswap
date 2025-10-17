@@ -1,134 +1,136 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/perfil.css">
-    <title>Perfil - Skill Swap</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/perfil.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <title>Perfil - Skill Swap</title>
 </head>
 <body>
 
-    <header>
-        <nav>
-            <div>
-                <button class="button-menu"><img src="img/menu.png" alt="Botao Menu" width="48"></button>
-                <a href="pagina-servicos.html">
-                    <img class="img-logo-skill" src="img/logo-skill-swap.png" alt="Logo Skill Swap" width="140">
-                </a>
-            </div>
-            <div>
-                <input type="text" placeholder="🔍︎   Procure...">
-            </div>
-            <div>
-                <a href="index.html"><img src="img/man.png" alt="Icone perfl" height="15"></a>
-                <a href="index.html">Entrar / Registrar-se</a>
-                <a href="#"><img src="img/carrinho.png" alt="Carrinho icone" height="15"></a>
-                <a href="#">Carrinho</a>
-            </div>
-        </nav>
-    </header>
+    <header>
+        <nav>
+            <div>
+                <button class="button-menu"><img src="img/menu.png" alt="Botao Menu" width="48"></button>
+                <a href="pagina-servicos.html">
+                    <img class="img-logo-skill" src="img/logo-skill-swap.png" alt="Logo Skill Swap" width="140">
+                </a>
+            </div>
+            <div>
+                <input type="text" placeholder="🔍︎   Procure...">
+            </div>
+            
+            <!-- NOVO BLOCO: DROPDOWN DE PERFIL -->
+            <div class="nav-links-area">
+                <a href="#">
+                    <img src="img/carrinho.png" alt="Carrinho icone" height="15">
+                    Carrinho
+                </a>
+                <div class="user-menu-dropdown" id="userMenuDropdown">
+                    <button class="user-menu-trigger" id="userMenuTrigger">
+                        <img src="img/man.png" alt="Ícone perfil" height="15">
+                        <span id="navUserName">Entrar / Registrar-se</span>
+                    </button>
+                    <div class="user-menu-content" id="userMenuContent">
+                        <!-- Links gerados pelo JS -->
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
 
-    <div class="inicio-bemvindo">
-    <nav>
-        <span><a href="pagina-servicos.html" class="inicio-links">Início</a></span> &gt; <span>Minha Conta</span>
-    </nav>
-    </div>
+    <div class="inicio-bemvindo">
+    <nav>
+        <span><a href="pagina-servicos.html" class="inicio-links">Início</a></span> &gt; <span id="perfilTrilha">Minha Conta</span>
+    </nav>
+    </div>
 
-    <main class="container-principal">
+    <main class="container-principal">
 
-        <aside class="coluna-esquerda">
-            <div>
-                <img src="img/foto-perfil-gilberto.png" alt="Foto de perfil de Gilberto do Jiu">
-                <h2>Gilberto do Jiu</h2>
-                <p>Professor</p>
-                <p>Membro desde 14 de JAN, 2018</p>
-                <button class="btn-seguir">Seguir</button>
-            </div>
-            
-            <div class="hashtags">
-                <p>#BJJ #JIUJISTU #PROFESSOR #AULA #ESPORTE</p>
-            </div>
-        </aside>
+        <aside class="coluna-esquerda">
+            <div id="perfilInfoCard">
+                <img src="img/foto-perfil-gilberto.png" alt="Foto de perfil de Gilberto do Jiu">
+                <h2>Gilberto do Jiu</h2>
+                <p id="perfilProfissao">Professor</p>
+                <p>Membro desde <span id="membroDesde">14 de JAN, 2018</span></p>
+                <button class="btn-seguir" id="btnPerfilAcao">Seguir</button>
+            </div>
+            
+            <div class="hashtags">
+                <p id="perfilHashtags">#BJJ #JIUJISTU #PROFESSOR #AULA #ESPORTE</p>
+            </div>
+        </aside>
 
-        <section class="coluna-central">
-            <article>
-                <header class="perfil-display">
-                    <img src="img/foto-perfil-postagem.png" alt="Foto de perfil do Gilberto">
-                    <h3>Gilberto do Jiu</h3>
-                    <p>13 seguidores</p>
-                </header>
-                <div>
-                    <img src="img/foto-postagem-jiu-jitsu.png" alt="Foto de aula de Jiu-Jitsu">
-                </div>
-                <footer>
-                    <p><strong>R$15,00/hora</strong></p>
-                    <p>Aulas de JIU-JITSU para todas as idades</p>
-                    <p><strong>Troca por:</strong> A combinar</p>
-                </footer>
-            </article>
-        </section>
+        <section class="coluna-central" id="colunaCentralServicos">
+            <!-- Conteúdo dinâmico será carregado aqui -->
+            <p>Carregando serviços...</p>
+        </section>
 
-        <aside class="coluna-direita">
-            <div>
-                <h3>Detalhes</h3>
-                <ul>
-                    <li><p>Avaliação geral: <span>4.8</span></p></li>
-                    <li><p>Vendas / Trocas: <span>15</span></p></li>
-                    <li><p>Local: <span>Ourinhos/SP</span></p></li>
-                </ul>
-            </div>
-            <div class="marks">
-                <p> ✕ Verificação de e-mail</p>
-                <p>	✔ Número de telefone</p>
-                <p>	✔ Documento verificado</p>
-            </div>
+        <aside class="coluna-direita">
+            <div>
+                <h3>Detalhes</h3>
+                <ul>
+                    <li><p>Avaliação geral: <span id="avaliacaoGeral">4.8</span></p></li>
+                    <li><p>Vendas / Trocas: <span id="vendasTrocas">15</span></p></li>
+                    <li><p>Local: <span id="perfilLocal">Ourinhos/SP</span></p></li>
+                </ul>
+            </div>
+            <div class="marks">
+                <p> ✕ Verificação de e-mail</p>
+                <p> ✔ Número de telefone</p>
+                <p> ✔ Documento verificado</p>
+            </div>
 
-            <div>
-                <h3>Comentários</h3>
-                <div>
-                    <img src="img/foto-comentario-1.png" alt="Foto de perfil de Diana Auto P">
-                    <p>Diana Auto P</p>
-                    <p>★★★★★</p>
-                </div>
-                <div>
-                    <img src="img/foto-comentario-2.png" alt="Foto de perfil de Agência Marketing Total">
-                    <p>Agência Marketing Total</p>
-                    <p>★★★★★</p>
-                </div>
-                <a>Ver todos ></a>
-            </div>
-        </aside>
+            <div>
+                <h3>Comentários</h3>
+                <!-- Comentários estáticos para simplificação -->
+                <div>
+                    <img src="img/foto-comentario-1.png" alt="Foto de perfil de Diana Auto P">
+                    <p>Diana Auto P</p>
+                    <p>★★★★★</p>
+                </div>
+                <div>
+                    <img src="img/foto-comentario-2.png" alt="Foto de perfil de Agência Marketing Total">
+                    <p>Agência Marketing Total</p>
+                    <p>★★★★★</p>
+                </div>
+                <a>Ver todos ></a>
+            </div>
+        </aside>
 
-    </main>
+    </main>
+    
+    <footer class="main-footer">
+        <div>
+            <h1 class="skillswap">SKILL<br>SWAP</h1>
+          
+
+            <p class="ultimo-footer" style="margin-right: 50px;">Whatsapp: <br>(00)1234-5678</p>
+            <p class="ultimo-footer">E-mail: <br>skillswap@email.com</p>
+
+        </div>
+
+        <div class="sobre-nos">
+            <h2>Sobre nós</h2>
+            <div>
+            <p class="faqs"><a href="#" style="color: white;">FAQ</a></p>
+            <p class="faqs"><a href="#" style="color: white;">Termos de uso</a></p>
+            <p class="faqs"><a href="#" style="color: white;">Política de privacidade</a></p>
+            </div>
+        </div>  
+
+        <div class="footer-circle"></div>
+        <div class="footer-circletwo"></div>
+
+        <div class="footer-download">
+            <h2>Download</h2>
+            <a href="#"><img src="img/botao-app-store.png" alt="App Store" width="180"></a>
+            <a href="#"><img src="img/botao-google-play.png" alt="Google Play" width="180"></a>
+        </div>
+    </footer>
     
-    <footer class="main-footer">
-        <div>
-            <h1 class="skillswap">SKILL<br>SWAP</h1>
-          
-
-            <p class="ultimo-footer" style="margin-right: 50px;">Whatsapp: <br>(00)1234-5678</p>
-            <p class="ultimo-footer">E-mail: <br>skillswap@email.com</p>
-
-        </div>
-
-        <div class="sobre-nos">
-            <h2>Sobre nós</h2>
-            <div>
-            <p class="faqs"><a href="#" style="color: white;">FAQ</a></p>
-            <p class="faqs"><a href="#" style="color: white;">Termos de uso</a></p>
-            <p class="faqs"><a href="#" style="color: white;">Política de privacidade</a></p>
-            </div>
-        </div>  
-
-        <div class="footer-circle"></div>
-        <div class="footer-circletwo"></div>
-
-        <div class="footer-download">
-            <h2>Download</h2>
-            <a href="#"><img src="img/botao-app-store.png" alt="App Store" width="180"></a>
-            <a href="#"><img src="img/botao-google-play.png" alt="Google Play" width="180"></a>
-        </div>
-    </footer>
-
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="js/perfil.js"></script>
 </body>
 </html>

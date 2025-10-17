@@ -324,3 +324,123 @@ body > nav {
     margin-top: 46px;
     z-index: 2;
 }
+
+.nav-links-area {
+    font-family: "Abel", sans-serif;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.user-menu-dropdown {
+    position: relative; 
+}
+
+.user-menu-trigger {
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 8px 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #333; 
+    font-size: 14px;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+.user-menu-trigger:hover,
+.user-menu-dropdown.is-active .user-menu-trigger {
+    background-color: #f0f0f0;
+}
+
+/* O Conteúdo do Menu Suspenso */
+.user-menu-content {
+    position: absolute;
+    top: 100%; 
+    right: 0;
+    z-index: 1000; 
+    background: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    min-width: 180px;
+    padding: 5px 0;
+    
+    /* Estado inicial: escondido */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+    
+    /* Alinhamento dos itens */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Estado Aberto */
+.user-menu-content.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.menu-item {
+    display: block; 
+    padding: 8px 15px;
+    text-align: left;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.menu-item:hover {
+    background-color: #f7f7f7;
+    text-decoration: none;
+}
+
+.menu-logout-btn {
+    color: #e74c3c; 
+    font-weight: 600;
+}
+
+.menu-divider {
+    border: 0;
+    height: 1px;
+    background-color: #eee;
+    margin: 5px 0;
+}
+
+.user-menu-trigger img {
+    height: 15px;
+}
+
+/* Estilo para os cards de postagem na coluna central */
+#colunaCentralServicos article {
+    /* Mantém os estilos do .coluna-central article */
+    padding: 0; /* Remover padding interno se a imagem for full-width */
+    overflow: hidden;
+}
+
+#colunaCentralServicos article header {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+#colunaCentralServicos article footer {
+    padding: 15px;
+}
+
+#colunaCentralServicos article img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}

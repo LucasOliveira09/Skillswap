@@ -50,15 +50,22 @@
           <button>Anunciar</button>
         </div>
       
-        <div class="icon-entrar-carrinho">
-          <a href="index.html" id="navAuthArea">
-            <img src="img/man.png" alt="Ícone perfil" height="15" />
-            Entrar / Registrar-se
-          </a>
-          <a href="#">
-            <img src="img/carrinho.png" alt="Ícone carrinho" height="15" />
+        <div class="nav-links-area">
+
+            <a href="#">
+            <img src="img/carrinho.png" alt="Carrinho icone" height="15">
             Carrinho
-          </a>
+            </a>
+
+            <div class="user-menu-dropdown" id="userMenuDropdown">
+            <button class="user-menu-trigger" id="userMenuTrigger">
+            <img src="img/man.png" alt="Ícone perfil" height="15">
+            <span id="navUserName">Olá, Usuário</span>
+            </button>
+
+            <div class="user-menu-content" id="userMenuContent">
+            </div>
+            </div>
         </div>
       </nav>
     </header>
@@ -256,7 +263,7 @@
   <div class="footer-circletwo"></div>
 </footer>
 
-
+<script src="./js/perfilNav.js"></script>
 <script src="./js/servicePage.js" defer></script>
   </body>
 </html>

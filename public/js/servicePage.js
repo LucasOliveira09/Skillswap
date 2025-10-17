@@ -28,12 +28,7 @@ function fazerLogout() {
     }, 1500);
 }
 
-const navLateral = document.getElementById("menuLateral")
-const buttonMenu = document.getElementById("menu-button")
 
-function abrirMenu(){
-  navLateral.style.display = "flex";
-}
 // ----------------------------------------------------
 // NOVO: Gerencia a UI (Barra de Navegação)
 // ----------------------------------------------------
@@ -82,6 +77,12 @@ function gerenciarUI() {
     // Se não estiver logado, o HTML estático já garante o link "Entrar / Registrar-se"
 }
 
+const navLateral = document.getElementById("menuLateral")
+const buttonMenu = document.getElementById("menu-button")
+
+function abrirMenu(){
+  navLateral.style.display = "flex";
+}
 
 // ----------------------------------------------------
 // Início do Script
