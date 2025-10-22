@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Painel de Anúncio | Skill Swap</title>
+
+  <!-- Favicon (opcional) -->
+  <link rel="icon" type="image/png" href="./img/logo-seta.png" />
+
+  <!-- Fontes & Ícones -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Angkor&family=Poppins:wght@400;600;700&family=Abel&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css" />
+
+  <!-- CSS da página -->
+  <link rel="stylesheet" href="./css/anuncio.css" />
+</head>
+<body>
+   <header>
+      <nav>
+        <div>
+          <button class="menu-button" onclick="abrirMenu()" id="menu-button">
+            <img src="img/menu.png" alt="Botao Menu" width="42" />
+          </button>
+          <a href="pagina-servicos.html">
+            <img
+              class="img-logo-skill"
+              src="img/logo-skill-swap.png"
+              alt="Logo Skill Swap"
+              width="140"
+            />
+          </a>
+        </div>
+        <div>
+          <input type="text" placeholder="🔍︎   Procure..." />
+          <i></i>
+        </div>
+
+      
+        <div class="nav-links-area">
+
+            <a href="#">
+            <img src="img/carrinho.png" alt="Carrinho icone" height="15">
+            Carrinho
+            </a>
+
+            <div class="user-menu-dropdown" id="userMenuDropdown">
+            <button class="user-menu-trigger" id="userMenuTrigger">
+            <img src="img/man.png" alt="Ícone perfil" height="15">
+            <span id="navUserName">Olá, Usuário</span>
+            </button>
+
+            <div class="user-menu-content" id="userMenuContent">
+            </div>
+            </div>
+        </div>
+      </nav>
+    </header>
+
+
+  <!-- ===== TRUSTBAR (substitui o hero) ===== -->
+  <section class="trustbar">
+    <div class="trustbar-wrap">
+      <div class="tb-item">
+        <i class="fa-solid fa-shield-check"></i>
+        <div>
+          <strong>Conta verificada</strong>
+          <span>Documento e selfie validados</span>
+        </div>
+      </div>
+      <div class="tb-item">
+        <i class="fa-solid fa-star"></i>
+        <div>
+          <strong>Qualidade mínima</strong>
+          <span>Somente vendedores ≥ 3★ publicam</span>
+        </div>
+      </div>
+      <div class="tb-item">
+        <i class="fa-solid fa-user-check"></i>
+        <div>
+          <strong>Reputação pública</strong>
+          <span>Histórico de vendas e avaliações</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTEÚDO ===== -->
+  <main id="announce">
+    <!-- Coluna esquerda -->
+    <section>
+      <ol class="steps" id="steps" aria-label="Passos do anúncio">
+        <li class="step is-active"><span>1</span> Detalhes</li>
+        <li class="step"><span>2</span> Mídia</li>
+        <li class="step"><span>3</span> Preço & Troca</li>
+        <li class="step"><span>4</span> Local & Entrega</li>
+        <li class="step"><span>5</span> Publicar</li>
+      </ol>
+
+      <div class="mode-switch" role="tablist" aria-label="Tipo de anúncio">
+        <button class="mode-btn is-current" data-mode="produto" role="tab" aria-selected="true">Produto</button>
+        <button class="mode-btn" data-mode="servico" role="tab" aria-selected="false">Serviço</button>
+        <button class="mode-btn" data-mode="troca" role="tab" aria-selected="false">Somente troca</button>
+      </div>
+
+      <form id="form" novalidate>
+        <!-- STEP 1 -->
+        <section class="card" data-step="1">
+          <div class="grid-2">
+            <label class="fld">
+              <span>Título do anúncio</span>
+              <input id="fldTitulo" type="text" placeholder="Ex.: iPhone 13 128GB / Conserto de torneira" required />
+              <small class="hint">Use uma palavra-chave e seja objetivo.</small>
+            </label>
+
+            <label class="fld">
+              <span>Categoria</span>
+              <select id="fldCategoria" required>
+                <option value="">Selecione…</option>
+                <option>Eletrônicos</option>
+                <option>Casa & Móveis</option>
+                <option>Esportes & Lazer</option>
+                <option>Moda & Beleza</option>
+                <option>Serviços Gerais</option>
+                <option>Aulas & Cursos</option>
+                <option>Veículos</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="grid-2">
+            <label class="fld">
+              <span>Subcategoria</span>
+              <input id="fldSub" type="text" placeholder="Ex.: Smartphones / Aula particular" />
+            </label>
+
+            <div class="grid-2">
+              <label class="fld">
+                <span>Estado</span>
+                <select id="fldEstado">
+                  <option>Novo</option><option>Semi-novo</option><option>Usado</option><option>Recondicionado</option>
+                </select>
+              </label>
+              <label class="fld">
+                <span>Unidade</span>
+                <select id="fldUnidade">
+                  <option>unidade</option><option>hora</option><option>diária</option><option>mês</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <label class="fld">
+            <span>Descrição</span>
+            <textarea id="fldDesc" rows="6" placeholder="Conte os detalhes, condições, o que está incluso e por que seu anúncio é especial."></textarea>
+            <small class="hint">Anúncios completos recebem até 3x mais contatos.</small>
+          </label>
+
+          <div class="actions">
+            <span class="muted">Passo 1 de 5</span>
+            <button class="btn primary" data-next>Continuar</button>
+          </div>
+        </section>
+
+        <!-- STEP 2 -->
+        <section class="card" data-step="2" hidden>
+          <label class="fld"><span>Imagens (até 8)</span></label>
+
+          <div class="uploader">
+            <input id="fileInput" type="file" accept="image/*" multiple hidden />
+            <button type="button" class="dropzone" id="dropBtn">
+              <i class="fa-regular fa-image"></i>
+              <strong>Enviar imagens</strong>
+              <small>Arraste e solte ou clique para selecionar</small>
+            </button>
+            <div class="thumbs" id="thumbs"></div>
+          </div>
+
+          <div class="actions">
+            <button class="btn ghost" data-prev>Voltar</button>
+            <button class="btn primary" data-next>Continuar</button>
+          </div>
+        </section>
+
+        <!-- STEP 3 -->
+        <section class="card" data-step="3" hidden>
+          <div class="grid-3">
+            <label class="fld">
+              <span>Preço</span>
+              <div class="price">
+                <span>R$</span>
+                <input id="fldPreco" type="text" inputmode="decimal" placeholder="0,00" />
+              </div>
+            </label>
+
+            <label class="fld">
+              <span>Aceita troca?</span>
+              <select id="fldTroca"><option value="sim">Sim</option><option value="nao">Não</option></select>
+            </label>
+
+            <label class="fld only-servico">
+              <span>Cobrança por</span>
+              <select id="fldCobrarPor"><option>hora</option><option>serviço</option><option>diária</option><option>mês</option></select>
+            </label>
+          </div>
+
+          <div class="grid-2 only-servico">
+            <label class="fld">
+              <span>Disponibilidade</span>
+              <select id="fldDisp">
+                <option value="agenda">Combinamos na conversa (agenda)</option>
+                <option value="fimdesemana">Finais de semana</option>
+                <option value="comercial">Horário comercial</option>
+                <option value="noturno">Noturno</option>
+              </select>
+            </label>
+
+            <label class="fld">
+              <span>Tags</span>
+              <input id="fldTags" type="text" placeholder="#montagemdemoveis #aulasdeingles #iphone" />
+            </label>
+          </div>
+
+          <div class="actions">
+            <button class="btn ghost" data-prev>Voltar</button>
+            <button class="btn primary" data-next>Continuar</button>
+          </div>
+        </section>
+
+        <!-- STEP 4 -->
+        <section class="card" data-step="4" hidden>
+          <div class="grid-2">
+            <label class="fld"><span>Localização</span><input id="fldLocal" type="text" placeholder="Cidade, UF" /></label>
+            <label class="fld"><span>Entrega/Execução</span>
+              <select id="fldEntrega">
+                <option value="retirada">Retirada no local</option>
+                <option value="envio">Envio/Deslocamento por conta do anunciante</option>
+                <option value="combinar">A combinar</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="actions">
+            <button class="btn ghost" data-prev>Voltar</button>
+            <button class="btn primary" data-next>Continuar</button>
+          </div>
+        </section>
+
+        <!-- STEP 5 -->
+        <section class="card" data-step="5" hidden>
+          <div class="review">
+            <h3>Revisar e publicar</h3>
+            <ul id="reviewList" class="review-list"></ul>
+          </div>
+
+          <div class="actions">
+            <button class="btn ghost" data-prev>Voltar</button>
+            <div class="agree">
+              <label><input type="checkbox" id="agree" /> Concordo com os Termos de Uso</label>
+              <button class="btn success" id="btnPublicar" disabled>Publicar anúncio</button>
+            </div>
+          </div>
+        </section>
+      </form>
+    </section>
+
+    <!-- Coluna direita: preview + verificação -->
+    <aside class="preview">
+      <div class="preview-card">
+        <header>
+          <h4>Preview do anúncio</h4>
+          <small>Assim seu card aparece no feed.</small>
+        </header>
+
+        <div class="card-mini">
+          <div class="img" id="prevImg"><span>capa</span></div>
+          <div class="meta">
+            <div class="row">
+              <h5 id="prevTitulo">Título do anúncio</h5>
+              <span class="badge" id="prevTipo">produto</span>
+            </div>
+            <p class="muted" id="prevDesc">Descrição resumida aparecerá aqui para atrair cliques.</p>
+            <div class="row">
+              <strong id="prevPreco">R$ —</strong>
+              <span class="muted" id="prevLocal">Cidade, UF</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="inline-actions">
+          <button class="btn ghost" id="prevVoltar">Voltar</button>
+          <button class="btn primary" id="prevAvancar">Continuar</button>
+        </div>
+
+        <div class="tips">
+          <h5>Dicas rápidas</h5>
+          <ul>
+            <li>Fotos nítidas e bem iluminadas.</li>
+            <li>Título objetivo com palavra-chave.</li>
+            <li>Explique diferenciais e garantia.</li>
+            <li>Ative a opção de troca para mais contatos.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Verificação / Confiabilidade -->
+      <div class="verify-card">
+        <header>
+          <h4>Confiabilidade do vendedor</h4>
+          <small>Ganhe destaque e confiança</small>
+        </header>
+
+        <ul class="verify-list">
+          <li>
+            <i class="fa-solid fa-id-card-clip"></i>
+            <span>Documento oficial (RG/CPF ou CNH)</span>
+            <strong class="badge state" id="v-doc">pendente</strong>
+          </li>
+          <li>
+            <i class="fa-solid fa-camera"></i>
+            <span>Selfie com prova de vida</span>
+            <strong class="badge state" id="v-selfie">pendente</strong>
+          </li>
+          <li>
+            <i class="fa-solid fa-house-chimney"></i>
+            <span>Comprovante de endereço (≤ 90 dias)</span>
+            <strong class="badge state" id="v-addr">pendente</strong>
+          </li>
+          <li>
+            <i class="fa-solid fa-mobile-screen"></i>
+            <span>Telefone verificado (SMS/WhatsApp)</span>
+            <strong class="badge state" id="v-phone">pendente</strong>
+          </li>
+        </ul>
+
+        <div class="verify-actions">
+          <button type="button" class="btn primary" id="btnStartKYC">Iniciar verificação</button>
+          <small class="muted">Tempo médio: 2–3 minutos</small>
+        </div>
+
+        <div class="gate">
+          <i class="fa-solid fa-star"></i>
+          <span>Mínimo para anunciar: <strong id="minStarsLabel">3★</strong></span>
+          <span class="gate-dot">•</span>
+          <span>Sua nota: <strong id="userStarsLabel">—</strong></span>
+        </div>
+        <p class="gate-msg muted" id="gateMsg"></p>
+      </div>
+    </aside>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="main-footer">
+    <div class="footer-col">
+      <h1 class="skillswap">SKILL<br />SWAP</h1>
+
+      <div class="tel-email">
+        <div class="contact-item">
+          <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+          <div class="contact-text">
+            <span class="label">WhatsApp</span>
+            <a href="https://wa.me/550000000000" target="_blank" rel="noopener">(00) 1234-5678</a>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+          <div class="contact-text">
+            <span class="label">E-mail</span>
+            <a href="mailto:skillswap@email.com">skillswap@email.com</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-download">
+        <h2>Download</h2>
+        <div class="stores">
+          <a href="#"><img src="img/botao-app-store.png" alt="App Store" height="44" /></a>
+          <a href="#"><img src="img/botao-google-play.png" alt="Google Play" height="44" /></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="sobre-nos">
+      <h2>Sobre</h2>
+      <p class="faqs"><a href="#" style="color:#fff">FAQ</a></p>
+      <p class="faqs"><a href="#" style="color:#fff">Termos de uso</a></p>
+      <p class="faqs"><a href="#" style="color:#fff">Política de privacidade</a></p>
+
+      <p class="footer-note -clamp">
+        © 2025 Skill Swap — Todos os direitos reservados. Licenças e direitos de uso vigentes até 2027…
+      </p>
+    </div>
+
+    <div class="footer-circle"></div>
+  </footer>
+
+  <!-- JS da página -->
+  <script src="./js/anuncio.js" defer></script>
+</body>
+</html>
