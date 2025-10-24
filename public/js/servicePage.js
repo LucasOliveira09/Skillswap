@@ -95,6 +95,39 @@ document.addEventListener('DOMContentLoaded', () => {
     // Se você estiver usando o código que eu sugeri anteriormente para carregar serviços:
     // carregarServicos(); 
 });
+
+(function(){
+const btn = document.getElementById('btnAnunciar');
+const modal = document.getElementById('announceModal');
+const login = document.getElementById('amLogin');
+const guest = document.getElementById('amGuest');
+
+
+if(!btn || !modal) return;
+
+
+const open = ()=>{ modal.hidden = false; modal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; };
+const close = ()=>{ modal.hidden = true; modal.setAttribute('aria-hidden','true'); document.body.style.overflow=''; };
+
+
+btn.addEventListener('click', open);
+modal.addEventListener('click', (e)=>{ if(e.target.hasAttribute('data-close')) close(); });
+modal.querySelector('.modal-x')?.addEventListener('click', close);
+window.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && !modal.hidden) close(); });
+
+
+// Rota de login: define alvo de retorno e vai para index.html
+login?.addEventListener('click', ()=>{
+localStorage.setItem('ss_continue_to', 'pagina-anuncio.html?resume=1');
+window.location.href = 'index.html';
+});
+
+
+// Convidado: vai direto para a página de anúncio com flag
+guest?.addEventListener('click', ()=>{
+window.location.href = 'pagina-anuncio.html?guest=1';
+});
+})();
 // util: "há 5 min", "há 3 h", "ontem", "12 fev"
 function timeAgo(input) {
   const d = typeof input === "number" ? new Date(input) : new Date(input);

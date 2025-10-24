@@ -6,6 +6,7 @@
     <title>Skill Swap</title>
     <link rel="icon" type="image/png" href="./img/logo-seta.png">
     <link rel="stylesheet" type="text/css" href="./css/servicos.css" />
+<link rel="stylesheet" href="./css/auth-modal.css">
     <!-- no <head> -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -46,9 +47,9 @@
           <input type="text" placeholder="🔍︎   Procure..." />
           <i></i>
         </div>
-        <div class="button-anunciar">
-          <button>Anunciar</button>
-        </div>
+      <div class="button-anunciar">
+  <button id="btnAnunciar" type="button">Anunciar</button>
+</div>
       
         <div class="nav-links-area">
 
@@ -262,8 +263,42 @@
   <div class="footer-circle"></div>
   <div class="footer-circletwo"></div>
 </footer>
+<!-- Modal Auth PRO (dark + blur) -->
+<div class="authm" id="announceModal" aria-hidden="true" hidden>
+  <div class="authm__backdrop" data-close></div>
+
+  <div class="authm__card" role="dialog" aria-modal="true" aria-labelledby="amTitle">
+    <div class="authm__footer">
+      <button class="authm__x" data-close aria-label="Fechar">×</button>
+    </div>
+
+    <div class="authm__header">
+      <img class="authm__logo" src="img/logo-skill-swap.png" alt="Skill Swap">
+      <h3 id="amTitle">Crie seu anúncio</h3>
+      <p class="authm__sub">Faça login para publicar seu anûncio — ou continue como convidado. </p>
+    </div>
+
+    <div class="authm__content">
+      <button id="amLogin" class="authm__btn authm__btn--primary" type="button">
+        <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i>
+        Entrar e publicar
+      </button>
+
+      <div class="authm__or">ou</div>
+
+      <button id="amGuest" class="authm__btn authm__btn--ghost" type="button">
+       
+        Continuar como convidado
+      </button>
+
+      <p class="authm__hint">Você pode preencher tudo agora. <strong>Pediremos login apenas ao publicar.</strong></p>
+    </div>
+  </div>
+</div>
+
 
 <script src="./js/perfilNav.js"></script>
 <script src="./js/servicePage.js" defer></script>
+<script src="./js/feed.js"></script>
   </body>
 </html>

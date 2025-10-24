@@ -5,120 +5,114 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Painel de Anúncio | Skill Swap</title>
 
-  <!-- Favicon (opcional) -->
   <link rel="icon" type="image/png" href="./img/logo-seta.png" />
-
-  <!-- Fontes & Ícones -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Angkor&family=Poppins:wght@400;600;700&family=Abel&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css" />
 
-  <!-- CSS da página -->
   <link rel="stylesheet" href="./css/anuncio.css" />
+  <link rel="stylesheet" href="./css/auth-modal.css" />
+
+  <style>
+    /* Cinza PRO até selecionar + visual limpo */
+    .fld.--required > span::after{content:" *";color:#ef4444;font-weight:800}
+    .fld .an-field-msg{margin-top:4px;font-size:12px;color:#ef4444}
+    .fld select:invalid, .fld input:placeholder-shown{ color:#9aa7b4; }
+    .fld select option[disabled]{ color:#9aa7b4; }
+    .has-error{ outline:2px solid rgba(239,68,68,.35); border-radius:8px; }
+    .btn[disabled]{opacity:.6;cursor:not-allowed}
+
+    /* Itens clicáveis da revisão */
+    .review-list{ list-style: none; padding-left: 0; display:grid; gap:8px; }
+    .review-item{
+      display:flex; justify-content:space-between; align-items:center; gap:10px;
+      padding:10px 12px; border:1px solid var(--line); border-radius:12px; background:#fff; cursor:pointer;
+    }
+    .review-item:hover{ background:#f7f9fc; }
+    .review-item .label{font-weight:700; color:#334155}
+    .review-item .value{color:#516076; font-size:14px}
+  </style>
 </head>
 <body>
-   <header>
-      <nav>
-        <div>
-          <button class="menu-button" onclick="abrirMenu()" id="menu-button">
-            <img src="img/menu.png" alt="Botao Menu" width="42" />
-          </button>
-          <a href="pagina-servicos.html">
-            <img
-              class="img-logo-skill"
-              src="img/logo-skill-swap.png"
-              alt="Logo Skill Swap"
-              width="140"
-            />
-          </a>
-        </div>
-        <div>
-          <input type="text" placeholder="🔍︎   Procure..." />
-          <i></i>
-        </div>
-
-      
-        <div class="nav-links-area">
-
-            <a href="#">
-            <img src="img/carrinho.png" alt="Carrinho icone" height="15">
-            Carrinho
-            </a>
-
-            <div class="user-menu-dropdown" id="userMenuDropdown">
-            <button class="user-menu-trigger" id="userMenuTrigger">
+  <!-- HEADER -->
+  <header>
+    <nav>
+      <div>
+        <button class="menu-button" id="menu-button" type="button">
+          <img src="img/menu.png" alt="Botão Menu" width="42" />
+        </button>
+        <a href="pagina-servicos.html">
+          <img class="img-logo-skill" src="img/logo-skill-swap.png" alt="Logo Skill Swap" width="140" />
+        </a>
+      </div>
+      <div><input type="text" placeholder="🔍︎   Procure..." /></div>
+      <div class="nav-links-area">
+        <a href="#" class="link-inline">
+          <img src="img/carrinho.png" alt="Carrinho" height="15"> Carrinho
+        </a>
+        <div class="user-menu-dropdown" id="userMenuDropdown">
+          <button class="user-menu-trigger" id="userMenuTrigger" type="button">
             <img src="img/man.png" alt="Ícone perfil" height="15">
             <span id="navUserName">Olá, Usuário</span>
-            </button>
-
-            <div class="user-menu-content" id="userMenuContent">
-            </div>
-            </div>
+          </button>
+          <div class="user-menu-content" id="userMenuContent"></div>
         </div>
-      </nav>
-    </header>
+      </div>
+    </nav>
+  </header>
 
-
-  <!-- ===== TRUSTBAR (substitui o hero) ===== -->
-  <section class="trustbar">
+  <!-- TRUSTBAR -->
+  <section class="trustbar" aria-label="Sinais de confiança">
     <div class="trustbar-wrap">
-      <div class="tb-item">
-        <i class="fa-solid fa-shield-check"></i>
-        <div>
-          <strong>Conta verificada</strong>
-          <span>Documento e selfie validados</span>
-        </div>
-      </div>
-      <div class="tb-item">
-        <i class="fa-solid fa-star"></i>
-        <div>
-          <strong>Qualidade mínima</strong>
-          <span>Somente vendedores ≥ 3★ publicam</span>
-        </div>
-      </div>
-      <div class="tb-item">
-        <i class="fa-solid fa-user-check"></i>
-        <div>
-          <strong>Reputação pública</strong>
-          <span>Histórico de vendas e avaliações</span>
-        </div>
-      </div>
+      <div class="tb-item"><i class="fa-solid fa-star"></i><div><strong>Qualidade mínima</strong><span>Somente vendedores ≥ 3★ publicam</span></div></div>
+      <div class="tb-item"><i class="fa-solid fa-shield"></i><div><strong>Rascunho salvo</strong><span>Retome depois sem perder</span></div></div>
+      <div class="tb-item"><i class="fa-solid fa-user-check"></i><div><strong>Reputação pública</strong><span>Histórico e avaliações</span></div></div>
     </div>
   </section>
 
-  <!-- ===== CONTEÚDO ===== -->
   <main id="announce">
-    <!-- Coluna esquerda -->
     <section>
       <ol class="steps" id="steps" aria-label="Passos do anúncio">
         <li class="step is-active"><span>1</span> Detalhes</li>
         <li class="step"><span>2</span> Mídia</li>
-        <li class="step"><span>3</span> Preço & Troca</li>
-        <li class="step"><span>4</span> Local & Entrega</li>
+        <li class="step"><span>3</span> Preço</li>
+        <li class="step"><span>4</span> Local</li>
         <li class="step"><span>5</span> Publicar</li>
       </ol>
 
       <div class="mode-switch" role="tablist" aria-label="Tipo de anúncio">
-        <button class="mode-btn is-current" data-mode="produto" role="tab" aria-selected="true">Produto</button>
-        <button class="mode-btn" data-mode="servico" role="tab" aria-selected="false">Serviço</button>
-        <button class="mode-btn" data-mode="troca" role="tab" aria-selected="false">Somente troca</button>
+        <button class="mode-btn is-current" data-mode="produto" role="tab" aria-selected="true" type="button">Produto</button>
+        <button class="mode-btn" data-mode="servico" role="tab" aria-selected="false" type="button">Serviço</button>
+        <button class="mode-btn" data-mode="troca" role="tab" aria-selected="false" type="button">Somente troca</button>
       </div>
+
+
+<!-- PROGRESS BAR (microstep) -->
+<div class="an-progress" aria-label="Progresso do anúncio">
+  <div class="an-progress__track" aria-hidden="true">
+    <div class="an-progress__fill" id="anProgressFill" style="width: 0%"></div>
+  </div>
+  <div class="an-progress__meta">
+    <span id="anProgressText">0%</span>
+    <span class="an-progress__hint" id="anProgressHint">Passo 1 de 5</span>
+  </div>
+</div>
+
 
       <form id="form" novalidate>
         <!-- STEP 1 -->
         <section class="card" data-step="1">
           <div class="grid-2">
-            <label class="fld">
+            <label class="fld --required">
               <span>Título do anúncio</span>
-              <input id="fldTitulo" type="text" placeholder="Ex.: iPhone 13 128GB / Conserto de torneira" required />
-              <small class="hint">Use uma palavra-chave e seja objetivo.</small>
+              <input id="fldTitulo" type="text" placeholder="Ex.: iPhone 13 128GB / Montagem de móveis" required aria-required="true" data-required-message="Informe um título.">
             </label>
 
-            <label class="fld">
+            <label class="fld --required">
               <span>Categoria</span>
-              <select id="fldCategoria" required>
-                <option value="">Selecione…</option>
+              <select id="fldCategoria" required aria-required="true" data-required-message="Selecione uma categoria." required>
+                <option value="" selected disabled hidden>Selecione…</option>
                 <option>Eletrônicos</option>
                 <option>Casa & Móveis</option>
                 <option>Esportes & Lazer</option>
@@ -131,43 +125,42 @@
           </div>
 
           <div class="grid-2">
-            <label class="fld">
-              <span>Subcategoria</span>
-              <input id="fldSub" type="text" placeholder="Ex.: Smartphones / Aula particular" />
+            <label class="fld --required">
+              <span>Estado</span>
+              <select id="fldEstado" required aria-required="true" data-required-message="Selecione o estado.">
+                <option value="" selected disabled hidden>Selecione…</option>
+                <option>Novo</option><option>Semi-novo</option><option>Usado</option><option>Recondicionado</option>
+              </select>
             </label>
 
             <div class="grid-2">
-              <label class="fld">
-                <span>Estado</span>
-                <select id="fldEstado">
-                  <option>Novo</option><option>Semi-novo</option><option>Usado</option><option>Recondicionado</option>
+              <label class="fld --required">
+                <span>Unidade</span>
+                <select id="fldUnidade" required aria-required="true" data-required-message="Selecione a unidade.">
+                  <option value="" selected disabled hidden>Selecione…</option>
+                  <option>unidade</option><option>hora</option><option>diária</option><option>mês</option>
                 </select>
               </label>
-              <label class="fld">
-                <span>Unidade</span>
-                <select id="fldUnidade">
-                  <option>unidade</option><option>hora</option><option>diária</option><option>mês</option>
+
+              <label class="fld --required only-servico" data-show="servico">
+                <span>Cobrar por</span>
+                <select id="fldCobrarPor" required aria-required="true" data-required-message="Selecione o tipo de cobrança.">
+                  <option value="" selected disabled hidden>Selecione…</option>
+                  <option>hora</option><option>serviço</option><option>diária</option><option>mês</option>
                 </select>
               </label>
             </div>
           </div>
 
-          <label class="fld">
-            <span>Descrição</span>
-            <textarea id="fldDesc" rows="6" placeholder="Conte os detalhes, condições, o que está incluso e por que seu anúncio é especial."></textarea>
-            <small class="hint">Anúncios completos recebem até 3x mais contatos.</small>
-          </label>
-
           <div class="actions">
             <span class="muted">Passo 1 de 5</span>
-            <button class="btn primary" data-next>Continuar</button>
+            <button class="btn primary" data-next type="button">Continuar</button>
           </div>
         </section>
 
         <!-- STEP 2 -->
         <section class="card" data-step="2" hidden>
           <label class="fld"><span>Imagens (até 8)</span></label>
-
           <div class="uploader">
             <input id="fileInput" type="file" accept="image/*" multiple hidden />
             <button type="button" class="dropzone" id="dropBtn">
@@ -175,39 +168,33 @@
               <strong>Enviar imagens</strong>
               <small>Arraste e solte ou clique para selecionar</small>
             </button>
-            <div class="thumbs" id="thumbs"></div>
+            <div class="thumbs" id="thumbs" aria-live="polite"></div>
           </div>
-
           <div class="actions">
-            <button class="btn ghost" data-prev>Voltar</button>
-            <button class="btn primary" data-next>Continuar</button>
+            <button class="btn ghost" data-prev type="button">Voltar</button>
+            <button class="btn primary" data-next type="button">Continuar</button>
           </div>
         </section>
 
         <!-- STEP 3 -->
         <section class="card" data-step="3" hidden>
           <div class="grid-3">
-            <label class="fld">
+            <label class="fld --required">
               <span>Preço</span>
               <div class="price">
                 <span>R$</span>
-                <input id="fldPreco" type="text" inputmode="decimal" placeholder="0,00" />
+                <input id="fldPreco" type="text" inputmode="decimal" placeholder="0,00" required aria-required="true" data-required-message="Informe um preço válido.">
               </div>
             </label>
 
             <label class="fld">
               <span>Aceita troca?</span>
-              <select id="fldTroca"><option value="sim">Sim</option><option value="nao">Não</option></select>
+              <select id="fldTroca">
+                <option value="sim">Sim</option><option value="nao">Não</option>
+              </select>
             </label>
 
-            <label class="fld only-servico">
-              <span>Cobrança por</span>
-              <select id="fldCobrarPor"><option>hora</option><option>serviço</option><option>diária</option><option>mês</option></select>
-            </label>
-          </div>
-
-          <div class="grid-2 only-servico">
-            <label class="fld">
+            <label class="fld only-servico" data-show="servico">
               <span>Disponibilidade</span>
               <select id="fldDisp">
                 <option value="agenda">Combinamos na conversa (agenda)</option>
@@ -216,24 +203,23 @@
                 <option value="noturno">Noturno</option>
               </select>
             </label>
-
-            <label class="fld">
-              <span>Tags</span>
-              <input id="fldTags" type="text" placeholder="#montagemdemoveis #aulasdeingles #iphone" />
-            </label>
           </div>
-
           <div class="actions">
-            <button class="btn ghost" data-prev>Voltar</button>
-            <button class="btn primary" data-next>Continuar</button>
+            <button class="btn ghost" data-prev type="button">Voltar</button>
+            <button class="btn primary" data-next type="button">Continuar</button>
           </div>
         </section>
 
         <!-- STEP 4 -->
         <section class="card" data-step="4" hidden>
           <div class="grid-2">
-            <label class="fld"><span>Localização</span><input id="fldLocal" type="text" placeholder="Cidade, UF" /></label>
-            <label class="fld"><span>Entrega/Execução</span>
+            <label class="fld --required">
+              <span>Localização</span>
+              <input id="fldLocal" type="text" placeholder="Cidade, UF" required aria-required="true" data-required-message="Informe cidade e UF.">
+            </label>
+
+            <label class="fld">
+              <span>Entrega/Execução</span>
               <select id="fldEntrega">
                 <option value="retirada">Retirada no local</option>
                 <option value="envio">Envio/Deslocamento por conta do anunciante</option>
@@ -241,10 +227,9 @@
               </select>
             </label>
           </div>
-
           <div class="actions">
-            <button class="btn ghost" data-prev>Voltar</button>
-            <button class="btn primary" data-next>Continuar</button>
+            <button class="btn ghost" data-prev type="button">Voltar</button>
+            <button class="btn primary" data-next type="button">Continuar</button>
           </div>
         </section>
 
@@ -253,27 +238,26 @@
           <div class="review">
             <h3>Revisar e publicar</h3>
             <ul id="reviewList" class="review-list"></ul>
+            <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
+              <button class="btn" id="btnEditar" type="button">
+                <i class="fa-solid fa-pen-to-square"></i> Editar anúncio
+              </button>
+              <!-- Só o botão publicar fica aqui. Termos agora estão no modal. -->
+            </div>
           </div>
 
           <div class="actions">
-            <button class="btn ghost" data-prev>Voltar</button>
-            <div class="agree">
-              <label><input type="checkbox" id="agree" /> Concordo com os Termos de Uso</label>
-              <button class="btn success" id="btnPublicar" disabled>Publicar anúncio</button>
-            </div>
+            <button class="btn ghost" data-prev type="button">Voltar</button>
+            <button class="btn success" id="btnPublicar" type="button" disabled>Publicar anúncio</button>
           </div>
         </section>
       </form>
     </section>
 
-    <!-- Coluna direita: preview + verificação -->
+    <!-- Coluna direita -->
     <aside class="preview">
       <div class="preview-card">
-        <header>
-          <h4>Preview do anúncio</h4>
-          <small>Assim seu card aparece no feed.</small>
-        </header>
-
+        <header><h4>Preview do anúncio</h4><small>Assim seu card aparece no feed.</small></header>
         <div class="card-mini">
           <div class="img" id="prevImg"><span>capa</span></div>
           <div class="meta">
@@ -281,123 +265,146 @@
               <h5 id="prevTitulo">Título do anúncio</h5>
               <span class="badge" id="prevTipo">produto</span>
             </div>
-            <p class="muted" id="prevDesc">Descrição resumida aparecerá aqui para atrair cliques.</p>
+            <p class="muted" id="prevDesc">—</p>
             <div class="row">
               <strong id="prevPreco">R$ —</strong>
               <span class="muted" id="prevLocal">Cidade, UF</span>
             </div>
           </div>
         </div>
-
-        <div class="inline-actions">
-          <button class="btn ghost" id="prevVoltar">Voltar</button>
-          <button class="btn primary" id="prevAvancar">Continuar</button>
-        </div>
-
         <div class="tips">
           <h5>Dicas rápidas</h5>
           <ul>
             <li>Fotos nítidas e bem iluminadas.</li>
             <li>Título objetivo com palavra-chave.</li>
             <li>Explique diferenciais e garantia.</li>
-            <li>Ative a opção de troca para mais contatos.</li>
           </ul>
         </div>
-      </div>
-
-      <!-- Verificação / Confiabilidade -->
-      <div class="verify-card">
-        <header>
-          <h4>Confiabilidade do vendedor</h4>
-          <small>Ganhe destaque e confiança</small>
-        </header>
-
-        <ul class="verify-list">
-          <li>
-            <i class="fa-solid fa-id-card-clip"></i>
-            <span>Documento oficial (RG/CPF ou CNH)</span>
-            <strong class="badge state" id="v-doc">pendente</strong>
-          </li>
-          <li>
-            <i class="fa-solid fa-camera"></i>
-            <span>Selfie com prova de vida</span>
-            <strong class="badge state" id="v-selfie">pendente</strong>
-          </li>
-          <li>
-            <i class="fa-solid fa-house-chimney"></i>
-            <span>Comprovante de endereço (≤ 90 dias)</span>
-            <strong class="badge state" id="v-addr">pendente</strong>
-          </li>
-          <li>
-            <i class="fa-solid fa-mobile-screen"></i>
-            <span>Telefone verificado (SMS/WhatsApp)</span>
-            <strong class="badge state" id="v-phone">pendente</strong>
-          </li>
-        </ul>
-
-        <div class="verify-actions">
-          <button type="button" class="btn primary" id="btnStartKYC">Iniciar verificação</button>
-          <small class="muted">Tempo médio: 2–3 minutos</small>
-        </div>
-
-        <div class="gate">
-          <i class="fa-solid fa-star"></i>
-          <span>Mínimo para anunciar: <strong id="minStarsLabel">3★</strong></span>
-          <span class="gate-dot">•</span>
-          <span>Sua nota: <strong id="userStarsLabel">—</strong></span>
-        </div>
-        <p class="gate-msg muted" id="gateMsg"></p>
       </div>
     </aside>
   </main>
 
-  <!-- ===== FOOTER ===== -->
-  <footer class="main-footer">
-    <div class="footer-col">
-      <h1 class="skillswap">SKILL<br />SWAP</h1>
 
-      <div class="tel-email">
-        <div class="contact-item">
-          <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
-          <div class="contact-text">
-            <span class="label">WhatsApp</span>
-            <a href="https://wa.me/550000000000" target="_blank" rel="noopener">(00) 1234-5678</a>
-          </div>
-        </div>
+   <footer class="main-footer">
+  <!-- Coluna ESQUERDA -->
+  <div class="footer-col">
+    <h1 class="skillswap">SKILL<br>SWAP</h1>
 
-        <div class="contact-item">
-          <i class="fa-regular fa-envelope" aria-hidden="true"></i>
-          <div class="contact-text">
-            <span class="label">E-mail</span>
-            <a href="mailto:skillswap@email.com">skillswap@email.com</a>
-          </div>
-        </div>
-      </div>
+  <div class="tel-email">
+  <div class="contact-item">
+    <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+    <div class="contact-text">
+      <span class="label">WhatsApp</span>
+      <a href="https://wa.me/550012345678" target="_blank" rel="noopener">(00) 1234-5678</a>
+    </div>
+  </div>
 
-      <div class="footer-download">
-        <h2>Download</h2>
-        <div class="stores">
-          <a href="#"><img src="img/botao-app-store.png" alt="App Store" height="44" /></a>
-          <a href="#"><img src="img/botao-google-play.png" alt="Google Play" height="44" /></a>
-        </div>
+  <div class="contact-item">
+    <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+    <div class="contact-text">
+      <span class="label">E-mail</span>
+      <a href="mailto:skillswap@email.com">skillswap@email.com</a>
+    </div>
+  </div>
+</div>
+    <div class="footer-download">
+      <h2>Download</h2>
+      <div class="stores">
+        <a href="#"><img src="img/botao-app-store.png" alt="App Store" width="180"></a>
+        <a href="#"><img src="img/botao-google-play.png" alt="Google Play" width="180"></a>
       </div>
     </div>
+  </div>
 
-    <div class="sobre-nos">
-      <h2>Sobre</h2>
-      <p class="faqs"><a href="#" style="color:#fff">FAQ</a></p>
-      <p class="faqs"><a href="#" style="color:#fff">Termos de uso</a></p>
-      <p class="faqs"><a href="#" style="color:#fff">Política de privacidade</a></p>
 
-      <p class="footer-note -clamp">
-        © 2025 Skill Swap — Todos os direitos reservados. Licenças e direitos de uso vigentes até 2027…
-      </p>
+  <div class="sobre-nos">
+    <h2>Sobre</h2>
+    <div class="hover-sobre">
+    <p class="faqs"><a href="#" style="color:white">FAQ</a></p>
+    <p class="faqs"><a href="#" style="color:white">Termos de uso</a></p>
+    <p class="faqs"><a href="#" style="color:white">Política de privacidade</a></p>
     </div>
+<p class="footer-note -clamp">
+  © 2025 Skill Swap — Todos os direitos reservados. Licenças e direitos de uso vigentes até 2027...
+</p>
 
-    <div class="footer-circle"></div>
-  </footer>
+  </div>
 
-  <!-- JS da página -->
+  <!-- Decoração -->
+  <div class="footer-circle"></div>
+  <div class="footer-circletwo"></div>
+</footer>
+
+  <!-- MODAIS PRO -->
+  <!-- Confirmar Publicação (agora com checkbox de Termos) -->
+  <div class="authm" id="publishModal" aria-hidden="true" hidden>
+    <div class="authm__backdrop" data-close></div>
+    <div class="authm__card" role="dialog" aria-modal="true" aria-labelledby="pmTitle" aria-describedby="pmDesc" tabindex="-1">
+      <div class="authm__footer"><button class="authm__x" data-close aria-label="Fechar">×</button></div>
+      <div class="authm__header">
+        <img class="authm__logo" src="img/logo-skill-swap.png" alt="Skill Swap">
+        <h3 id="pmTitle">Confirmar publicação</h3>
+        <p class="authm__sub" id="pmDesc">Antes de publicar, aceite os Termos de Uso e confirme.</p>
+      </div>
+      <div class="authm__content">
+        <label style="display:flex;gap:8px;align-items:flex-start">
+          <input type="checkbox" id="modalAgree" />
+          <span>Concordo com os <a href="#" style="color:#93c5fd">Termos de Uso</a> do Skill Swap.</span>
+        </label>
+
+        <button id="pmConfirm" class="authm__btn authm__btn--primary" type="button" disabled>
+          <i class="fa-solid fa-bullhorn" aria-hidden="true"></i> Publicar agora
+        </button>
+
+        <button class="authm__btn authm__btn--ghost" type="button" data-close>
+          <i class="fa-regular fa-circle-xmark" aria-hidden="true"></i> Cancelar
+        </button>
+
+        <p class="authm__hint">Você pode editar esse anúncio depois.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Editar Anúncio -->
+  <div class="authm" id="editModal" aria-hidden="true" hidden>
+    <div class="authm__backdrop" data-close></div>
+    <div class="authm__card" role="dialog" aria-modal="true" aria-labelledby="emTitle" aria-describedby="emDesc" tabindex="-1">
+      <div class="authm__footer"><button class="authm__x" data-close aria-label="Fechar">×</button></div>
+      <div class="authm__header">
+        <img class="authm__logo" src="img/logo-skill-swap.png" alt="Skill Swap">
+        <h3 id="emTitle">Editar anúncio</h3>
+        <p class="authm__sub" id="emDesc">Escolha o passo que deseja ajustar. Levaremos você direto para ele.</p>
+      </div>
+      <div class="authm__content">
+        <div style="display:grid;gap:8px">
+          <button class="authm__btn" data-go-step="1">Detalhes</button>
+          <button class="authm__btn" data-go-step="2">Mídia</button>
+          <button class="authm__btn" data-go-step="3">Preço</button>
+          <button class="authm__btn" data-go-step="4">Local</button>
+        </div>
+        <p class="authm__hint">Você pode voltar a revisar quando quiser.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reputação Insuficiente -->
+  <div class="authm" id="reputationModal" aria-hidden="true" hidden>
+    <div class="authm__backdrop" data-close></div>
+    <div class="authm__card" role="dialog" aria-modal="true" aria-labelledby="rmTitle" aria-describedby="rmDesc" tabindex="-1">
+      <div class="authm__footer"><button class="authm__x" data-close aria-label="Fechar">×</button></div>
+      <div class="authm__header">
+        <img class="authm__logo" src="img/logo-skill-swap.png" alt="Skill Swap">
+        <h3 id="rmTitle">Reputação insuficiente</h3>
+        <p class="authm__sub" id="rmDesc">Para publicar, é necessário ter reputação mínima de <strong>3★</strong>. Veja como melhorar:</p>
+      </div>
+      <div class="authm__content">
+        <button id="rmTips" class="authm__btn authm__btn--primary" type="button"><i class="fa-solid fa-arrow-trend-up"></i> Ver dicas de reputação</button>
+        <button class="authm__btn authm__btn--ghost" type="button" data-close>Fechar</button>
+        <p class="authm__hint">Finalize atendimentos com qualidade e peça avaliações para subir sua nota.</p>
+      </div>
+    </div>
+  </div>
+
   <script src="./js/anuncio.js" defer></script>
 </body>
 </html>

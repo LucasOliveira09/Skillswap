@@ -1,0 +1,41 @@
+/* ===== Modal Auth (visual PRO dark com blur) ===== */
+.authm[hidden]{ display:none !important; }
+.authm{ position:fixed; inset:0; z-index:10000; }
+.authm__backdrop{ position:absolute; inset:0; background:rgba(8,10,14,.55); backdrop-filter: blur(6px); }
+.authm__card{
+  position:relative; z-index:1; width:min(560px, 92vw);
+  margin:6vh auto 0; padding:22px 22px 18px;
+  background:linear-gradient( to bottom right, rgba(22,26,34,.86), rgba(16,19,26,.86) );
+  border:1px solid rgba(255,255,255,.06); border-radius:16px;
+  box-shadow:0 24px 70px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.05);
+  color:#e5e7eb; animation:authm-in .18s ease both; backdrop-filter: blur(10px) saturate(120%);
+}
+@keyframes authm-in{ from{ opacity:0; transform:translateY(6px) scale(.98) } to{ opacity:1; transform:translateY(0) scale(1) } }
+
+.authm__header{ text-align:center; display:grid; gap:8px; margin-bottom:10px; }
+.authm__logo{ height:58px; filter: drop-shadow(0 3px 12px rgba(0,0,0,.25)); margin:0 auto 2px; }
+.authm__sub{ color:#aeb6c2; font:600 13px/1.4 "Poppins",sans-serif; }
+
+.authm__content{ display:grid; gap:10px; margin-top:8px; }
+.authm__btn{
+  display:flex; justify-content:center; align-items:center; gap:10px;
+  padding:12px 14px; border-radius:12px; cursor:pointer;
+  font:700 14px/1 "Poppins",sans-serif; letter-spacing:.2px;
+  border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.06); color:#fff;
+  transition: transform .06s ease, background .2s ease, border-color .2s ease;
+}
+.authm__btn:hover{ transform: translateY(-1px); background:rgba(255,255,255,.10); }
+.authm__btn--primary{ background:linear-gradient( to right, var(--blue) ); border-color: transparent; }
+.authm__btn--primary:hover{ filter: brightness(1.05); }
+.authm__btn--ghost{ background:rgba(255,255,255,.06); }
+
+.authm__or{ display:grid; place-items:center; height:12px; position:relative; margin:6px 0; color:#94a3b8; font-weight:700; }
+.authm__or::before, .authm__or::after{
+  content:""; position:absolute; height:1px; width:40%; background:rgba(255,255,255,.08);
+}
+.authm__or::before{ left:0; } .authm__or::after{ right:0; }
+
+.authm__hint{ text-align:center; color:#aeb6c2; }
+.authm__footer{ position:absolute; inset:0 0 auto auto; padding:10px; }
+.authm__x{ background:none; border:0; color:#aeb6c2; font-size:22px; line-height:1; cursor:pointer; }
+.authm__x:hover{ color:#fff; }
