@@ -1,9 +1,9 @@
-// server.js
+// server.js (Atualizado)
 
 const express = require('express');
-const sqlite3 = require('sqlite3').verbose(); // <--- FALTAVA IMPORTAR
-const bcrypt = require('bcrypt');             // <--- FALTAVA IMPORTAR
-const cors = require('cors');                 // <--- BOM ADICIONAR
+const sqlite3 = require('sqlite3').verbose();
+const bcrypt = require('bcrypt');
+const cors = require('cors');
 
 const app = express();
 const PORT = 3000;
@@ -13,15 +13,13 @@ const saltRounds = 10;
 // ----------------------------------------------------
 // MIDDLEWARE
 // ----------------------------------------------------
-app.use(cors()); // Permite requisições de outras origens (ex: seu frontend)
-app.use(express.static('public')); // Serve arquivos estáticos
-app.use(express.json());       // Lê o corpo de requisições JSON
+app.use(cors());
+app.use(express.static('public'));
+app.use(express.json());
 
 // ----------------------------------------------------
 // CONEXÃO COM O BANCO DE DADOS
 // ----------------------------------------------------
-
-// Variável 'db' que será usada por todas as rotas
 let db;
 
 db = new sqlite3.Database(DB_SOURCE, (err) => {
@@ -31,8 +29,8 @@ db = new sqlite3.Database(DB_SOURCE, (err) => {
     } else {
         console.log('Conectado ao banco de dados SQLite.');
         
-        // SQL para criar a tabela (como você definiu)
-        const sqlCreateTable = `
+        // --- Garantir Tabela 'usuarios' (Sem alterações) ---
+        const sqlCreateTableUsuarios = `
             CREATE TABLE IF NOT EXISTS usuarios (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 primeiro_nome TEXT NOT NULL,
@@ -49,49 +47,62 @@ db = new sqlite3.Database(DB_SOURCE, (err) => {
             );
         `;
         
-        // Executa a criação da tabela
-        db.exec(sqlCreateTable, (err) => {
+        db.exec(sqlCreateTableUsuarios, (err) => {
             if (err) {
                 console.error("Erro ao criar tabela 'usuarios':", err.message);
             } else {
                 console.log("Tabela 'usuarios' garantida.");
-
-                // --- INICIA O SERVIDOR ---
-                // O servidor só começa a "ouvir" DEPOIS que o banco
-                // está pronto e a tabela foi verificada.
-                app.listen(PORT, () => {
-                    console.log(`Servidor rodando em http://localhost:${PORT}`);
-                    console.log(`Acesse http://localhost:${PORT} no seu navegador.`);
-                });
             }
         });
         
-        // (Podemos adicionar a tabela 'servicos' aqui também para garantir)
-        db.exec(`
-            CREATE TABLE IF NOT EXISTS servicos (
+        // --- NOVA TABELA: 'produtos' ---
+        // Esta tabela corresponde à estrutura do seu JSON estático
+        const sqlCreateTableProdutos = `
+            CREATE TABLE IF NOT EXISTS produtos (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 usuario_id INTEGER NOT NULL,
-                titulo TEXT NOT NULL,
-                descricao TEXT,
+                nome TEXT NOT NULL,
                 categoria TEXT,
-                tipo TEXT CHECK(tipo IN ('Troca', 'Venda')),
-                valor REAL,
-                habilidade_desejada TEXT,
-                criado_em DATETIME DEFAULT CURRENT_TIMESTAMP,
+                preco REAL,
+                imagem TEXT,
+                descricao TEXT,
+                needs TEXT,
+                postedAtMs INTEGER,
+                location TEXT,
+                schedule TEXT,
+                groupSize TEXT,
+                period TEXT,
+                tradeCheck TEXT,
+                include TEXT,
                 FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
             );
-        `, (err) => {
-            if (!err) console.log("Tabela 'servicos' garantida.");
+        `;
+
+        db.exec(sqlCreateTableProdutos, (err) => {
+            if (err) {
+                console.error("Erro ao criar tabela 'produtos':", err.message);
+            } else {
+                console.log("Tabela 'produtos' garantida.");
+            }
         });
+
+        // --- INICIA O SERVIDOR ---
+        // (Movido para fora da callback de criação de tabela,
+        // mas depois da inicialização do 'db')
     }
 });
 
+// O servidor começa a ouvir aqui, após a conexão ser estabelecida
+app.listen(PORT, () => {
+    console.log(`Servidor rodando em http://localhost:${PORT}`);
+    console.log(`Acesse http://localhost:${PORT} no seu navegador.`);
+});
+
+
 // ----------------------------------------------------
 // FUNÇÕES DE AJUDA DO BANCO (Async/Await)
+// (Sem alterações)
 // ----------------------------------------------------
-// O 'sqlite3' usa callbacks. Para usar async/await (como em 'await db.get'),
-// precisamos "envelopar" as funções com Promises.
-
 function dbRun(sql, params = []) {
     return new Promise((resolve, reject) => {
         db.run(sql, params, function (err) {
@@ -130,9 +141,10 @@ function dbAll(sql, params = []) {
 
 // ----------------------------------------------------
 // ROTAS DA API DE USUÁRIOS
+// (Sem alterações)
 // ----------------------------------------------------
 
-// POST: /api/usuarios/cadastro (Corrigido)
+// POST: /api/usuarios/cadastro
 app.post('/api/usuarios/cadastro', async (req, res) => {
     const { primeiro_nome, sobrenome, email, senha } = req.body;
 
@@ -145,7 +157,7 @@ app.post('/api/usuarios/cadastro', async (req, res) => {
         const sql = 'INSERT INTO usuarios (primeiro_nome, sobrenome, email, senha_hash) VALUES (?, ?, ?, ?)';
         const params = [primeiro_nome, sobrenome, email, senhaHash];
         
-        const result = await dbRun(sql, params); // <-- USA A FUNÇÃO DE AJUDA
+        const result = await dbRun(sql, params); 
         
         res.status(201).json({ 
             id: result.lastID, 
@@ -163,26 +175,23 @@ app.post('/api/usuarios/cadastro', async (req, res) => {
     }
 });
 
-// POST: /api/usuarios/login (Corrigido e Seguro)
+// POST: /api/usuarios/login
 app.post('/api/usuarios/login', async (req, res) => {
     const { email, senha } = req.body;
 
     try {
-        // 1. Encontrar o usuário APENAS pelo e-mail
         const usuario = await dbGet('SELECT * FROM usuarios WHERE email = ?', [email]);
 
         if (!usuario) {
             return res.status(401).json({ error: 'Credenciais inválidas.' });
         }
 
-        // 2. Comparar a senha digitada com a senha_hash do banco
         const match = await bcrypt.compare(senha, usuario.senha_hash);
 
         if (!match) {
             return res.status(401).json({ error: 'Credenciais inválidas.' });
         }
 
-        // 3. Login bem-sucedido
         res.json({ 
             id: usuario.id, 
             nome: `${usuario.primeiro_nome} ${usuario.sobrenome || ''}`.trim(), 
@@ -195,13 +204,11 @@ app.post('/api/usuarios/login', async (req, res) => {
     }
 });
 
-// GET: /api/usuarios (Corrigido)
-// (Rota de admin, retorna todos os usuários)
+// GET: /api/usuarios
 app.get('/api/usuarios', async (req, res) => {
     try {
         const usuarios = await dbAll('SELECT id, primeiro_nome, sobrenome, email FROM usuarios');
         
-        // Formata para o padrão "nome completo"
         const usuariosFormatados = usuarios.map(u => ({
             id: u.id,
             nome: `${u.primeiro_nome} ${u.sobrenome || ''}`.trim(),
@@ -214,13 +221,11 @@ app.get('/api/usuarios', async (req, res) => {
     }
 });
 
-// GET: /api/usuarios/:id (Corrigido - Agora é 100% dinâmico)
-// (Retorna os dados completos do perfil para a página de perfil)
+// GET: /api/usuarios/:id
 app.get('/api/usuarios/:id', async (req, res) => {
     const userId = req.params.id;
 
     try {
-        // Seleciona TODOS os campos do perfil que o frontend precisa
         const query = `
             SELECT 
                 id, primeiro_nome, sobrenome, email, 
@@ -229,13 +234,12 @@ app.get('/api/usuarios/:id', async (req, res) => {
             FROM usuarios 
             WHERE id = ?
         `;
-        const usuario = await dbGet(query, [userId]); // <-- USA A FUNÇÃO DE AJUDA
+        const usuario = await dbGet(query, [userId]); 
 
         if (!usuario) {
             return res.status(404).json({ error: 'Usuário não encontrado.' });
         }
         
-        // Retorna o objeto de usuário completo (sem dados simulados)
         res.json(usuario);
 
     } catch (error) {
@@ -244,35 +248,30 @@ app.get('/api/usuarios/:id', async (req, res) => {
     }
 });
 
-// PUT: /api/usuarios/:id (Corrigido - Sintaxe SQLite e Lógica de Senha)
+// PUT: /api/usuarios/:id
 app.put('/api/usuarios/:id', async (req, res) => {
     const { id } = req.params;
     
-    // 1. Pegar dados do perfil
     const { 
         primeiro_nome, sobrenome, email, 
         profissao, local, hashtags, avatar_url,
-        senha_atual, nova_senha // Campos para alterar senha
+        senha_atual, nova_senha 
     } = req.body;
 
     try {
-        // 2. Lógica de Atualização de Senha (se os campos foram enviados)
         if (nova_senha && senha_atual) {
             const usuario = await dbGet('SELECT senha_hash FROM usuarios WHERE id = ?', [id]);
             if (!usuario) return res.status(404).json({ error: "Usuário não encontrado." });
 
             const match = await bcrypt.compare(senha_atual, usuario.senha_hash);
             if (!match) {
-                // Se a senha atual não bater, retorne um erro específico
                 return res.status(403).json({ error: "Senha atual incorreta." });
             }
 
-            // Se a senha atual bate, crie o novo hash e atualize
             const novaSenhaHash = await bcrypt.hash(nova_senha, saltRounds);
             await dbRun('UPDATE usuarios SET senha_hash = ? WHERE id = ?', [novaSenhaHash, id]);
         }
 
-        // 3. Lógica de Atualização de Perfil (sempre executa)
         const sql = `
             UPDATE usuarios SET 
                 primeiro_nome = ?, 
@@ -291,13 +290,12 @@ app.put('/api/usuarios/:id', async (req, res) => {
             profissao,
             local,
             hashtags,
-            avatar_url || 'https://i.pinimg.com/236x/219e/ae/219eaea67aafa864db091919ce3f5d82.jpg',
+            avatar_url || 'https://i.pinimg.com/236x/21/9e/ae/219eaea67aafa864db091919ce3f5d82.jpg',
             id
         ];
         
-        await dbRun(sql, params); // <-- USA A FUNÇÃO DE AJUDA
+        await dbRun(sql, params); 
 
-        // 4. Retornar a mensagem de sucesso
         res.json({ 
             message: "Perfil atualizado com sucesso!",
             nome: `${primeiro_nome} ${sobrenome || ''}`.trim()
@@ -313,26 +311,136 @@ app.put('/api/usuarios/:id', async (req, res) => {
 });
 
 // ----------------------------------------------------
-// ROTAS DA API DE SERVIÇOS
+// ROTAS DA API DE PRODUTOS (NOVO)
 // ----------------------------------------------------
 
-// GET: /api/servicos/usuario/:usuarioId (Corrigido)
-app.get('/api/servicos/usuario/:usuarioId', async (req, res) => {
-    const usuarioId = req.params.usuarioId;
-
+/**
+ * GET: /api/produtos
+ * Retorna TODOS os produtos/serviços para a página principal.
+ * Já inclui os dados do autor (nome, avatar, estrelas) da tabela 'usuarios'.
+ */
+app.get('/api/produtos', async (req, res) => {
+    const sql = `
+        SELECT 
+            p.id,
+            p.nome,
+            p.categoria,
+            p.preco,
+            p.imagem,
+            p.descricao,
+            p.needs,
+            p.postedAtMs,
+            p.location,
+            p.schedule,
+            p.groupSize,
+            p.period,
+            p.tradeCheck,
+            p.include,
+            u.id as authorId,
+            u.primeiro_nome,
+            u.sobrenome,
+            u.avatar_url as authorAvatar,
+            u.avaliacao_geral as stars
+        FROM produtos p
+        JOIN usuarios u ON p.usuario_id = u.id
+        ORDER BY p.postedAtMs DESC
+    `;
     try {
-        const servicos = await dbAll(`
-            SELECT 
-                id, titulo, descricao, categoria, tipo, valor, habilidade_desejada
-            FROM servicos
-            WHERE usuario_id = ?
-            ORDER BY criado_em DESC
-        `, [usuarioId]);
+        const rows = await dbAll(sql);
         
-        res.json(servicos);
+        // Formata os dados para bater EXATAMENTE com o que a função card(p) espera
+        const produtos = rows.map(p => ({
+            id: p.id,
+            nome: p.nome,
+            categoria: p.categoria,
+            preco: p.preco,
+            imagem: p.imagem,
+            descricao: p.descricao,
+            authorAvatar: p.authorAvatar,
+            authorName: `${p.primeiro_nome} ${p.sobrenome || ''}`.trim(),
+            authorId: p.authorId,
+            stars: p.stars,
+            needs: JSON.parse(p.needs || '[]'), // Converte string JSON para array
+            postedAtMs: p.postedAtMs,
+            location: p.location,
+            schedule: p.schedule,
+            group: p.groupSize, // Mapeia p.groupSize -> p.group
+            period: JSON.parse(p.period || '[]'), // Converte string JSON para array
+            tradeCheck: p.tradeCheck,
+            include: JSON.parse(p.include || '[]') // Converte string JSON para array
+        }));
+
+        res.json(produtos);
     } catch (error) {
-        console.error("Erro ao listar serviços por usuário:", error);
+        console.error("Erro ao buscar produtos:", error);
         res.status(500).json({ error: error.message });
     }
 });
 
+/**
+ * POST: /api/produtos
+ * Cria (anuncia) um novo produto/serviço no banco de dados.
+ */
+app.post('/api/produtos', async (req, res) => {
+    // Em um app real, o 'usuario_id' viria de um token de autenticação (JWT).
+    // Por enquanto, o frontend deve enviá-lo no corpo da requisição.
+    const {
+        usuario_id, // <-- ID do usuário logado
+        nome,
+        categoria,
+        preco,
+        imagem,
+        descricao,
+        needs,
+        location,
+        schedule,
+        group, // 'group' vem do frontend
+        period,
+        tradeCheck,
+        include
+    } = req.body;
+
+    if (!usuario_id || !nome || !categoria || !preco) {
+        return res.status(400).json({ error: 'ID do usuário, nome, categoria e preço são obrigatórios.' });
+    }
+
+    const sql = `
+        INSERT INTO produtos (
+            usuario_id, nome, categoria, preco, imagem, descricao, 
+            needs, postedAtMs, location, schedule, groupSize, period, tradeCheck, include
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+    
+    const postedAt = Date.now();
+    const params = [
+        usuario_id,
+        nome,
+        categoria,
+        preco,
+        imagem || './img/placeholder.jpg', // Imagem padrão
+        descricao,
+        JSON.stringify(needs || []), // Salva array como string JSON
+        postedAt,
+        location,
+        schedule,
+        group, // Salva o valor de 'group' em 'groupSize'
+        JSON.stringify(period || []), // Salva array como string JSON
+        tradeCheck || 'No',
+        JSON.stringify(include || []) // Salva array como string JSON
+    ];
+
+    try {
+        const result = await dbRun(sql, params);
+        
+        // Retorna o produto recém-criado para o frontend
+        res.status(201).json({ 
+            id: result.lastID,
+            message: "Produto anunciado com sucesso!",
+            ...req.body,
+            postedAtMs: postedAt 
+        });
+    } catch (error) {
+        console.error("Erro ao anunciar produto:", error);
+        res.status(500).json({ error: error.message });
+    }
+});
