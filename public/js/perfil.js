@@ -98,7 +98,7 @@ async function carregarDadosPerfil(userId) {
         const userResponse = await fetch(API_USUARIOS_URL + userId);
         if (!userResponse.ok) throw new Error('Falha ao carregar dados do usuário.');
         const userData = await userResponse.json();
-
+        console.log(userData);
         // (Esta função funciona como antes)
         popularColunaEsquerda(userData);
         // (Esta função também)
@@ -120,10 +120,7 @@ async function carregarDadosPerfil(userId) {
 }
 
 function popularColunaEsquerda(user) {
-    // ESTA FUNÇÃO NÃO MUDA.
-    // Ela busca por IDs (perfilInfoCard, perfilTrilha, etc.)
-    // que foram mantidos no novo HTML.
-
+   
     const colunaEsquerda = document.getElementById('perfilInfoCard');
     if (!colunaEsquerda) return;
 

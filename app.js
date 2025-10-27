@@ -116,7 +116,7 @@ async function startServer() {
         // --- SIMULAÇÃO DE DADOS ---
         // No futuro, estes dados virão do seu banco de dados (tabela usuarios)
         const dadosPerfilSimulados = {
-            profissao: "Professor", // (Vem do HTML)
+            profissao: "Voce é viado", // (Vem do HTML)
             local: "Ourinhos/SP", // (Vem do HTML)
             data_cadastro: "2018-01-14T10:00:00Z", // (Vem do HTML - formato ISO)
             hashtags: "#BJJ #JIUJISTU #PROFESSOR #AULA #ESPORTE", // (Vem do HTML)
