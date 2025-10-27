@@ -1,4 +1,4 @@
-// server.js (Atualizado)
+// server.js (Versão Completa e Corrigida)
 
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
@@ -40,7 +40,7 @@ db = new sqlite3.Database(DB_SOURCE, (err) => {
                 profissao TEXT,
                 local TEXT,
                 hashtags TEXT,
-                avatar_url TEXT DEFAULT 'https://i.pinimg.com/236x/21/9e/ae/219eaea67aafa864db091919ce3f5d82.jpg',
+                avatar_url TEXT DEFAULT 'https://i.pinimg.com/236x/219e/ae/219eaea67aafa864db091919ce3f5d82.jpg',
                 data_cadastro DATETIME DEFAULT CURRENT_TIMESTAMP,
                 avaliacao_geral REAL DEFAULT 0.0,
                 vendas_trocas INTEGER DEFAULT 0
@@ -55,8 +55,7 @@ db = new sqlite3.Database(DB_SOURCE, (err) => {
             }
         });
         
-        // --- NOVA TABELA: 'produtos' ---
-        // Esta tabela corresponde à estrutura do seu JSON estático
+        // --- Garantir Tabela 'produtos' (Para o feed principal) ---
         const sqlCreateTableProdutos = `
             CREATE TABLE IF NOT EXISTS produtos (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -86,13 +85,28 @@ db = new sqlite3.Database(DB_SOURCE, (err) => {
             }
         });
 
-        // --- INICIA O SERVIDOR ---
-        // (Movido para fora da callback de criação de tabela,
-        // mas depois da inicialização do 'db')
+        // --- CORREÇÃO: Garantir Tabela 'servicos' (Para a página de perfil) ---
+        db.exec(`
+            CREATE TABLE IF NOT EXISTS servicos (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                usuario_id INTEGER NOT NULL,
+                titulo TEXT NOT NULL,
+                descricao TEXT,
+                categoria TEXT,
+                tipo TEXT CHECK(tipo IN ('Troca', 'Venda')),
+                valor REAL,
+                habilidade_desejada TEXT,
+                criado_em DATETIME DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+            );
+        `, (err) => {
+            if (!err) console.log("Tabela 'servicos' garantida.");
+        });
+
     }
 });
 
-// O servidor começa a ouvir aqui, após a conexão ser estabelecida
+// O servidor começa a ouvir aqui
 app.listen(PORT, () => {
     console.log(`Servidor rodando em http://localhost:${PORT}`);
     console.log(`Acesse http://localhost:${PORT} no seu navegador.`);
@@ -143,88 +157,66 @@ function dbAll(sql, params = []) {
 // ROTAS DA API DE USUÁRIOS
 // (Sem alterações)
 // ----------------------------------------------------
-
-// POST: /api/usuarios/cadastro
 app.post('/api/usuarios/cadastro', async (req, res) => {
     const { primeiro_nome, sobrenome, email, senha } = req.body;
-
     if (!primeiro_nome || !email || !senha) {
         return res.status(400).json({ error: 'Primeiro nome, e-mail e senha são obrigatórios.' });
     }
-
     try {
         const senhaHash = await bcrypt.hash(senha, saltRounds);
         const sql = 'INSERT INTO usuarios (primeiro_nome, sobrenome, email, senha_hash) VALUES (?, ?, ?, ?)';
         const params = [primeiro_nome, sobrenome, email, senhaHash];
-        
         const result = await dbRun(sql, params); 
-        
         res.status(201).json({ 
             id: result.lastID, 
             nome: `${primeiro_nome} ${sobrenome || ''}`.trim(), 
             email: email, 
             message: 'Usuário cadastrado com sucesso.'
         });
-
     } catch (error) {
-        if (error.errno === 19) { // SQLITE_CONSTRAINT (email já existe)
+        if (error.errno === 19) {
             return res.status(409).json({ error: 'O e-mail já está em uso.' });
         }
         console.error("Erro ao cadastrar:", error);
         res.status(500).json({ error: "Erro interno ao processar cadastro." });
     }
 });
-
-// POST: /api/usuarios/login
 app.post('/api/usuarios/login', async (req, res) => {
     const { email, senha } = req.body;
-
     try {
         const usuario = await dbGet('SELECT * FROM usuarios WHERE email = ?', [email]);
-
         if (!usuario) {
             return res.status(401).json({ error: 'Credenciais inválidas.' });
         }
-
         const match = await bcrypt.compare(senha, usuario.senha_hash);
-
         if (!match) {
             return res.status(401).json({ error: 'Credenciais inválidas.' });
         }
-
         res.json({ 
             id: usuario.id, 
             nome: `${usuario.primeiro_nome} ${usuario.sobrenome || ''}`.trim(), 
             email: usuario.email, 
             message: 'Bem vindo ' + usuario.primeiro_nome + '!'
         });
-
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
-
-// GET: /api/usuarios
 app.get('/api/usuarios', async (req, res) => {
     try {
         const usuarios = await dbAll('SELECT id, primeiro_nome, sobrenome, email FROM usuarios');
-        
         const usuariosFormatados = usuarios.map(u => ({
             id: u.id,
             nome: `${u.primeiro_nome} ${u.sobrenome || ''}`.trim(),
             email: u.email
         }));
-        
         res.json(usuariosFormatados);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
-
-// GET: /api/usuarios/:id
 app.get('/api/usuarios/:id', async (req, res) => {
     const userId = req.params.id;
-
     try {
         const query = `
             SELECT 
@@ -235,74 +227,52 @@ app.get('/api/usuarios/:id', async (req, res) => {
             WHERE id = ?
         `;
         const usuario = await dbGet(query, [userId]); 
-
         if (!usuario) {
             return res.status(404).json({ error: 'Usuário não encontrado.' });
         }
-        
         res.json(usuario);
-
     } catch (error) {
         console.error("Erro ao buscar usuário:", error);
         res.status(500).json({ error: error.message });
     }
 });
-
-// PUT: /api/usuarios/:id
 app.put('/api/usuarios/:id', async (req, res) => {
     const { id } = req.params;
-    
     const { 
         primeiro_nome, sobrenome, email, 
         profissao, local, hashtags, avatar_url,
         senha_atual, nova_senha 
     } = req.body;
-
     try {
         if (nova_senha && senha_atual) {
             const usuario = await dbGet('SELECT senha_hash FROM usuarios WHERE id = ?', [id]);
             if (!usuario) return res.status(404).json({ error: "Usuário não encontrado." });
-
             const match = await bcrypt.compare(senha_atual, usuario.senha_hash);
             if (!match) {
                 return res.status(403).json({ error: "Senha atual incorreta." });
             }
-
             const novaSenhaHash = await bcrypt.hash(nova_senha, saltRounds);
             await dbRun('UPDATE usuarios SET senha_hash = ? WHERE id = ?', [novaSenhaHash, id]);
         }
-
         const sql = `
             UPDATE usuarios SET 
-                primeiro_nome = ?, 
-                sobrenome = ?, 
-                email = ?, 
-                profissao = ?, 
-                local = ?, 
-                hashtags = ?,
-                avatar_url = ?
+                primeiro_nome = ?, sobrenome = ?, email = ?, 
+                profissao = ?, local = ?, hashtags = ?, avatar_url = ?
             WHERE id = ?
         `;
         const params = [
-            primeiro_nome,
-            sobrenome,
-            email,
-            profissao,
-            local,
-            hashtags,
+            primeiro_nome, sobrenome, email,
+            profissao, local, hashtags,
             avatar_url || 'https://i.pinimg.com/236x/21/9e/ae/219eaea67aafa864db091919ce3f5d82.jpg',
             id
         ];
-        
         await dbRun(sql, params); 
-
         res.json({ 
             message: "Perfil atualizado com sucesso!",
             nome: `${primeiro_nome} ${sobrenome || ''}`.trim()
         });
-
     } catch (error) {
-        if (error.errno === 19) { // SQLITE_CONSTRAINT (email)
+        if (error.errno === 19) {
             return res.status(409).json({ error: "Este e-mail já está em uso por outra conta." });
         }
         console.error("Erro ao atualizar perfil:", error);
@@ -311,35 +281,18 @@ app.put('/api/usuarios/:id', async (req, res) => {
 });
 
 // ----------------------------------------------------
-// ROTAS DA API DE PRODUTOS (NOVO)
+// ROTAS DA API DE PRODUTOS (Para o Feed Principal)
+// (Sem alterações)
 // ----------------------------------------------------
-
-/**
- * GET: /api/produtos
- * Retorna TODOS os produtos/serviços para a página principal.
- * Já inclui os dados do autor (nome, avatar, estrelas) da tabela 'usuarios'.
- */
 app.get('/api/produtos', async (req, res) => {
     const sql = `
         SELECT 
-            p.id,
-            p.nome,
-            p.categoria,
-            p.preco,
-            p.imagem,
-            p.descricao,
-            p.needs,
-            p.postedAtMs,
-            p.location,
-            p.schedule,
-            p.groupSize,
-            p.period,
-            p.tradeCheck,
-            p.include,
-            u.id as authorId,
-            u.primeiro_nome,
-            u.sobrenome,
-            u.avatar_url as authorAvatar,
+            p.id, p.nome, p.categoria, p.preco, p.imagem, p.descricao,
+            p.needs, p.postedAtMs, p.location, p.schedule, p.groupSize, 
+            p.period, p.tradeCheck, p.include,
+            u.id as authorId, 
+            u.primeiro_nome, u.sobrenome, 
+            u.avatar_url as authorAvatar, 
             u.avaliacao_geral as stars
         FROM produtos p
         JOIN usuarios u ON p.usuario_id = u.id
@@ -347,8 +300,6 @@ app.get('/api/produtos', async (req, res) => {
     `;
     try {
         const rows = await dbAll(sql);
-        
-        // Formata os dados para bater EXATAMENTE com o que a função card(p) espera
         const produtos = rows.map(p => ({
             id: p.id,
             nome: p.nome,
@@ -360,79 +311,49 @@ app.get('/api/produtos', async (req, res) => {
             authorName: `${p.primeiro_nome} ${p.sobrenome || ''}`.trim(),
             authorId: p.authorId,
             stars: p.stars,
-            needs: JSON.parse(p.needs || '[]'), // Converte string JSON para array
+            needs: JSON.parse(p.needs || '[]'),
             postedAtMs: p.postedAtMs,
             location: p.location,
             schedule: p.schedule,
-            group: p.groupSize, // Mapeia p.groupSize -> p.group
-            period: JSON.parse(p.period || '[]'), // Converte string JSON para array
+            group: p.groupSize, 
+            period: JSON.parse(p.period || '[]'),
             tradeCheck: p.tradeCheck,
-            include: JSON.parse(p.include || '[]') // Converte string JSON para array
+            include: JSON.parse(p.include || '[]')
         }));
-
         res.json(produtos);
     } catch (error) {
         console.error("Erro ao buscar produtos:", error);
         res.status(500).json({ error: error.message });
     }
 });
-
-/**
- * POST: /api/produtos
- * Cria (anuncia) um novo produto/serviço no banco de dados.
- */
 app.post('/api/produtos', async (req, res) => {
-    // Em um app real, o 'usuario_id' viria de um token de autenticação (JWT).
-    // Por enquanto, o frontend deve enviá-lo no corpo da requisição.
     const {
-        usuario_id, // <-- ID do usuário logado
-        nome,
-        categoria,
-        preco,
-        imagem,
-        descricao,
-        needs,
-        location,
-        schedule,
-        group, // 'group' vem do frontend
-        period,
-        tradeCheck,
-        include
+        usuario_id, nome, categoria, preco, imagem, descricao,
+        needs, location, schedule, group, period, tradeCheck, include
     } = req.body;
-
     if (!usuario_id || !nome || !categoria || !preco) {
         return res.status(400).json({ error: 'ID do usuário, nome, categoria e preço são obrigatórios.' });
     }
-
     const sql = `
         INSERT INTO produtos (
             usuario_id, nome, categoria, preco, imagem, descricao, 
             needs, postedAtMs, location, schedule, groupSize, period, tradeCheck, include
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
-    
     const postedAt = Date.now();
     const params = [
-        usuario_id,
-        nome,
-        categoria,
-        preco,
-        imagem || './img/placeholder.jpg', // Imagem padrão
+        usuario_id, nome, categoria, preco,
+        imagem || './img/placeholder.jpg',
         descricao,
-        JSON.stringify(needs || []), // Salva array como string JSON
+        JSON.stringify(needs || []),
         postedAt,
-        location,
-        schedule,
-        group, // Salva o valor de 'group' em 'groupSize'
-        JSON.stringify(period || []), // Salva array como string JSON
+        location, schedule, group,
+        JSON.stringify(period || []),
         tradeCheck || 'No',
-        JSON.stringify(include || []) // Salva array como string JSON
+        JSON.stringify(include || [])
     ];
-
     try {
         const result = await dbRun(sql, params);
-        
-        // Retorna o produto recém-criado para o frontend
         res.status(201).json({ 
             id: result.lastID,
             message: "Produto anunciado com sucesso!",
@@ -441,6 +362,29 @@ app.post('/api/produtos', async (req, res) => {
         });
     } catch (error) {
         console.error("Erro ao anunciar produto:", error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// ----------------------------------------------------
+// CORREÇÃO: ROTAS DA API DE SERVIÇOS (Para a Página de Perfil)
+// ----------------------------------------------------
+app.get('/api/servicos/usuario/:usuarioId', async (req, res) => {
+    const usuarioId = req.params.usuarioId;
+
+    try {
+        // Usa a função de ajuda dbAll que já definimos
+        const servicos = await dbAll(`
+            SELECT 
+                id, titulo, descricao, categoria, tipo, valor, habilidade_desejada
+            FROM servicos
+            WHERE usuario_id = ?
+            ORDER BY criado_em DESC
+        `, [usuarioId]);
+        
+        res.json(servicos);
+    } catch (error) {
+        console.error("Erro ao listar serviços por usuário:", error);
         res.status(500).json({ error: error.message });
     }
 });
