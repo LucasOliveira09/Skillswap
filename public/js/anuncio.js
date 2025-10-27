@@ -636,7 +636,7 @@ if(!isAuth()){
     }
     .tp-wrap{position:fixed;z-index:9999;display:grid;gap:12px;pointer-events:none}
     .tp--top-right{top:18px;right:18px;justify-items:end}
-    .tp{pointer-events:auto;min-width:280px;max-width:min(92vw,420px);display:grid;grid-template-columns:auto 1fr auto;gap:8px 12px;padding:14px 14px 12px;color:var(--tp-ink);background:linear-gradient( to bottom right, var(--tp-card), rgba(20,24,30,.6));border:1px solid var(--tp-border);border-radius:14px;box-shadow:0 18px 50px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.03);backdrop-filter:blur(10px) saturate(120%);opacity:0;transform:translateY(8px) scale(.98);animation:tp-in .22s ease forwards}
+    .tp{pointer-events:auto;min-width:280px;max-width:min(92vw,420px);display:grid;grid-template-columns:auto 1fr auto;gap:8px 12px;padding:14px 14px 12px;color:var(--tp-ink);background:linear-gradient( to bottom right, var(--tp-card), rgba(20,24,30,.6));border:1px solid var(--tp-border);border-radius:14px;box-shadow:0 18px 50px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.03);backdrop-filter:blur(10px) saturate(120%);opacity:0;transform:translateY(8px) scale(.98);animation:tp-in .22s ASease forwards}
     @keyframes tp-in{to{opacity:1;transform:translateY(0) scale(1)}}
     @keyframes tp-out{to{opacity:0;transform:translateY(8px) scale(.98)}}
     .tp__icon{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:14px;font-weight:900;color:#0b0f14;box-shadow:inset 0 -1px 0 rgba(0,0,0,.25);align-self:start;margin-top:2px;background:var(--tp-info)}
