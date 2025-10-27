@@ -1,124 +1,183 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/perfil.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <title>Perfil - Skill Swap</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil - Skill Swap</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    
+    <link rel="stylesheet" href="css/perfil.css">
 </head>
-<body>
+<body class="bg-light-subtle">
 
-    <header>
-        <nav>
-            <div>
-                <button class="button-menu"><img src="img/menu.png" alt="Botao Menu" width="48"></button>
-                <a href="pagina-servicos.html">
-                    <img class="img-logo-skill" src="img/logo-skill-swap.png" alt="Logo Skill Swap" width="140">
-                </a>
-            </div>
-            <div>
-                <input type="text" placeholder="🔍︎   Procure...">
-            </div>
-            
-            <!-- NOVO BLOCO: DROPDOWN DE PERFIL -->
-            <div class="nav-links-area">
-                <a href="#">
-                    <img src="img/carrinho.png" alt="Carrinho icone" height="15">
-                    Carrinho
-                </a>
-                <div class="user-menu-dropdown" id="userMenuDropdown">
-                    <button class="user-menu-trigger" id="userMenuTrigger">
-                        <img src="img/man.png" alt="Ícone perfil" height="15">
-                        <span id="navUserName">Entrar / Registrar-se</span>
-                    </button>
-                    <div class="user-menu-content" id="userMenuContent">
-                        <!-- Links gerados pelo JS -->
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </header>
+    <header class="navbar navbar-expand-lg bg-white border-bottom shadow-sm sticky-top">
+        <nav class="container-xl">
+            <div class="d-flex align-items-center">
+                <button class="navbar-toggler" type="button">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="navbar-brand ms-2" href="pagina-servicos.html">
+                    <img src="img/logo-skill-swap.png" alt="Logo Skill Swap" width="140">
+                </a>
+            </div>
 
-    <div class="inicio-bemvindo">
-<nav>
-    <span><a href="pagina-servicos.html" class="inicio-links">Início</a></span> &gt; <span id="perfilTrilha">Carregando...</span>
-</nav>
-</div>
+            <div class="flex-grow-1 px-3">
+                <div class="input-group">
+                    <span class="input-group-text bg-light border-end-0">🔍︎</span>
+                    <input type="text" class="form-control bg-light border-start-0" placeholder="Procure...">
+                </div>
+            </div>
+            
+            <div class="d-flex align-items-center">
+                <a href="#" class="nav-link px-2">
+                    <img src="img/carrinho.png" alt="Carrinho icone" height="15">
+                    Carrinho
+                </a>
+                
+                <div class="dropdown" id="userMenuDropdown">
+                    <button class="btn btn-link nav-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="userMenuTrigger">
+                        <img src="img/man.png" alt="Ícone perfil" height="15" class="me-1">
+                        <span id="navUserName">Carregando...</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-lg" id="userMenuContent">
+                        </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
 
-<main class="container-principal">
+    <div class="container-xl my-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="pagina-servicos.html" class="inicio-links">Início</a></li>
+                <li class="breadcrumb-item active" aria-current="page" id="perfilTrilha">Carregando Perfil...</li>
+            </ol>
+        </nav>
+    </div>
 
-    <aside class="coluna-esquerda">
-        <div id="perfilInfoCard">
-            <img src="img/man.png" alt="Foto de perfil" style="width: 100%; height: auto; border-radius: 50%; max-width: 150px; margin: 0 auto; display: block;">
-            <h2>Carregando...</h2>
-            <p id="perfilProfissao">...</p>
-            <p>Membro desde <span id="membroDesde">...</span></p>
-            <button class="btn-seguir" id="btnPerfilAcao">...</button>
+    <main class="container-xl">
+        <div class="row g-4"> <aside class="col-lg-3">
+                <div class="card shadow-sm text-center" id="perfilInfoCard">
+                    <div class="card-body">
+                        <img src="img/man.png" alt="Foto de perfil" class="img-fluid rounded-circle border border-3 border-white shadow-sm mb-3" style="width: 140px; height: 140px; object-fit: cover;">
+                        <h2 class="h5 mb-1">Carregando...</h2>
+                        <p class="text-primary fw-medium" id="perfilProfissao">...</p>
+                        <p class="text-body-secondary small mb-3">Membro desde <span id="membroDesde">...</span></p>
+                        <button class="btn btn-primary rounded-pill w-100" id="btnPerfilAcao">...</button>
+                    </div>
+                </div>
+                
+                <div class="card shadow-sm mt-4">
+                    <div class="card-body d-flex flex-wrap gap-2" id="perfilHashtagsContainer">
+                         <p id="perfilHashtags" class="text-body-secondary small m-0">...</p>
+                    </div>
+                </div>
+            </aside>
+
+            <section class="col-lg-6" id="colunaCentralServicos">
+                <div class="card shadow-sm">
+                    <div class="card-body text-center p-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-3 text-body-secondary">Carregando serviços...</p>
+                    </div>
+                </div>
+            </section>
+
+            <aside class="col-lg-3">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-white">
+                        <h3 class="h6 mb-0 py-1">Detalhes</h3>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span class="text-body-secondary">Avaliação geral</span>
+                            <span class="fw-bold" id="avaliacaoGeral">...</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span class="text-body-secondary">Vendas / Trocas</span>
+                            <span class="fw-bold" id="vendasTrocas">...</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span class="text-body-secondary">Local</span>
+                            <span class="fw-bold" id="perfilLocal">...</span>
+                        </li>
+                    </ul>
+                    
+                    <div class="card-body border-top">
+                        <div class="alert alert-warning d-flex align-items-center p-2 small" role="alert">
+                            ✕&nbsp; <div class="ms-1">Verificação de e-mail</div>
+                        </div>
+                        <div class="alert alert-success d-flex align-items-center p-2 small" role="alert">
+                            ✔&nbsp; <div class="ms-1">Número de telefone</div>
+                        </div>
+                        <div class="alert alert-success d-flex align-items-center p-2 small" role="alert">
+                            ✔&nbsp; <div class="ms-1">Documento verificado</div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body border-top">
+                        <h3 class="h6 mb-3">Comentários</h3>
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="img/foto-comentario-1.png" alt="Foto de perfil de Diana Auto P" class="rounded-circle" width="40" height="40">
+                            <div classs="ms-3">
+                                <p class="fw-medium small mb-0 ms-2">Diana Auto P</p>
+                                <p class="mb-0 ms-2" style="color: #f5b942;">★★★★★</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <img src="img/foto-comentario-2.png" alt="Foto de perfil de Agência Marketing Total" class="rounded-circle" width="40" height="40">
+                            <div classs="ms-3">
+                                <p class="fw-medium small mb-0 ms-2">Agência Marketing Total</p>
+                                <p class="mb-0 ms-2" style="color: #f5b942;">★★★★★</p>
+                            </div>
+                        </div>
+                        <a href="#" class="btn btn-outline-secondary btn-sm w-100 mt-3">Ver todos</a>
+                    </div>
+                </div>
+            </aside>
+
         </div>
-        
-        <div class="hashtags">
-            <p id="perfilHashtags">...</p>
-        </div>
-    </aside>
-
-    <section class="coluna-central" id="colunaCentralServicos">
-        <p>Carregando serviços...</p>
-    </section>
-
-    <aside class="coluna-direita">
+    </main>
+    <br><br><br><br>
+    
+    <footer class="main-footer">
         <div>
-            <h3>Detalhes</h3>
-            <ul>
-                <li><p>Avaliação geral: <span id="avaliacaoGeral">...</span></p></li>
-                <li><p>Vendas / Trocas: <span id="vendasTrocas">...</span></p></li>
-                <li><p>Local: <span id="perfilLocal">...</span></p></li>
-            </ul>
-        </div>
-        <div class="marks">
-            <p> ✕ Verificação de e-mail</p>
-            <p> ✔ Número de telefone</p>
-            <p> ✔ Documento verificado</p>
+            <h1 class="skillswap">SKILL<br>SWAP</h1>
+          
+
+            <p class="ultimo-footer" style="margin-right: 50px;">Whatsapp: <br>(00)1234-5678</p>
+            <p class="ultimo-footer">E-mail: <br>skillswap@email.com</p>
+
         </div>
 
-        <div>
-            <h3>Comentários</h3>
-            <p style="color: #777; font-style: italic;">(Seção de comentários em breve)</p>
+        <div class="sobre-nos">
+            <h2>Sobre nós</h2>
+            <div>
+            <p class="faqs"><a href="#" style="color: white;">FAQ</a></p>
+            <p class="faqs"><a href="#" style="color: white;">Termos de uso</a></p>
+            <p class="faqs"><a href="#" style="color: white;">Política de privacidade</a></p>
+            </div>
+        </div>  
+
+        <div class="footer-circle"></div>
+        <div class="footer-circletwo"></div>
+
+        <div class="footer-download">
+            <h2>Download</h2>
+            <a href="#"><img src="img/botao-app-store.png" alt="App Store" width="180"></a>
+            <a href="#"><img src="img/botao-google-play.png" alt="Google Play" width="180"></a>
         </div>
-    </aside>
-
-</main>
-    
-    <footer class="main-footer">
-        <div>
-            <h1 class="skillswap">SKILL<br>SWAP</h1>
-          
-
-            <p class="ultimo-footer" style="margin-right: 50px;">Whatsapp: <br>(00)1234-5678</p>
-            <p class="ultimo-footer">E-mail: <br>skillswap@email.com</p>
-
-        </div>
-
-        <div class="sobre-nos">
-            <h2>Sobre nós</h2>
-            <div>
-            <p class="faqs"><a href="#" style="color: white;">FAQ</a></p>
-            <p class="faqs"><a href="#" style="color: white;">Termos de uso</a></p>
-            <p class="faqs"><a href="#" style="color: white;">Política de privacidade</a></p>
-            </div>
-        </div>  
-
-        <div class="footer-circle"></div>
-        <div class="footer-circletwo"></div>
-
-        <div class="footer-download">
-            <h2>Download</h2>
-            <a href="#"><img src="img/botao-app-store.png" alt="App Store" width="180"></a>
-            <a href="#"><img src="img/botao-google-play.png" alt="Google Play" width="180"></a>
-        </div>
-    </footer>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <script src="js/perfil.js"></script>
+    
+    <script src="js/perfil.js"></script>
 </body>
 </html>
