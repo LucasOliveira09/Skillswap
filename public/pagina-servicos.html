@@ -20,14 +20,10 @@
   </head>
   <body>
     
-<<<<<<< HEAD
-
-=======
         
 <div class="menuLateral" id="menuLateral">
     <h1>das</h1>
 </div>
->>>>>>> 48c144289e2ef1637ed9e22acb5ee6021dc8d631
 
 <div>
   
@@ -36,51 +32,9 @@
     <header>
       <nav>
         <div>
-         <!-- Botão topo esquerdo (usa sua imagem) -->
-<button id="menuButton" class="offnav-trigger" aria-label="Abrir menu" aria-controls="offnav" aria-haspopup="dialog">
-  <img src="img/menu.png" alt="" width="38" height="34">
-</button>
-          <!-- Off-canvas -->
-<div id="offnav" class="offnav" aria-hidden="true" role="dialog" aria-modal="true">
-  <div class="offnav__backdrop" data-close></div>
-
-  <aside class="offnav__panel" role="document" tabindex="-1">
-    <header class="offnav__header">
-      <img src="img/logo-skill-swap.png" class="offnav__logo" alt="Skill Swap" width="52" > 
-      <button class="offnav__x" aria-label="Fechar menu" data-close>×</button>
-    </header>
-
-    <section class="offnav__profile">
-      <img class="offnav__avatar" src="img/avatar-emerson.jpg" alt="">
-      <div class="offnav__who">
-        <strong id="offnavUserName">Olá, Usuário</strong>
-        <span class="offnav__meta">3,9★ • Conta verificada</span>
-      </div>
-      <button id="offnavAnunciar" class="offnav__cta">Anunciar</button>
-    </section>
-
-    <nav class="offnav__nav" aria-label="Principal">
-      <a href="pagina-servicos.html"><i class="fa-solid fa-store"></i> Início</a>
-      <a href="#"><i class="fa-solid fa-cart-shopping"></i> Carrinho</a>
-      <a href="#"><i class="fa-solid fa-comments"></i> Chat</a>
-      <a href="#"><i class="fa-solid fa-user-check"></i>Editar conta</a>
-    </nav>
-
-    <div class="offnav__sep"></div>
-
-    <nav class="offnav__nav" aria-label="Ajuda">
-      <a href="#"><i class="fa-regular fa-circle-question"></i> FAQ</a>
-      <a href="#"><i class="fa-solid fa-shield"></i> Suporte</a>
-      <a href="#"><i class="fa-regular fa-file-lines"></i> Termos & Privacidade</a>
-    </nav>
-
-    <footer class="offnav__footer">
-      <button id="offnavLogin" class="offnav__ghost">Entrar</button>
-      <button id="offnavLogout" class="offnav__ghost" hidden>Sair</button>
-      <small>© Skill Swap</small>
-    </footer>
-  </aside>
-</div>
+          <button class="menu-button" onclick="abrirMenu()" id="menu-button">
+            <img src="img/menu.png" alt="Botao Menu" width="42" />
+          </button>
           <a href="pagina-servicos.html">
             <img
               class="img-logo-skill"
@@ -347,86 +301,5 @@
 <script src="./js/perfilNav.js"></script>
 <script src="./js/servicePage.js" defer></script>
 <script src="./js/feed.js"></script>
-
-<script>
-(() => {
-  
-  const offnav  = document.getElementById('offnav');
-  const panel   = offnav?.querySelector('.offnav__panel');
-  const btnOpen = document.getElementById('menuButton');
-  if (!offnav || !panel || !btnOpen) return;
-
-  let lastFocus = null;
-
-  function openOffnav(){
-    lastFocus = document.activeElement;
-    offnav.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-    setTimeout(()=> panel.focus(), 0);
-  }
-  function closeOffnav(){
-    offnav.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-    lastFocus?.focus();
-  }
-
-  btnOpen.addEventListener('click', e => { e.preventDefault(); openOffnav(); });
-  offnav.addEventListener('click', e => { if (e.target.closest('[data-close]')) closeOffnav(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape' && offnav.getAttribute('aria-hidden')==='false') closeOffnav(); });
-
-  // trap de foco simples
-  offnav.addEventListener('keydown', e => {
-    if (e.key !== 'Tab') return;
-    const focusables = [...offnav.querySelectorAll('button, a[href], input, select, textarea, [tabindex]:not([tabindex="-1"])')]
-      .filter(el => !el.hasAttribute('disabled') && el.offsetParent !== null);
-    if (!focusables.length) return;
-    const first = focusables[0], last = focusables.at(-1);
-    if (e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
-    else if (!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
-  });
-
-  // swipe (mobile)
-  let startX = 0, dx = 0;
-  panel.addEventListener('touchstart', e => { startX = e.touches[0].clientX; dx = 0; }, {passive:true});
-  panel.addEventListener('touchmove',  e => { dx = e.touches[0].clientX - startX; if (dx < 0) return; panel.style.transform = `translateX(${Math.min(dx,120)}px)`; }, {passive:true});
-  panel.addEventListener('touchend',   () => { if (dx > 90) closeOffnav(); else panel.style.transform = ''; dx = 0; });
-
-  // Integra com seu fluxo “Anunciar”
-  const isLogged       = () => !!localStorage.getItem('ss_auth_user');
-  const btnLogin       = document.getElementById('offnavLogin');
-  const btnLogout      = document.getElementById('offnavLogout');
-  const btnAnunciarIn  = document.getElementById('offnavAnunciar');
-
-  function paintAuth(){
-    btnLogin.hidden  = isLogged();
-    btnLogout.hidden = !isLogged();
-  }
-  paintAuth();
-
-  btnAnunciarIn?.addEventListener('click', () => {
-    closeOffnav();
-    const external = document.getElementById('btnAnunciar'); // reusa seu handler
-    if (external) external.click();
-    else window.location.href = 'pagina-anuncio.html';
-  });
-  
-  btnLogin?.addEventListener('click', () => { localStorage.setItem('ss_continue_to', location.pathname); window.location.href = 'index.html'; });
-  btnLogout?.addEventListener('click', () => { localStorage.removeItem('ss_auth_user'); paintAuth(); closeOffnav(); });
-})();
-// ao abrir:
-document.body.style.overflow = 'hidden';
-document.body.classList.add('offnav-open');
-
-// ao fechar:
-document.body.style.overflow = '';
-document.body.classList.remove('offnav-open');
-
-</script>
-<div id="offnav" class="offnav" aria-hidden="true" role="dialog" aria-modal="true">
-  <div class="offnav__backdrop" data-close></div>
-  <aside class="offnav__panel" role="document" tabindex="-1">
-    <!-- header, profile, nav, footer … -->
-  </aside>
-</div>
   </body>
 </html>
