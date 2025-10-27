@@ -92,38 +92,70 @@ function gerenciarNavbar() {
 // (Função carregarDadosPerfil e popularColunaEsquerda/Direita 
 // NÃO PRECISAM MUDAR, pois os IDs foram mantidos no HTML)
 
+// Em /js/perfil.js
+
 async function carregarDadosPerfil(userId) {
+    try {
+        // 1. Carregar dados básicos do usuário
+        const userResponse = await fetch(API_USUARIOS_URL + userId);
+        
+        // --- MELHORIA DE CÓDIGO AQUI ---
+        if (!userResponse.ok) {
+            // Se o usuário não foi encontrado (404) ou não está autorizado (401, 403)
+            if (userResponse.status === 404 || userResponse.status === 401 || userResponse.status === 403) {
+                console.warn("Usuário não encontrado ou sessão inválida. Forçando logout.");
+                exibirToast("Sua sessão expirou. Faça o login novamente.", 'orange');
+                
+                // Chama a função de logout que já existe no seu código
+                setTimeout(fazerLogout, 1500); 
+                return; // Para a execução da função aqui
+            }
+            // Se for outro erro (como 500), lança o erro genérico
+            throw new Error('Falha ao carregar dados do usuário.');
+        }
+        // --- FIM DA MELHORIA ---
+
+        const userData = await userResponse.json();
+        console.log(userData);
+
+        popularColunaEsquerda(userData);
+        popularColunaDireita(userData); 
+
+        // 2. Carregar serviços do usuário
+        const servicosResponse = await fetch(API_SERVICOS_USUARIO_URL + userId);
+        if (!servicosResponse.ok) throw new Error('Falha ao carregar serviços.');
+        const servicosData = await servicosResponse.json();
+        
+        popularColunaCentral(userData, servicosData);
+
+    } catch (error) {
+        console.error("Erro no carregamento completo do perfil:", error);
+        exibirToast("Erro ao carregar o perfil. " + error.message, 'red');
+    }
+}
+
+function formatarData(dataISO) {
+    if (!dataISO) return '...';
     try {
-        // 1. Carregar dados básicos do usuário
-        const userResponse = await fetch(API_USUARIOS_URL + userId);
-        if (!userResponse.ok) throw new Error('Falha ao carregar dados do usuário.');
-        const userData = await userResponse.json();
-
-        // (Esta função funciona como antes)
-        popularColunaEsquerda(userData);
-        // (Esta função também)
-        popularColunaDireita(userData); 
-
-        // 2. Carregar serviços do usuário
-        const servicosResponse = await fetch(API_SERVICOS_USUARIO_URL + userId);
-        if (!servicosResponse.ok) throw new Error('Falha ao carregar serviços.');
-        const servicosData = await servicosResponse.json();
-        
-        // (Esta função foi ATUALIZADA)
-        popularColunaCentral(userData, servicosData);
-
-
-    } catch (error) {
-        console.error("Erro no carregamento completo do perfil:", error);
-        exibirToast("Erro ao carregar o perfil. " + error.message, 'red');
+        const data = new Date(dataISO);
+        const opcoes = { 
+            day: '2-digit', 
+            month: 'short', 
+            year: 'numeric' 
+        };
+        // Converte para "26 de out. de 2025"
+        let formatado = new Intl.DateTimeFormat('pt-BR', opcoes).format(data);
+        // Ajusta para "26 de OUT, 2025"
+        formatado = formatado.replace('de ', '').replace('.', ',');
+        return formatado.toUpperCase();
+    } catch (e) {
+        console.warn("Data em formato inválido:", dataISO);
+        return '...';
     }
 }
 
 function popularColunaEsquerda(user) {
-    // ESTA FUNÇÃO NÃO MUDA.
-    // Ela busca por IDs (perfilInfoCard, perfilTrilha, etc.)
-    // que foram mantidos no novo HTML.
-
+   
     const colunaEsquerda = document.getElementById('perfilInfoCard');
     if (!colunaEsquerda) return;
 
@@ -134,7 +166,7 @@ function popularColunaEsquerda(user) {
     document.getElementById('perfilTrilha').textContent = nomeCompleto;
     
     // (Simulação de dados, como antes)
-    document.getElementById('membroDesde').textContent = '14 de JAN, 2018'; 
+    document.getElementById('membroDesde').textContent = formatarData(user.data_cadastro);
     
     // Preenche os campos que vêm da API (se vierem)
     const profissaoEl = document.getElementById('perfilProfissao');
