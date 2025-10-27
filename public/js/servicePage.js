@@ -3,7 +3,10 @@
 
 
 const API_SERVICOS_URL = 'http://localhost:3000/api/servicos'; 
-
+const API_PRODUTOS_URL = 'http://localhost:3000/api/produtos'; 
+const AUTH_KEY_NOVO = 'ss_auth_user'; // Sistema de login da pág. anúncio (JSON)
+const AUTH_KEY_ANTIGO_ID = 'usuarioId';   // Sistema de login antigo (string)
+const AUTH_KEY_ANTIGO_NOME = 'usuarioNome'
 
 // ----------------------------------------------------
 // NOVO: Função Global de Logout
@@ -77,332 +80,259 @@ function gerenciarUI() {
     // Se não estiver logado, o HTML estático já garante o link "Entrar / Registrar-se"
 }
 
+function isUserLoggedIn() {
+    const usuarioNome = localStorage.getItem('usuarioNome');
+    const usuarioId = localStorage.getItem('usuarioId');
+    return !!(usuarioNome && usuarioId); // Retorna true se ambos existirem
+}
+
+// Lógica do Menu Lateral (sem alteração)
 const navLateral = document.getElementById("menuLateral")
 const buttonMenu = document.getElementById("menu-button")
 
 function abrirMenu(){
-  navLateral.style.display = "flex";
+  if (navLateral) {
+    navLateral.style.display = "flex";
+  }
+}
+if (buttonMenu && !buttonMenu.hasAttribute('onclick')) {
+    buttonMenu.addEventListener('click', abrirMenu);
+}
+
+
+// ----------------------------------------------------
+// LÓGICA DO FEED DE PRODUTOS (Sem alterações)
+// ----------------------------------------------------
+
+let todosOsProdutos = [];
+let textoPesquisa = "";
+let categoriaAtual = "all";
+
+const containerProdutos = document.querySelector(".products-container");
+const inputPesquisa =
+  document.querySelector("#search-main") ||
+  document.querySelector("header nav input[type='text']"); 
+
+// (Funções timeAgo, money, renderStars - sem alterações)
+function timeAgo(input) {
+  const d = typeof input === "number" ? new Date(input) : new Date(input);
+  if (isNaN(+d)) return "";
+  const now = new Date();
+  const diff = (now - d) / 1000;
+  const min = Math.floor(diff / 60);
+  const h = Math.floor(diff / 3600);
+  const day = Math.floor(diff / 86400);
+  if (diff < 45) return "agora há pouco";
+  if (min < 60) return `há ${min} ${min === 1 ? "min" : "mins"}`;
+  if (h < 24) return `há ${h} ${h === 1 ? "hora" : "horas"}`;
+  if (day === 1) return "ontem";
+  if (day < 7) return `há ${day} ${day === 1 ? "dia" : "dias"}`;
+  const sameYear = d.getFullYear() === now.getFullYear();
+  const opts = { day: "2-digit", month: "short", ...(sameYear ? {} : { year: "numeric" }) };
+  return d.toLocaleDateString("pt-BR", opts);
+}
+
+const money = (n) =>
+  Number(n).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+
+const renderStars = (n = 5) =>
+  Array.from(
+    { length: 5 },
+    (_, i) => `<i class="fa-solid fa-star${i < n ? "" : " opacity-40"}"></i>`
+  ).join("");
+
+
+// (Template do Card - sem alterações)
+const card = (p) => `
+ <article class="product-card" data-id="${p.id}">
+   <div class="img-wrap">
+     <img class="products-img" src="${p.imagem}" alt="${p.nome}" onerror="this.src='./img/placeholder.jpg';">
+     <span class="chip chip-category">${p.categoria || "Serviço"}</span>
+   </div>
+   <div class="products-info">
+     <div class="product-head">
+       <h3 class="products-name">${p.nome}</h3>
+       <div class="price-stack">
+         <span class="products-price">${money(p.preco)}<small>/${Array.isArray(p.period) ? p.period.join(', ') : p.period}</small></span>
+       </div>
+     </div>
+     <div class="meta-bar">
+       <span class="meta-title"><i class="fa-solid fa-right-left"></i> Troco por:</span>
+       <div class="needs">
+         ${(p.needs || []).map((tag) => `<span class="chip chip-need">${tag}</span>`).join("")}
+       </div>
+     </div>
+ <ul class="specs">
+   ${p.schedule ? `
+     <li class="spec spec--schedule">
+       <i class="fa-regular fa-clock"></i><span>${p.schedule}</span>
+     </li>` : ''}
+   ${p.group ? `
+     <li class="spec spec--group">
+       <i class="fa-solid fa-user-group"></i><span>${p.group}</span>
+     </li>` : ''}
+ </ul>
+ ${p.include?.length ? `
+   <ul class="includes">
+     ${p.include.map(x => `
+       <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i>${x}</li>
+     `).join('')}
+   </ul>
+ ` : ''}
+     <div class="product-footer">
+       <a href="pagina_perfil.html?id=${p.authorId}" class="link_format">
+         <img class="author-avatar" src="${p.authorAvatar}" alt="${p.authorName}" onerror="this.src='./img/man.png';">
+       </a>
+       <a href="pagina_perfil.html?id=${p.authorId}" class="link_format">
+         <div class="author-meta">
+           <span class="author-name">${p.authorName}</span>
+           <div class="author-stars" aria-label="${p.stars} de 5">
+             ${"★".repeat(Math.round(p.stars || 0))}${"☆".repeat(5 - Math.round(p.stars || 0))}
+           </div>
+         </div>
+       </a>
+       <div class="post-meta"
+         title="${new Date(p.postedAtMs ?? p.postedAt).toLocaleString("pt-BR")}">
+         <i class="fa-regular fa-clock"></i>
+         <span>${timeAgo(p.postedAtMs ?? p.postedAt)}</span>
+         ${p.location ? `
+           <span class="dot">•</span>
+           <span class="location"><i class="fa-solid fa-location-dot"></i> ${p.location}</span>
+         ` : ""}
+       </div>
+     </div>
+   </div>
+ </article>
+`;
+
+
+// (Função de Renderização - sem alterações)
+function renderProdutos() {
+  if (!containerProdutos) {
+    console.error("'.products-container' não encontrado no HTML.");
+    return;
+  }
+  const list = todosOsProdutos.filter(
+    (p) =>
+      (categoriaAtual === "all" || p.categoria.toLowerCase() === categoriaAtual.toLowerCase()) &&
+      (p.nome.toLowerCase().includes(textoPesquisa.toLowerCase()) ||
+       (p.authorName && p.authorName.toLowerCase().includes(textoPesquisa.toLowerCase())) ||
+       p.categoria.toLowerCase().includes(textoPesquisa.toLowerCase()))
+  );
+
+  containerProdutos.innerHTML = list.length
+    ? list.map(card).join("")
+    : `<p style="color:#666; padding: 20px;">Nenhum resultado encontrado.</p>`;
+}
+
+// (Função para Carregar Produtos da API - sem alterações)
+async function carregarProdutos() {
+  if (!containerProdutos) return;
+  containerProdutos.innerHTML = "<p>Carregando produtos...</p>"; 
+  
+  try {
+    const response = await fetch(API_PRODUTOS_URL);
+    if (!response.ok) {
+      throw new Error(`Erro HTTP: ${response.status}`);
+    }
+    const produtosDaAPI = await response.json();
+    todosOsProdutos = produtosDaAPI;
+    renderProdutos();
+    checarHighlight();
+
+  } catch (error) {
+    console.error("Falha ao carregar produtos:", error);
+    containerProdutos.innerHTML = `<p style="color:red;">Não foi possível carregar os produtos. Verifique se o servidor está rodando.</p>`;
+  }
+}
+
+// (Função para destacar card - sem alterações)
+function checarHighlight() {
+  const params = new URLSearchParams(window.location.search);
+  const highlightId = params.get('highlight');
+  
+  if (highlightId) {
+    const card = document.querySelector(`.product-card[data-id="${highlightId}"]`);
+    if (card) {
+      card.classList.add('is-highlighted'); // (Lembre-se de criar .is-highlighted no seu CSS)
+      card.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+      history.replaceState(null, '', window.location.pathname);
+    }
+  }
 }
 
 // ----------------------------------------------------
 // Início do Script
 // ----------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
-    // Garante que a UI de login/logout está correta
-    gerenciarUI(); 
-    
-    // Aqui você deve chamar as funções para carregar os serviços
-    // Se você estiver usando o código que eu sugeri anteriormente para carregar serviços:
-    // carregarServicos(); 
-});
-
-(function(){
-const btn = document.getElementById('btnAnunciar');
-const modal = document.getElementById('announceModal');
-const login = document.getElementById('amLogin');
-const guest = document.getElementById('amGuest');
-
-
-if(!btn || !modal) return;
-
-
-const open = ()=>{ modal.hidden = false; modal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; };
-const close = ()=>{ modal.hidden = true; modal.setAttribute('aria-hidden','true'); document.body.style.overflow=''; };
-
-
-btn.addEventListener('click', open);
-modal.addEventListener('click', (e)=>{ if(e.target.hasAttribute('data-close')) close(); });
-modal.querySelector('.modal-x')?.addEventListener('click', close);
-window.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && !modal.hidden) close(); });
-
-
-// Rota de login: define alvo de retorno e vai para index.html
-login?.addEventListener('click', ()=>{
-localStorage.setItem('ss_continue_to', 'pagina-anuncio.html?resume=1');
-window.location.href = 'index.html';
-});
-
-
-// Convidado: vai direto para a página de anúncio com flag
-guest?.addEventListener('click', ()=>{
-window.location.href = 'pagina-anuncio.html?guest=1';
-});
-})();
-// util: "há 5 min", "há 3 h", "ontem", "12 fev"
-function timeAgo(input) {
-  const d = typeof input === "number" ? new Date(input) : new Date(input);
-  if (isNaN(+d)) return "";
-
-  const now = new Date();
-  const diff = (now - d) / 1000; // seg
-  const min = Math.floor(diff / 60);
-  const h = Math.floor(diff / 3600);
-  const day = Math.floor(diff / 86400);
-
-  if (diff < 45) return "agora há pouco";
-  if (min < 60) return `há ${min} ${min === 1 ? "min" : "mins"}`;
-  if (h < 24) return `há ${h} ${h === 1 ? "hora" : "horas"}`;
-  if (day === 1) return "ontem";
-  if (day < 7) return `há ${day} ${day === 1 ? "dia" : "dias"}`;
-
-  const sameYear = d.getFullYear() === now.getFullYear();
-  const opts = {
-    day: "2-digit",
-    month: "short",
-    ...(sameYear ? {} : { year: "numeric" }),
-  };
-  return d.toLocaleDateString("pt-BR", opts);
-}
-
-const needs = [
-  "Esportes",
-  "Música",
-  "Semi-novos",
-  "Usado",
-  "Aprendizagem",
-  "Limpeza",
-  "Outros",
-];
-const period = ["mês", "VIP", "pacote 10 aulas", "12x", "UN"];
-const produtos = [
-  {
-    id: 1,
-    nome: "Aula de Futebol",
-    categoria: "Esportes",
-    preco: 100.0,
-    imagem: "./img/viniAulaFutebol.jpg",
-    descricao: "Ter/Qui • 18h–19h • Turma reduzida",
-    authorAvatar: "./img/perfil-viniJR.png",
-    authorName: "Vini Jr.",
-    authorId: null,
-    stars: 5,
-    needs: ["Esportes"],
-    postedAtMs: "a quanto tempo foi postado logica", 
-    location: "Madrid / ES", 
-    schedule: "Ter/Qui • 18h–19h",
-    group: "Turma reduzida",
-    period: ["mês"],
-    tradeCheck: "Yes"
-  },
+  // 1. Gerencia a UI de login/logout (agora consistente com sua lógica)
+  gerenciarUI(); 
   
-  {
-    id: 2,
-    nome: "Aula de Jiu-jitsu",
-    categoria: "Esportes",
-    preco: 80.0,
-    imagem: "./img/jiu-jitsuPerfil.jpg",
-    descricao: "Seg/Qua • 14h–15h • Aula individual",
-    authorAvatar: "./img/perfil-charles.jpg",
-    authorName: "Charles Oliveira.",
-    stars: 5,
-    needs: ["Esportes"],
-    postedAtMs: "a quanto tempo foi postado logica", // ex.: há 5 minutos
-    location: "Guarulhos /SP", 
-    schedule: "Seg/Sex • 14h–16h",
-    group: "Aula individual",
-    period: ["VIP"],
-    tradeCheck: "Yes"
-  },
-  {
-    id: 3,
-    nome: "Faxina Completa",
-    categoria: "Limpeza",
-    preco: 210.00, 
-    imagem: "./img/banheiro-servico.jpg",
-    descricao: "Seg/Qua • 14h–15h • Aula individual",
-    authorAvatar: "./img/avatar-lucas.jpg",
-    authorName: "Lucas Leite.",
-    stars: 3,
-    needs: ["Limpeza"],
-    postedAtMs: Date.now() - 2000 * 80 * 90, // ex.: há 5 minutos
-    location: "Fartura / PR", // <-- opcional
-    include: ["Limpeza de janelas", "Limpeza de carpetes"],
-   
-    period: ["Dia"],
-    tradeCheck: "Yes"
-  },
-    {
-    id: 4,
-    nome: "Canivette Suíço",
-    categoria: "Semi-novos",
-    preco: 50.00, 
-    imagem: "./img/faca-canivete.jpg",
-    descricao: "Seg/Qua • 14h–15h • Aula individual",
-    authorAvatar: "./img/avatar-emerson.jpg",
-    authorName: "Emerson Vinicius.",
-    stars: 1,
-    needs: ["Semi-novos"],
-    postedAtMs: Date.now() - 1000 * 800 * 40, 
-    location: "Ribeirão do Sul / SP",          // ex.: há 5 minutos
-    include: ["Capa protetora", "Lâmina extra"],
-    period: ["UN"],
-    tradeCheck: "Yes"
-  },
-      {
-    id: 5,
-    nome: "Carona Unifio",
-    categoria: "Corrida",
-    preco: 20.00 , 
-    imagem: "./img/hb-servico.webp",
-    descricao: "Seg/Qua • 14h–15h • Aula individual",
-    authorAvatar: "./img/avatar-matheus.jpg",
-    authorName: "Matheus Souza.",
-    stars: 4,
-    needs: ["Corrida"],
-    postedAtMs: Date.now() - 1500 * 80 * 90, // ex.: há 5 minutos
-    location: "Ourinhos / SP", // <-- opcional
-    schedule: "Seg/Qui • 19h",
-    group: "Maximo 3 pessoas",
-    period: [ " Km " ],
-    tradeCheck: "Yes"
-  },
+  // 2. Carrega os produtos da API
+  carregarProdutos();
 
-];
+  // 3. Adiciona listener para a barra de pesquisa
+  if (inputPesquisa) {
+    inputPesquisa.addEventListener('input', (e) => {
+      textoPesquisa = e.target.value;
+      renderProdutos(); 
+    });
+  }
 
-
-let textoPesquisa = "";
-let categoriaAtual = "all";
-
-
-const containerProdutos = document.querySelector(".products-container");
-const inputPesquisa =
-  document.querySelector("#search-main") ||
-  document.querySelector(".search-input");
-
-// --- UTIL ---
-const money = (n) =>
-  Number(n).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-
-// helper opcional: estrelas Font Awesome
-const renderStars = (n = 5) =>
-  Array.from(
-    { length: 5 },
-    (_, i) => `<i class="fa-solid fa-star${i < n ? "" : " opacity-40"}"></i>`
-  ).join("");
-  
-
-
-const card = (p) => `
-
-  <article class="product-card" data-id="${p.id}">
-    <div class="img-wrap">
-      <img class="products-img" src="${p.imagem}" alt="${p.nome}">
-      <span class="chip chip-category">${p.categoria || "Serviço"}</span>
-    </div>
-
-    <div class="products-info">
-      <div class="product-head">
-        <h3 class="products-name">${p.nome}</h3>
-        <div class="price-stack">
-          
-          <span class="products-price">${money(
-            p.preco
-    )}<small>/${p.period}</small></span>
-        </div>
-      </div>
-
-      <div class="meta-bar">
-        <span class="meta-title"><i class="fa-solid fa-right-left"></i> Troco por:</span>
-        <div class="needs">
-          ${(p.needs || [])
-            .map((tag) => `<span class="chip chip-need">${tag}</span>`)
-            .join("")}
-        </div>
-      </div>
-
-    
-<ul class="specs">
-  ${p.schedule ? `
-    <li class="spec spec--schedule">
-      <i class="fa-regular fa-clock"></i><span>${p.schedule}</span>
-    </li>` : ''}
-
-  ${p.group ? `
-    <li class="spec spec--group">
-      <i class="fa-solid fa-user-group"></i><span>${p.group}</span>
-    </li>` : ''}
-</ul>
-${p.includes? `
-  <div class="includes-bar">
-    <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
-    <span>Acompanha: ${p.includes}</span>
-  </div>
-` : ''}
-${p.include?.length ? `
-  <ul class="includes">
-    ${p.include.map(x => `
-      <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i>${x}</li>
-    `).join('')}
-  </ul>
-` : ''}
-
-
-      <div class="product-footer">
+  // 4. Adiciona listeners para os filtros de categoria
+  document.querySelectorAll('.categories-icons div, .service-icon div').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const categoria = btn.querySelector('p')?.textContent.trim() || 'all';
       
-        <a href="" class="link_format"><img class="author-avatar" src="${p.authorAvatar}" alt="${
-  p.authorName
-}"></a>
-        <a href="" class="link_format"><div class="author-meta">
+      document.querySelectorAll('.categories-icons div, .service-icon div').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
 
-          <span class="author-name">${p.authorName}</span>
-          <div class="author-stars" aria-label="${p.stars} de 5">
-            ${"★".repeat(p.stars || 0)}${"☆".repeat(5 - (p.stars || 0))}
-          </div>
-        </div></a>
+      categoriaAtual = categoria;
+      textoPesquisa = ""; 
+      if(inputPesquisa) inputPesquisa.value = "";
+      
+      renderProdutos();
+    });
+  });
+});
 
-        <div class="post-meta"
-     title="${new Date(p.postedAtMs ?? p.postedAt).toLocaleString("pt-BR")}">
-  <i class="fa-regular fa-clock"></i>
-  <span>${timeAgo(p.postedAtMs ?? p.postedAt)}</span>
-  ${
-    p.location
-      ? `
-    <span class="dot">•</span>
-    <span class="location"><i class="fa-solid fa-location-dot"></i> ${p.location}</span>
-  `
-      : ""
-  }
-</div>
-      </div>
-    </div>
-  </article>
-`;
+// ----------------------------------------------------
+// NOVA LÓGICA DO BOTÃO "Anunciar" (Substitui o Modal)
+// ----------------------------------------------------
+(function(){
+  const btn = document.getElementById('btnAnunciar');
+  if(!btn) return;
 
-
-// --- RENDER ---
-function renderProdutos() {
-  if (!containerProdutos) {
-    console.error("'.products-container' não encontrado no HTML.");
-    return;
-  }
-
-  const list = produtos.filter(
-    (p) =>
-      (categoriaAtual === "all" || p.categoria === categoriaAtual) &&
-      p.nome.toLowerCase().includes(textoPesquisa.toLowerCase())
-  );
-
-  containerProdutos.innerHTML = list.length
-    ? list.map(card).join("")
-    : `<p style="color:#666">Nenhum resultado encontrado.</p>`;
-}
-
-
-// mapa de overrides (carrega do localStorage se existir)
-const descOverrides = JSON.parse(localStorage.getItem('descOverrides') || '{}');
-
-function getDesc(p) {
-  return (descOverrides[p.id] ?? p.descricao ?? '');
-}
-function setDescricao(id, texto) {
-  if (!texto || !texto.trim()) {
-    delete descOverrides[id];                 // remove override (volta ao padrão do array)
-  } else {
-    descOverrides[id] = texto.trim();
-  }
-  localStorage.setItem('descOverrides', JSON.stringify(descOverrides));
-  renderProdutos();
-}
-
-renderProdutos();
-
+  btn.addEventListener('click', () => {
+    
+    if (isUserLoggedIn()) {
+        // 1. Logado: Vai direto para a página de anúncio
+        window.location.href = 'pagina-anuncio.html';
+    } else {
+        // 2. Não logado: Mostra um aviso (Toastify)
+        if (typeof Toastify === "function") {
+            Toastify({
+                text: "Você precisa estar logado para anunciar. Clique para entrar.",
+                duration: 3500,
+                destination: "index.html", // Redireciona para o login ao clicar
+                newWindow: false,
+                close: true,
+                gravity: "top", 
+                position: "center", 
+                style: {
+                    background: "linear-gradient(to right, #f59e0b, #ef4444)", // Gradiente de aviso
+                    cursor: "pointer",
+                    fontSize: "14px",
+                    fontWeight: "600"
+                }
+            }).showToast();
+        } else {
+            // Fallback se o Toastify não carregar
+            alert("Você precisa estar logado para anunciar.");
+        }
+        
+        // Salva a intenção de anunciar, para que o login possa te redirecionar
+        localStorage.setItem('ss_continue_to', 'pagina-anuncio.html');
+    }
+  });
+})();

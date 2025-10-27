@@ -1,9 +1,9 @@
-// server.js
+// server.js (Versão Completa e Corrigida)
 
 const express = require('express');
-const sqlite3 = require('sqlite3').verbose(); // <--- FALTAVA IMPORTAR
-const bcrypt = require('bcrypt');             // <--- FALTAVA IMPORTAR
-const cors = require('cors');                 // <--- BOM ADICIONAR
+const sqlite3 = require('sqlite3').verbose();
+const bcrypt = require('bcrypt');
+const cors = require('cors');
 
 const app = express();
 const PORT = 3000;
@@ -13,15 +13,13 @@ const saltRounds = 10;
 // ----------------------------------------------------
 // MIDDLEWARE
 // ----------------------------------------------------
-app.use(cors()); // Permite requisições de outras origens (ex: seu frontend)
-app.use(express.static('public')); // Serve arquivos estáticos
-app.use(express.json());       // Lê o corpo de requisições JSON
+app.use(cors());
+app.use(express.static('public'));
+app.use(express.json());
 
 // ----------------------------------------------------
 // CONEXÃO COM O BANCO DE DADOS
 // ----------------------------------------------------
-
-// Variável 'db' que será usada por todas as rotas
 let db;
 
 db = new sqlite3.Database(DB_SOURCE, (err) => {
@@ -31,8 +29,8 @@ db = new sqlite3.Database(DB_SOURCE, (err) => {
     } else {
         console.log('Conectado ao banco de dados SQLite.');
         
-        // SQL para criar a tabela (como você definiu)
-        const sqlCreateTable = `
+        // --- Garantir Tabela 'usuarios' (Sem alterações) ---
+        const sqlCreateTableUsuarios = `
             CREATE TABLE IF NOT EXISTS usuarios (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 primeiro_nome TEXT NOT NULL,
@@ -42,31 +40,52 @@ db = new sqlite3.Database(DB_SOURCE, (err) => {
                 profissao TEXT,
                 local TEXT,
                 hashtags TEXT,
-                avatar_url TEXT DEFAULT 'https://i.pinimg.com/236x/21/9e/ae/219eaea67aafa864db091919ce3f5d82.jpg',
+                avatar_url TEXT DEFAULT 'https://i.pinimg.com/236x/219e/ae/219eaea67aafa864db091919ce3f5d82.jpg',
                 data_cadastro DATETIME DEFAULT CURRENT_TIMESTAMP,
                 avaliacao_geral REAL DEFAULT 0.0,
                 vendas_trocas INTEGER DEFAULT 0
             );
         `;
         
-        // Executa a criação da tabela
-        db.exec(sqlCreateTable, (err) => {
+        db.exec(sqlCreateTableUsuarios, (err) => {
             if (err) {
                 console.error("Erro ao criar tabela 'usuarios':", err.message);
             } else {
                 console.log("Tabela 'usuarios' garantida.");
-
-                // --- INICIA O SERVIDOR ---
-                // O servidor só começa a "ouvir" DEPOIS que o banco
-                // está pronto e a tabela foi verificada.
-                app.listen(PORT, () => {
-                    console.log(`Servidor rodando em http://localhost:${PORT}`);
-                    console.log(`Acesse http://localhost:${PORT} no seu navegador.`);
-                });
             }
         });
         
-        // (Podemos adicionar a tabela 'servicos' aqui também para garantir)
+        // --- Garantir Tabela 'produtos' (Para o feed principal) ---
+        const sqlCreateTableProdutos = `
+            CREATE TABLE IF NOT EXISTS produtos (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                usuario_id INTEGER NOT NULL,
+                nome TEXT NOT NULL,
+                categoria TEXT,
+                preco REAL,
+                imagem TEXT,
+                descricao TEXT,
+                needs TEXT,
+                postedAtMs INTEGER,
+                location TEXT,
+                schedule TEXT,
+                groupSize TEXT,
+                period TEXT,
+                tradeCheck TEXT,
+                include TEXT,
+                FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+            );
+        `;
+
+        db.exec(sqlCreateTableProdutos, (err) => {
+            if (err) {
+                console.error("Erro ao criar tabela 'produtos':", err.message);
+            } else {
+                console.log("Tabela 'produtos' garantida.");
+            }
+        });
+
+        // --- CORREÇÃO: Garantir Tabela 'servicos' (Para a página de perfil) ---
         db.exec(`
             CREATE TABLE IF NOT EXISTS servicos (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -83,15 +102,21 @@ db = new sqlite3.Database(DB_SOURCE, (err) => {
         `, (err) => {
             if (!err) console.log("Tabela 'servicos' garantida.");
         });
+
     }
 });
 
+// O servidor começa a ouvir aqui
+app.listen(PORT, () => {
+    console.log(`Servidor rodando em http://localhost:${PORT}`);
+    console.log(`Acesse http://localhost:${PORT} no seu navegador.`);
+});
+
+
 // ----------------------------------------------------
 // FUNÇÕES DE AJUDA DO BANCO (Async/Await)
+// (Sem alterações)
 // ----------------------------------------------------
-// O 'sqlite3' usa callbacks. Para usar async/await (como em 'await db.get'),
-// precisamos "envelopar" as funções com Promises.
-
 function dbRun(sql, params = []) {
     return new Promise((resolve, reject) => {
         db.run(sql, params, function (err) {
@@ -130,97 +155,69 @@ function dbAll(sql, params = []) {
 
 // ----------------------------------------------------
 // ROTAS DA API DE USUÁRIOS
+// (Sem alterações)
 // ----------------------------------------------------
-
-// POST: /api/usuarios/cadastro (Corrigido)
 app.post('/api/usuarios/cadastro', async (req, res) => {
     const { primeiro_nome, sobrenome, email, senha } = req.body;
-
     if (!primeiro_nome || !email || !senha) {
         return res.status(400).json({ error: 'Primeiro nome, e-mail e senha são obrigatórios.' });
     }
-
     try {
         const senhaHash = await bcrypt.hash(senha, saltRounds);
         const sql = 'INSERT INTO usuarios (primeiro_nome, sobrenome, email, senha_hash) VALUES (?, ?, ?, ?)';
         const params = [primeiro_nome, sobrenome, email, senhaHash];
-        
-        const result = await dbRun(sql, params); // <-- USA A FUNÇÃO DE AJUDA
-        
+        const result = await dbRun(sql, params); 
         res.status(201).json({ 
             id: result.lastID, 
             nome: `${primeiro_nome} ${sobrenome || ''}`.trim(), 
             email: email, 
             message: 'Usuário cadastrado com sucesso.'
         });
-
     } catch (error) {
-        if (error.errno === 19) { // SQLITE_CONSTRAINT (email já existe)
+        if (error.errno === 19) {
             return res.status(409).json({ error: 'O e-mail já está em uso.' });
         }
         console.error("Erro ao cadastrar:", error);
         res.status(500).json({ error: "Erro interno ao processar cadastro." });
     }
 });
-
-// POST: /api/usuarios/login (Corrigido e Seguro)
 app.post('/api/usuarios/login', async (req, res) => {
     const { email, senha } = req.body;
-
     try {
-        // 1. Encontrar o usuário APENAS pelo e-mail
         const usuario = await dbGet('SELECT * FROM usuarios WHERE email = ?', [email]);
-
         if (!usuario) {
             return res.status(401).json({ error: 'Credenciais inválidas.' });
         }
-
-        // 2. Comparar a senha digitada com a senha_hash do banco
         const match = await bcrypt.compare(senha, usuario.senha_hash);
-
         if (!match) {
             return res.status(401).json({ error: 'Credenciais inválidas.' });
         }
-
-        // 3. Login bem-sucedido
         res.json({ 
             id: usuario.id, 
             nome: `${usuario.primeiro_nome} ${usuario.sobrenome || ''}`.trim(), 
             email: usuario.email, 
             message: 'Bem vindo ' + usuario.primeiro_nome + '!'
         });
-
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
-
-// GET: /api/usuarios (Corrigido)
-// (Rota de admin, retorna todos os usuários)
 app.get('/api/usuarios', async (req, res) => {
     try {
         const usuarios = await dbAll('SELECT id, primeiro_nome, sobrenome, email FROM usuarios');
-        
-        // Formata para o padrão "nome completo"
         const usuariosFormatados = usuarios.map(u => ({
             id: u.id,
             nome: `${u.primeiro_nome} ${u.sobrenome || ''}`.trim(),
             email: u.email
         }));
-        
         res.json(usuariosFormatados);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
-
-// GET: /api/usuarios/:id (Corrigido - Agora é 100% dinâmico)
-// (Retorna os dados completos do perfil para a página de perfil)
 app.get('/api/usuarios/:id', async (req, res) => {
     const userId = req.params.id;
-
     try {
-        // Seleciona TODOS os campos do perfil que o frontend precisa
         const query = `
             SELECT 
                 id, primeiro_nome, sobrenome, email, 
@@ -229,82 +226,53 @@ app.get('/api/usuarios/:id', async (req, res) => {
             FROM usuarios 
             WHERE id = ?
         `;
-        const usuario = await dbGet(query, [userId]); // <-- USA A FUNÇÃO DE AJUDA
-
+        const usuario = await dbGet(query, [userId]); 
         if (!usuario) {
             return res.status(404).json({ error: 'Usuário não encontrado.' });
         }
-        
-        // Retorna o objeto de usuário completo (sem dados simulados)
         res.json(usuario);
-
     } catch (error) {
         console.error("Erro ao buscar usuário:", error);
         res.status(500).json({ error: error.message });
     }
 });
-
-// PUT: /api/usuarios/:id (Corrigido - Sintaxe SQLite e Lógica de Senha)
 app.put('/api/usuarios/:id', async (req, res) => {
     const { id } = req.params;
-    
-    // 1. Pegar dados do perfil
     const { 
         primeiro_nome, sobrenome, email, 
         profissao, local, hashtags, avatar_url,
-        senha_atual, nova_senha // Campos para alterar senha
+        senha_atual, nova_senha 
     } = req.body;
-
     try {
-        // 2. Lógica de Atualização de Senha (se os campos foram enviados)
         if (nova_senha && senha_atual) {
             const usuario = await dbGet('SELECT senha_hash FROM usuarios WHERE id = ?', [id]);
             if (!usuario) return res.status(404).json({ error: "Usuário não encontrado." });
-
             const match = await bcrypt.compare(senha_atual, usuario.senha_hash);
             if (!match) {
-                // Se a senha atual não bater, retorne um erro específico
                 return res.status(403).json({ error: "Senha atual incorreta." });
             }
-
-            // Se a senha atual bate, crie o novo hash e atualize
             const novaSenhaHash = await bcrypt.hash(nova_senha, saltRounds);
             await dbRun('UPDATE usuarios SET senha_hash = ? WHERE id = ?', [novaSenhaHash, id]);
         }
-
-        // 3. Lógica de Atualização de Perfil (sempre executa)
         const sql = `
             UPDATE usuarios SET 
-                primeiro_nome = ?, 
-                sobrenome = ?, 
-                email = ?, 
-                profissao = ?, 
-                local = ?, 
-                hashtags = ?,
-                avatar_url = ?
+                primeiro_nome = ?, sobrenome = ?, email = ?, 
+                profissao = ?, local = ?, hashtags = ?, avatar_url = ?
             WHERE id = ?
         `;
         const params = [
-            primeiro_nome,
-            sobrenome,
-            email,
-            profissao,
-            local,
-            hashtags,
-            avatar_url || 'https://i.pinimg.com/236x/219e/ae/219eaea67aafa864db091919ce3f5d82.jpg',
+            primeiro_nome, sobrenome, email,
+            profissao, local, hashtags,
+            avatar_url || 'https://i.pinimg.com/236x/21/9e/ae/219eaea67aafa864db091919ce3f5d82.jpg',
             id
         ];
-        
-        await dbRun(sql, params); // <-- USA A FUNÇÃO DE AJUDA
-
-        // 4. Retornar a mensagem de sucesso
+        await dbRun(sql, params); 
         res.json({ 
             message: "Perfil atualizado com sucesso!",
             nome: `${primeiro_nome} ${sobrenome || ''}`.trim()
         });
-
     } catch (error) {
-        if (error.errno === 19) { // SQLITE_CONSTRAINT (email)
+        if (error.errno === 19) {
             return res.status(409).json({ error: "Este e-mail já está em uso por outra conta." });
         }
         console.error("Erro ao atualizar perfil:", error);
@@ -313,14 +281,99 @@ app.put('/api/usuarios/:id', async (req, res) => {
 });
 
 // ----------------------------------------------------
-// ROTAS DA API DE SERVIÇOS
+// ROTAS DA API DE PRODUTOS (Para o Feed Principal)
+// (Sem alterações)
 // ----------------------------------------------------
+app.get('/api/produtos', async (req, res) => {
+    const sql = `
+        SELECT 
+            p.id, p.nome, p.categoria, p.preco, p.imagem, p.descricao,
+            p.needs, p.postedAtMs, p.location, p.schedule, p.groupSize, 
+            p.period, p.tradeCheck, p.include,
+            u.id as authorId, 
+            u.primeiro_nome, u.sobrenome, 
+            u.avatar_url as authorAvatar, 
+            u.avaliacao_geral as stars
+        FROM produtos p
+        JOIN usuarios u ON p.usuario_id = u.id
+        ORDER BY p.postedAtMs DESC
+    `;
+    try {
+        const rows = await dbAll(sql);
+        const produtos = rows.map(p => ({
+            id: p.id,
+            nome: p.nome,
+            categoria: p.categoria,
+            preco: p.preco,
+            imagem: p.imagem,
+            descricao: p.descricao,
+            authorAvatar: p.authorAvatar,
+            authorName: `${p.primeiro_nome} ${p.sobrenome || ''}`.trim(),
+            authorId: p.authorId,
+            stars: p.stars,
+            needs: JSON.parse(p.needs || '[]'),
+            postedAtMs: p.postedAtMs,
+            location: p.location,
+            schedule: p.schedule,
+            group: p.groupSize, 
+            period: JSON.parse(p.period || '[]'),
+            tradeCheck: p.tradeCheck,
+            include: JSON.parse(p.include || '[]')
+        }));
+        res.json(produtos);
+    } catch (error) {
+        console.error("Erro ao buscar produtos:", error);
+        res.status(500).json({ error: error.message });
+    }
+});
+app.post('/api/produtos', async (req, res) => {
+    const {
+        usuario_id, nome, categoria, preco, imagem, descricao,
+        needs, location, schedule, group, period, tradeCheck, include
+    } = req.body;
+    if (!usuario_id || !nome || !categoria || !preco) {
+        return res.status(400).json({ error: 'ID do usuário, nome, categoria e preço são obrigatórios.' });
+    }
+    const sql = `
+        INSERT INTO produtos (
+            usuario_id, nome, categoria, preco, imagem, descricao, 
+            needs, postedAtMs, location, schedule, groupSize, period, tradeCheck, include
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+    const postedAt = Date.now();
+    const params = [
+        usuario_id, nome, categoria, preco,
+        imagem || './img/placeholder.jpg',
+        descricao,
+        JSON.stringify(needs || []),
+        postedAt,
+        location, schedule, group,
+        JSON.stringify(period || []),
+        tradeCheck || 'No',
+        JSON.stringify(include || [])
+    ];
+    try {
+        const result = await dbRun(sql, params);
+        res.status(201).json({ 
+            id: result.lastID,
+            message: "Produto anunciado com sucesso!",
+            ...req.body,
+            postedAtMs: postedAt 
+        });
+    } catch (error) {
+        console.error("Erro ao anunciar produto:", error);
+        res.status(500).json({ error: error.message });
+    }
+});
 
-// GET: /api/servicos/usuario/:usuarioId (Corrigido)
+// ----------------------------------------------------
+// CORREÇÃO: ROTAS DA API DE SERVIÇOS (Para a Página de Perfil)
+// ----------------------------------------------------
 app.get('/api/servicos/usuario/:usuarioId', async (req, res) => {
     const usuarioId = req.params.usuarioId;
 
     try {
+        // Usa a função de ajuda dbAll que já definimos
         const servicos = await dbAll(`
             SELECT 
                 id, titulo, descricao, categoria, tipo, valor, habilidade_desejada
@@ -335,4 +388,3 @@ app.get('/api/servicos/usuario/:usuarioId', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
-
