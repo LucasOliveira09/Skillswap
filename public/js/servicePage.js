@@ -332,15 +332,17 @@ ${p.include?.length ? `
 
 
       <div class="product-footer">
-        <img class="author-avatar" src="${p.authorAvatar}" alt="${
+      
+        <a href="" class="link_format"><img class="author-avatar" src="${p.authorAvatar}" alt="${
   p.authorName
-}">
-        <div class="author-meta">
+}"></a>
+        <a href="" class="link_format"><div class="author-meta">
+
           <span class="author-name">${p.authorName}</span>
           <div class="author-stars" aria-label="${p.stars} de 5">
             ${"★".repeat(p.stars || 0)}${"☆".repeat(5 - (p.stars || 0))}
           </div>
-        </div>
+        </div></a>
 
         <div class="post-meta"
      title="${new Date(p.postedAtMs ?? p.postedAt).toLocaleString("pt-BR")}">

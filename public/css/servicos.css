@@ -11,6 +11,10 @@
     font-family: "Abel", sans-serif;
 }
 
+.link_format {
+  text-decoration: none;
+}
+
 .user-menu-trigger {
     background: none;
     border: none;
