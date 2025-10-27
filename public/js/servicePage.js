@@ -174,13 +174,15 @@ const produtos = [
     descricao: "Ter/Qui • 18h–19h • Turma reduzida",
     authorAvatar: "./img/perfil-viniJR.png",
     authorName: "Vini Jr.",
+    authorId: null,
     stars: 5,
     needs: ["Esportes"],
-    postedAtMs: Date.now() - 1000 * 60 * 90, // ex.: há 5 minutos
+    postedAtMs: "a quanto tempo foi postado logica", 
     location: "Madrid / ES", 
     schedule: "Ter/Qui • 18h–19h",
     group: "Turma reduzida",
     period: ["mês"],
+    tradeCheck: "Yes"
   },
   
   {
@@ -194,11 +196,12 @@ const produtos = [
     authorName: "Charles Oliveira.",
     stars: 5,
     needs: ["Esportes"],
-    postedAtMs: Date.now() - 50 * 60 * 90, // ex.: há 5 minutos
+    postedAtMs: "a quanto tempo foi postado logica", // ex.: há 5 minutos
     location: "Guarulhos /SP", 
     schedule: "Seg/Sex • 14h–16h",
     group: "Aula individual",
     period: ["VIP"],
+    tradeCheck: "Yes"
   },
   {
     id: 3,
@@ -215,7 +218,8 @@ const produtos = [
     location: "Fartura / PR", // <-- opcional
     include: ["Limpeza de janelas", "Limpeza de carpetes"],
    
-    period: ["Dia"]
+    period: ["Dia"],
+    tradeCheck: "Yes"
   },
     {
     id: 4,
@@ -232,6 +236,7 @@ const produtos = [
     location: "Ribeirão do Sul / SP",          // ex.: há 5 minutos
     include: ["Capa protetora", "Lâmina extra"],
     period: ["UN"],
+    tradeCheck: "Yes"
   },
       {
     id: 5,
@@ -248,7 +253,8 @@ const produtos = [
     location: "Ourinhos / SP", // <-- opcional
     schedule: "Seg/Qui • 19h",
     group: "Maximo 3 pessoas",
-    period: [ " Km " ]
+    period: [ " Km " ],
+    tradeCheck: "Yes"
   },
 
 ];
