@@ -102,8 +102,7 @@ async function startServer() {
 
     try {
         const usuario = await db.get(
-            // ATENÇÃO: Nunca retorne a senha_hash!
-            'SELECT id, nome, email, senha_hash FROM usuarios WHERE id = ?', 
+            'SELECT id, nome, email FROM usuarios WHERE id = ?', // Note: Removi senha_hash daqui
             [userId]
         );
 
@@ -114,15 +113,28 @@ async function startServer() {
         const [primeiro_nome, ...sobrenomeArray] = usuario.nome.split(' ');
         const sobrenome = sobrenomeArray.join(' ');
 
+        // --- SIMULAÇÃO DE DADOS ---
+        // No futuro, estes dados virão do seu banco de dados (tabela usuarios)
+        const dadosPerfilSimulados = {
+            profissao: "Professor", // (Vem do HTML)
+            local: "Ourinhos/SP", // (Vem do HTML)
+            data_cadastro: "2018-01-14T10:00:00Z", // (Vem do HTML - formato ISO)
+            hashtags: "#BJJ #JIUJISTU #PROFESSOR #AULA #ESPORTE", // (Vem do HTML)
+            avatar_url: "img/foto-perfil-gilberto.png", // (Vem do HTML)
+            avaliacao_geral: 4.8, // (Vem do HTML)
+            vendas_trocas: 15 // (Vem do HTML)
+        };
+        // --- FIM DA SIMULAÇÃO ---
 
-        // Retorna apenas os dados seguros
+        // Retorna os dados reais + os simulados
         res.json({
             id: usuario.id,
             primeiro_nome: primeiro_nome || usuario.nome,
             sobrenome: sobrenome,
             email: usuario.email,
-            // Adicionar campos futuros aqui (ex: endereco, telefone, etc.)
-            endereco: "Ourinhos, 5236, Brasil (Em breve no DB!)" // Simulação
+            
+            // Adicionando os dados do perfil
+            ...dadosPerfilSimulados 
         });
 
     } catch (error) {

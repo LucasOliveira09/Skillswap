@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Preenche o conteúdo do dropdown
         menuContent.innerHTML = `
-            <a href="pagina_editarPerfil.html" class="menu-item">
-                Editar Perfil
+            <a href="pagina_perfil.html" class="menu-item">
+                Perfil
             </a>
             <hr class="menu-divider">
             <button onclick="fazerLogout()" class="menu-item menu-logout-btn">

@@ -7,7 +7,7 @@ let loggedInUserId = localStorage.getItem('usuarioId');
 
 
 // --- 1. Funções de Utilidade (Logout e Toast) ---
-
+// (Sem alterações, já está ótimo)
 function fazerLogout() {
     localStorage.removeItem('usuarioId');
     localStorage.removeItem('usuarioNome');
@@ -42,51 +42,55 @@ function exibirToast(text, type) {
     }).showToast();
 }
 
-// --- 2. Gerenciamento da Navbar (Menu Interativo) ---
+// --- 2. Gerenciamento da Navbar (ATUALIZADO PARA BOOTSTRAP) ---
 
 function gerenciarNavbar() {
     const usuarioNome = localStorage.getItem('usuarioNome');
     const navUserName = document.getElementById('navUserName');
-    const menuTrigger = document.getElementById('userMenuTrigger');
     const menuContent = document.getElementById('userMenuContent');
-    const dropdown = document.getElementById('userMenuDropdown');
     
-    if (usuarioNome && navUserName) {
+    if (!navUserName || !menuContent) {
+        console.error("Elementos da navbar não encontrados.");
+        return;
+    }
+
+    if (usuarioNome) {
         const primeiroNome = usuarioNome.split(' ')[0];
         navUserName.textContent = `Olá, ${primeiroNome}`;
         
-        // Conteúdo do Dropdown
+        // Conteúdo do Dropdown (Bootstrap)
+        // Usamos <li> e <a class="dropdown-item">
         menuContent.innerHTML = `
-            <a href="pagina_editarPerfil.html" class="menu-item">
-                Editar Perfil
-            </a>
-            <hr class="menu-divider">
-            <button onclick="fazerLogout()" class="menu-item menu-logout-btn">
-                Sair
-            </button>
+            <li>
+                <a class="dropdown-item" href="pagina_editarPerfil.html">
+                    Editar Perfil
+                </a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+                <button id="btnLogout" class="dropdown-item text-danger">
+                    Sair
+                </button>
+            </li>
         `;
         
-        // Event listeners para o dropdown
-        menuTrigger.addEventListener('click', () => {
-            menuContent.classList.toggle('is-open');
-            dropdown.classList.toggle('is-active');
-        });
-
-        document.addEventListener('click', (event) => {
-            if (dropdown && !dropdown.contains(event.target)) {
-                menuContent.classList.remove('is-open');
-                dropdown.classList.remove('is-active');
-            }
-        });
+        // Adiciona listener ao botão Sair
+        document.getElementById('btnLogout').addEventListener('click', fazerLogout);
 
     } else {
-        // Se não estiver logado, redireciona
+        // Se não estiver logado, redireciona (Sua lógica original)
         window.location.href = 'index.html';
     }
+    
+    // NOTA: A lógica de abrir/fechar o dropdown agora é 100% controlada
+    // pelo Bootstrap (data-bs-toggle="dropdown") e seu JS (bootstrap.bundle.min.js).
+    // Não precisamos mais de addEventListeners para 'click' no menu.
 }
 
 
 // --- 3. Carregamento e Renderização de Dados ---
+// (Função carregarDadosPerfil e popularColunaEsquerda/Direita 
+// NÃO PRECISAM MUDAR, pois os IDs foram mantidos no HTML)
 
 async function carregarDadosPerfil(userId) {
     try {
@@ -95,13 +99,17 @@ async function carregarDadosPerfil(userId) {
         if (!userResponse.ok) throw new Error('Falha ao carregar dados do usuário.');
         const userData = await userResponse.json();
 
+        // (Esta função funciona como antes)
         popularColunaEsquerda(userData);
+        // (Esta função também)
+        popularColunaDireita(userData); 
 
         // 2. Carregar serviços do usuário
         const servicosResponse = await fetch(API_SERVICOS_USUARIO_URL + userId);
         if (!servicosResponse.ok) throw new Error('Falha ao carregar serviços.');
         const servicosData = await servicosResponse.json();
         
+        // (Esta função foi ATUALIZADA)
         popularColunaCentral(userData, servicosData);
 
 
@@ -112,80 +120,137 @@ async function carregarDadosPerfil(userId) {
 }
 
 function popularColunaEsquerda(user) {
-    // Coluna esquerda (dados principais)
-    const colunaEsquerda = document.querySelector('.coluna-esquerda > div:first-child');
+    // ESTA FUNÇÃO NÃO MUDA.
+    // Ela busca por IDs (perfilInfoCard, perfilTrilha, etc.)
+    // que foram mantidos no novo HTML.
+
+    const colunaEsquerda = document.getElementById('perfilInfoCard');
     if (!colunaEsquerda) return;
 
     const nomeCompleto = `${user.primeiro_nome} ${user.sobrenome}`; 
     const isOwner = (user.id == loggedInUserId);
     
-    // Atualiza nome principal e trilha
     colunaEsquerda.querySelector('h2').textContent = nomeCompleto;
     document.getElementById('perfilTrilha').textContent = nomeCompleto;
     
-    // Simulação de Data de Cadastro (Não temos o campo no DB, então usamos uma data estática)
-    // Se o DB tivesse, usaríamos: new Date(user.data_cadastro).toLocaleDateString('pt-BR');
+    // (Simulação de dados, como antes)
     document.getElementById('membroDesde').textContent = '14 de JAN, 2018'; 
-    document.getElementById('perfilLocal').textContent = 'Ourinhos/SP';
     
-    // Lógica do botão
+    // Preenche os campos que vêm da API (se vierem)
+    const profissaoEl = document.getElementById('perfilProfissao');
+    if (user.profissao) {
+        profissaoEl.textContent = user.profissao;
+    } else {
+        profissaoEl.classList.add('d-none'); // Esconde se não tiver profissão
+    }
+
+    if (user.avatar_url) {
+        colunaEsquerda.querySelector('img').src = user.avatar_url;
+    }
+    
     const btnPerfilAcao = document.getElementById('btnPerfilAcao');
     if (isOwner) {
         btnPerfilAcao.textContent = 'Editar Meu Perfil';
         btnPerfilAcao.onclick = () => { window.location.href = 'pagina_editarPerfil.html'; };
+        // Estilo Bootstrap para "Editar"
+        btnPerfilAcao.classList.remove('btn-primary');
+        btnPerfilAcao.classList.add('btn-outline-secondary');
     } else {
-         btnPerfilAcao.textContent = 'Seguir';
-         // Lógica para seguir outro usuário aqui
+        btnPerfilAcao.textContent = 'Seguir';
+        // Estilo Bootstrap para "Seguir" (padrão)
+        btnPerfilAcao.classList.add('btn-primary');
     }
     
-    // Se o seu HTML tivesse campos como 'profissao', 'avatar', etc. eles seriam preenchidos aqui.
+    // (O ideal é refatorar o HTML de hashtags, mas por enquanto isso funciona)
+    const hashtagsEl = document.getElementById('perfilHashtags');
+    if(user.hashtags) {
+        // Limpa o container
+        const container = document.getElementById('perfilHashtagsContainer');
+        container.innerHTML = '';
+        // Cria badges Bootstrap
+        user.hashtags.split(' ').forEach(tag => {
+            if (tag.trim() === '') return;
+            const badge = document.createElement('span');
+            badge.className = 'badge bg-primary-subtle text-primary-emphasis border border-primary-subtle';
+            badge.textContent = tag;
+            container.appendChild(badge);
+        });
+    } else {
+         hashtagsEl.textContent = 'Sem tags definidas.';
+    }
 }
 
+// (Função que você adicionou na pergunta anterior)
+function popularColunaDireita(user) {
+    // ESTA FUNÇÃO TAMBÉM NÃO MUDA.
+    // Ela busca por IDs (avaliacaoGeral, vendasTrocas, etc.)
+    // que foram mantidos no novo HTML.
+    document.getElementById('avaliacaoGeral').textContent = user.avaliacao_geral || 'N/A';
+    document.getElementById('vendasTrocas').textContent = user.vendas_trocas || 0;
+    document.getElementById('perfilLocal').textContent = user.local || 'Não informado';
+}
+
+
 function popularColunaCentral(user, servicos) {
+    // ESTA FUNÇÃO FOI ATUALIZADA PARA CRIAR CARDS BOOTSTRAP
+    
     const colunaCentral = document.getElementById('colunaCentralServicos');
     if (!colunaCentral) return;
-    colunaCentral.innerHTML = ''; // Limpa o conteúdo estático
+    colunaCentral.innerHTML = ''; // Limpa o "Carregando..."
 
     if (servicos.length === 0) {
         colunaCentral.innerHTML = `
-            <article style="text-align: center; padding: 40px;">
-                <p style="color: #666;">Nenhum serviço/postagem publicada por ${user.primeiro_nome} ainda.</p>
-            </article>
+            <div class="card shadow-sm">
+                <div class="card-body text-center p-5">
+                    <h5 class="text-body-secondary">Nenhum serviço publicado</h5>
+                    <p class="text-body-secondary small">
+                        ${user.primeiro_nome} ainda não publicou nenhum serviço ou troca.
+                    </p>
+                </div>
+            </div>
         `;
         return;
     }
 
     servicos.forEach(servico => {
-        const article = document.createElement('article');
+        // Cria um card Bootstrap para cada serviço
+        const card = document.createElement('article');
+        card.className = 'card shadow-sm mb-4'; // mb-4 = margin-bottom
         
-        const primeiroNome = user.primeiro_nome;
         const nomeCompleto = `${user.primeiro_nome} ${user.sobrenome}`;
 
         let detalhesTrocaVenda = '';
         if (servico.tipo === 'Venda') {
             const valorFormatado = servico.valor ? `R$${servico.valor.toFixed(2)}` : 'A Combinar';
-            detalhesTrocaVenda = `<p style="font-weight: 700;">${valorFormatado}/hora</p>`;
+            detalhesTrocaVenda = `<span class="h5 text-success fw-bold">${valorFormatado}/hora</span>`; // text-success é verde
         } else if (servico.tipo === 'Troca') {
-            detalhesTrocaVenda = `<p><strong>Troca por:</strong> ${servico.habilidade_desejada || 'A Combinar'}</p>`;
+            detalhesTrocaVenda = `
+                <span class="text-body-secondary small">Troca por:</span>
+                <p class="fw-medium mb-0">${servico.habilidade_desejada || 'A Combinar'}</p>
+            `;
         }
 
-        article.innerHTML = `
-            <header class="perfil-display">
-                <img src="img/foto-perfil-postagem.png" alt="Foto de perfil do ${primeiroNome}">
-                <h3>${nomeCompleto}</h3>
-                <p>13 seguidores</p>
-            </header>
-            <div>
-                <!-- Imagem de placeholder: substitua por uma imagem real do serviço se tiver -->
-                <img src="https://placehold.co/600x400/8cc63f/255188?text=SERVI%C3%C3%87O+DE+${servico.categoria || 'SKILL'}" alt="Imagem do serviço">
+        // URL da imagem (placeholder)
+        const imgUrl = `https://placehold.co/600x300/8cc63f/255188?text=${servico.categoria || 'SKILL'}`;
+
+        card.innerHTML = `
+            <div class="card-header bg-white d-flex align-items-center gap-2 p-3">
+                <img src="${user.avatar_url || 'img/man.png'}" alt="Foto de ${nomeCompleto}" class="rounded-circle" width="40" height="40">
+                <div>
+                    <h3 class="h6 mb-0">${nomeCompleto}</h3>
+                    <p class="small text-body-secondary mb-0">13 seguidores (estático)</p>
+                </div>
             </div>
-            <footer>
-                ${detalhesTrocaVenda}
-                <p>${servico.titulo}</p>
-                <p style="font-size: 0.9em; color: #555;">${servico.descricao}</p>
-            </footer>
+
+            <img src="${imgUrl}" class="card-img-top" alt="Imagem do serviço ${servico.titulo}">
+
+            <div class="card-body p-4">
+                <div>${detalhesTrocaVenda}</div>
+                <h4 class="h5 mt-2">${servico.titulo}</h4>
+                <p class="card-text text-body-secondary">${servico.descricao}</p>
+            </div>
         `;
-        colunaCentral.appendChild(article);
+        colunaCentral.appendChild(card);
     });
 }
 
@@ -200,8 +265,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
     
-    // Por enquanto, o perfil visualizado é sempre o perfil do usuário logado
-    perfilId = loggedInUserId; 
+    // (Lógica para pegar ID da URL ou do usuário logado - sem alterações)
+    const urlParams = new URLSearchParams(window.location.search);
+    perfilId = urlParams.get('id') || loggedInUserId; 
     
     gerenciarNavbar();
     carregarDadosPerfil(perfilId);

@@ -1,446 +1,194 @@
+/* =========================================
+   IMPORTAÇÕES E VARIÁVEIS BOOTSTRAP
+   ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Abel&display=swap');
-/*font-family: "Abel", sans-serif; */
-@import url('https://fonts.googleapis.com/css2?family=Martel+Sans:wght@200;300;400;600;700;800;900&display=swap');
-/*font-family: "Martel Sans", sans-serif; */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-/*font-family: "Montserrat", sans-serif; */
-@import url('https://fonts.googleapis.com/css2?family=Angkor&display=swap');
-/*font-family: "Angkor", serif;*/
 
-/* ---------- RESET BÁSICO ---------- */
-body {
-    text-decoration: none;
-    /* Remove a margem padrão de todos os lados (causa o espaço em branco) */
-    margin: 0; 
-    /* Opcional: Remove o padding padrão, caso algum browser o adicione */
-    padding: 0; 
-}
-
-a {
-    text-decoration: none;
-}
-/* ---------------------------------- */
-
-/* Estilização da tag <header> para dar um espaçamento vertical */
-header {
-    padding: 10px 0;
-    border-bottom: 1px solid #eee; /* Linha sutil para separar do conteúdo */
-}
-
-/* Aplica Flexbox à tag <nav> dentro do header para alinhar os 3 principais blocos */
-header nav {
-    display: flex;
-    justify-content: space-between; /* Espaça a logo, a pesquisa e os links */
-    align-items: center; /* Centraliza verticalmente os itens (logo, input) */
-    max-width: 1500px; /* Mantém a largura centralizada do conteúdo principal */
-    margin: 0 auto;
-    padding: 0 20px;
-    gap: 0px;
-}
-
-/* Centraliza a logo */
-.nav-img-logo {
-    height: 75px; /* Tamanho da logo */
-    padding-left: 120px;
-}  
-
-/* Container da logo e menu */
-header nav > div:first-child {
-    display: flex;           /* Alinha em linha */
-    align-items: center;     /* Centraliza verticalmente */
-    gap: 100px;  /* Espaço entre menu e logo */
-    flex-shrink: 0;
-}
-
-/* Bloco do campo de pesquisa */
-header nav > div:nth-child(2) {
-    flex-grow: 1; /* Permite que o campo de pesquisa ocupe o espaço central */
-    text-align: center;
+:root {
+    /* ----- SUAS CORES ----- */
+    /* Substituindo as cores padrão do Bootstrap pelas suas */
+    --bs-primary: #1f3d6d;
+    --bs-primary-rgb: 31, 61, 109;
+    --bs-secondary: #6c757d;
+    --bs-success: #8cc63f; /* Seu verde! */
+    --bs-success-rgb: 140, 198, 63;
     
+    /* Definindo as fontes padrão do Bootstrap */
+    --bs-font-sans-serif: "Montserrat", sans-serif;
+    --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    
+    /* Ajustes finos */
+    --bs-body-bg: #f8f9fa; /* Fundo cinza claro */
+    --bs-card-border-radius: 0.75rem; /* Bordas mais suaves */
+    --bs-card-border-color: #dee2e6;
+    --bs-card-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
-
-/* Garante que o input de pesquisa seja mais estreito */
-header nav input[type="text"] {
-    font-family: "Abel", sans-serif;
-    font-size: 15px;
-    padding: 13px 15px;
-    background-color: rgb(240, 246, 250);
-    border: 0px solid;
-    border-radius: 3px;
-    width: 60%; /* Ajuste a largura do input */
-}
-
-/* Bloco dos links de Entrar/Carrinho - Alinha os links um ao lado do outro */
-header nav > div:last-child {
-    font-family: "Abel", sans-serif;
-    display: flex;
-    gap: 20px; /* Espaço entre 'Entrar' e 'Carrinho' */
-    align-items: center;
-}
-
-/* Estiliza os links */
-header nav a {
-    text-decoration: none;
-    color: #333;
-    font-size: 14px;
-}
-
-/* Botão do menu (sem absolute) */
-.button-menu {  
-    width: 0px;
-    height: 0px;
-    background: var(--bg);
-    border: var(--border);
-    outline: 0;
-    box-shadow: var(--shadow);
-    display: inline-grid;
-    place-items: center;
-    color: #fff;
-    font-weight: 600;
-    font-size: 16px;
-    cursor: pointer;
-    transition: transform .12s ease, filter .12s ease, box-shadow .12s ease;
-    -webkit-tap-highlight-color: transparent;
-    user-select: none;
-    border-radius: 8px;
-    padding: 0;
-    display: flex;
-    align-items: left;
-    justify-content: left;
-}
-
-.button-menu:hover {
-    filter: brightness(.9);
-    transform: translateY(-2px);
-    box-shadow: 0 10px 24px rgba(79,70,229,0.28);
-}
-
-.button-menu:active {
-    transform: translateY(0);
-    filter: brightness(.85);
-    box-shadow: 0 6px 14px rgba(79,70,229,0.22);
-}
-
-.button-menu:focus-visible {
-    box-shadow: 0 0 0 4px rgba(79,70,229,0.14);
-}
-
-/* ---------- BOTÕES ---------- */
-.btn-seguir {
-    padding: 13px 0;
-    width: 100%;
-    border: none;
-    border-radius: 4px;
-    font-size: 14px;
-    cursor: pointer;
-    margin-right: 10px;
-    background: #1f3d6d;
-    color: #fff;
-    font-weight: 600;
-}
-
-.btn-seguir:hover {
-    background: #16325a;
-}
-
-/* BODY */
 
 body {
-    font-family: "Montserrat", sans-serif;
-    color: #333;
+    /* Garante que a fonte principal seja aplicada */
+    font-family: var(--bs-font-sans-serif);
 }
 
-/* Regra para a barra de navegação de trilha (Início > Jiu-Jitsu...) */
-body > nav {
-    /* ... (Mantenha as regras de centralização que foram adicionadas antes) ... */
-    
-    text-decoration: none;
+/* =========================================
+   COMPONENTES PERSONALIZADOS
+   ========================================= */
+
+/* Ajuste na fonte da trilha (breadcrumb) */
+.breadcrumb, .nav-link {
     font-family: "Abel", sans-serif;
-    max-width: 1200px;
-    margin: 0 auto;
-    margin-top: 10px;
-    padding: 10px 10px;
-}
-
-.hashtags {
-    color: rgb(40, 99, 226);
-}
-
-.marks {
+    font-size: 1.1rem;
     font-weight: 600;
 }
-.inicio-bemvindo {
-    font-family: "Abel", sans-serif;
-    text-decoration: none;
-    color: #333;
-    display: flex;
-    max-width: 1200px;
-    margin: 0 auto;
-    margin-top: 10px;
-    padding: 10px 10px;
-    font-size: 16px;
-}
-
 
 .inicio-links {
     text-decoration: none;
-    color: #333;
+    color: #6c757d; /* Cinza secundário */
+}
+.inicio-links:hover {
+    color: var(--bs-primary);
 }
 
-.perfil-display {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    margin: 0 0 15px;
-    padding: 0 0 10px;
+/* Campo de Pesquisa */
+header input[type="text"].form-control:focus {
+    box-shadow: 0 0 0 0.25rem rgba(var(--bs-success-rgb), 0.25);
+    border-color: var(--bs-success);
 }
 
-.container-principal {
+/* Dropdown de Perfil */
+.dropdown-toggle::after {
+    /* Remove a setinha padrão do dropdown se quiser */
+    /* display: none; */ 
+}
+
+.dropdown-item.text-danger {
+    --bs-dropdown-link-hover-color: #fff;
+    --bs-dropdown-link-hover-bg: #dc3545;
+}
+
+/* =========================================
+   FOOTER (Seu CSS original)
+   (Pode colar o seu CSS do footer aqui se ele
+   não estiver em um arquivo separado)
+   ========================================= */
+
+.main-footer {
+    background-color: #255188; /* Cor do seu footer */
+    color: white;
+    padding: 40px 10%;
     display: flex;
     justify-content: space-between;
-    gap: 20px;
-    max-width: 1070px;
-    margin: 30px auto; /* centraliza */
-    padding: 0 20px;
-    font-family: "Montserrat", sans-serif;
+    align-items: flex-start;
+    position: relative;
+    overflow: hidden;
 }
 
-/* colunas */
-.coluna-esquerda, .coluna-direita {
-    flex: 1; /* laterais menores */
-    max-width: 250px;
+.footer-circle {
+    width: 450px; height: 450px; border-radius: 50%;
+    background-color: #8cc63f;
+    border: 2px solid white;
+    position: absolute;
+    bottom: 60px; right: -90px;
+    z-index: 1;
 }
 
-.coluna-central {
-    flex: 2; /* central maior */
+.footer-circletwo {
+    width: 500px; height: 500px; border-radius: 50%;
+    background-color: transparent;
+    border: 2px solid white;
+    position: absolute;
+    bottom: 36px; right: -115px;
+    z-index: 1;
 }
 
-/* Caixas (cards) */
-.coluna-esquerda div, .coluna-direita div, .coluna-central article {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 15px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0);
-}
+/* ... (Restante do seu CSS de footer) ... */
 
+/* =========================================
+   FOOTER (Apenas ajustes finos, seu CSS já era bom)
+   ========================================= */
 
-
-
-
-
-
-/* ---------- FOOTER ---------- */
-
-/* Container que alinha os dois blocos do footer (Contato + Download) lado a lado */
 .main-footer {
     background-color: rgba(37, 81, 136, 1);
     color: rgb(255, 255, 255);
-    padding: 10px 10%; /* Padding lateral e vertical */
+    padding: 40px 10%; /* Mais padding vertical */
     display: flex;
-    justify-content: space-between; /* Espaça os blocos Contato e Download */
+    justify-content: space-between;
     align-items: flex-start;
-    position: relative; /* FUNDAMENTAL para que o círculo absoluto funcione */
-    overflow: hidden; /* Opcional: Garante que o que estiver fora do footer seja cortado */
+    position: relative;
+    overflow: hidden;
 }
-
-/* Estilo do Círculo */
+.footer-circle, .footer-circletwo {
+    z-index: 1;
+    position: absolute;
+    border: 2px solid white;
+    border-radius: 50%;
+}
 .footer-circle {
-    /* Forma o círculo */
-    width: 450px; /* Diâmetro do círculo (ajuste conforme necessário) */
-    height: 450px;
-    border-radius: 100%; /* Transforma o quadrado em círculo */
-    
-    /* Cores e borda */
-    background-color: #8cc63f; /* Cor verde/lima da imagem (ajuste o tom se precisar) */
-    border: 2px solid white; /* Borda branca ao redor do círculo */
-    
-    /* Posicionamento (position: absolute é crucial) */
-    position: absolute;
-    /* Move o círculo para o canto inferior direito e o posiciona parcialmente fora da tela */
-    bottom: 60px; /* Levanta o círculo 120px de baixo */
-    right: -90px; /* Move o círculo 100px para a esquerda da borda direita */
-    
-    /* Z-index para controle de camadas (se precisar que ele fique atrás de algo) */
-    z-index: 1;
+    width: 450px; height: 450px;
+    background-color: #8cc63f;
+    bottom: 60px; right: -90px;
 }
-
-/* Estilo do Círculo */
 .footer-circletwo {
-    /* Forma o círculo */
-    width: 500px; /* Diâmetro do círculo (ajuste conforme necessário) */
-    height: 500px;
-    border-radius: 100%; /* Transforma o quadrado em círculo */
-    
-    /* Cores e borda */
-    background-color: #8bc63f00; /* Cor verde/lima da imagem (ajuste o tom se precisar) */
-    border: 2px solid white; /* Borda branca ao redor do círculo */
-    
-    /* Posicionamento (position: absolute é crucial) */
-    position: absolute;
-    /* Move o círculo para o canto inferior direito e o posiciona parcialmente fora da tela */
-    bottom: 36px; /* Levanta o círculo 120px de baixo */
-    right: -115px; /* Move o círculo 100px para a esquerda da borda direita */
-    
-    /* Z-index para controle de camadas (se precisar que ele fique atrás de algo) */
-    z-index: 1;
+    width: 500px; height: 500px;
+    background-color: #8bc63f00;
+    bottom: 36px; right: -115px;
 }
-
 .skillswap {
     font-family: "Angkor", serif;
     font-weight: 200;
     font-size: 39px;
+    line-height: 1.1;
+    margin-bottom: 25px;
 }
-
 .ultimo-footer {
     font-family: "Abel", sans-serif;
+    font-size: 16px;
 }
-
 .tel-email {
     display: flex;
+    gap: 30px;
 }
-
 .sobre-nos {
-    margin-top: 40px;
+    margin-top: 10px; /* Alinhado com o logo */
     font-family: "Abel", sans-serif;
     text-align: center;
 }
-
+.sobre-nos h2, .footer-download h2 {
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 30px;
+}
 .faqs {
     display: block;
-    margin-top: 46px;
+    margin-top: 15px; /* Espaçamento menor */
+    font-size: 16px;
 }
-
 .footer-download {
-    margin-top: 40px;
+    margin-top: 10px;
     font-family: "Abel", sans-serif;
     text-align: center;
     z-index: 2;
 }
-
 .footer-download a img {
-    display: block; /* Garante que os botões fiquem um abaixo do outro */
-    margin-top: 46px;
-    z-index: 2;
-}
-
-.nav-links-area {
-    font-family: "Abel", sans-serif;
-    display: flex;
-    gap: 20px;
-    align-items: center;
-}
-
-.user-menu-dropdown {
-    position: relative; 
-}
-
-.user-menu-trigger {
-    background: none;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding: 8px 10px;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    color: #333; 
-    font-size: 14px;
-    font-weight: 600;
-    transition: background-color 0.2s;
-}
-
-.user-menu-trigger:hover,
-.user-menu-dropdown.is-active .user-menu-trigger {
-    background-color: #f0f0f0;
-}
-
-/* O Conteúdo do Menu Suspenso */
-.user-menu-content {
-    position: absolute;
-    top: 100%; 
-    right: 0;
-    z-index: 1000; 
-    background: #fff;
-    border: 1px solid #ddd;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    border-radius: 6px;
-    min-width: 180px;
-    padding: 5px 0;
-    
-    /* Estado inicial: escondido */
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
-    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
-    
-    /* Alinhamento dos itens */
-    display: flex;
-    flex-direction: column;
-}
-
-/* Estado Aberto */
-.user-menu-content.is-open {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.menu-item {
-    display: block; 
-    padding: 8px 15px;
-    text-align: left;
-    text-decoration: none;
-    color: #333;
-    font-size: 14px;
-    border: none;
-    background: none;
-    cursor: pointer;
-    transition: background-color 0.15s;
-}
-
-.menu-item:hover {
-    background-color: #f7f7f7;
-    text-decoration: none;
-}
-
-.menu-logout-btn {
-    color: #e74c3c; 
-    font-weight: 600;
-}
-
-.menu-divider {
-    border: 0;
-    height: 1px;
-    background-color: #eee;
-    margin: 5px 0;
-}
-
-.user-menu-trigger img {
-    height: 15px;
-}
-
-/* Estilo para os cards de postagem na coluna central */
-#colunaCentralServicos article {
-    /* Mantém os estilos do .coluna-central article */
-    padding: 0; /* Remover padding interno se a imagem for full-width */
-    overflow: hidden;
-}
-
-#colunaCentralServicos article header {
-    padding: 15px;
-    border-bottom: 1px solid #eee;
-}
-
-#colunaCentralServicos article footer {
-    padding: 15px;
-}
-
-#colunaCentralServicos article img {
-    width: 100%;
-    height: auto;
     display: block;
-    object-fit: cover;
+    margin-top: 15px;
+    z-index: 2;
+    transition: transform 0.2s;
+}
+.footer-download a img:hover {
+    transform: scale(1.03);
+}
+
+/* --- Botão Menu Hamburguer (Do seu CSS original) --- */
+.button-menu { 
+    background: none; border: none; outline: 0; 
+    display: inline-grid; place-items: center;
+    cursor: pointer; transition: transform .12s ease;
+    padding: 0;
+    display: flex; align-items: left; justify-content: left;
+}
+.button-menu:hover {
+    filter: brightness(.9); transform: translateY(-2px);
+}
+.button-menu:active {
+    transform: translateY(0); filter: brightness(.85);
 }
