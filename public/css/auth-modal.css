@@ -39,3 +39,10 @@
 .authm__footer{ position:absolute; inset:0 0 auto auto; padding:10px; }
 .authm__x{ background:none; border:0; color:#aeb6c2; font-size:22px; line-height:1; cursor:pointer; }
 .authm__x:hover{ color:#fff; }
+/* estados base */
+.authm[aria-hidden="true"] .authm__backdrop { opacity: 0; }
+.authm[aria-hidden="true"] .authm__card     { transform: translateY(8px) scale(.98); opacity: 0; }
+
+/* animados */
+.authm .authm__backdrop { transition: opacity .22s ease; }
+.authm .authm__card     { transition: transform .22s ease, opacity .22s ease; }
