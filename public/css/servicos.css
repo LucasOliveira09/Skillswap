@@ -1487,7 +1487,7 @@ html { box-sizing: border-box; }
 .main-footer{
   width: 100%;
   padding: 24px 3%;
-  overflow: hidden; /* já está, mantemos */
+   /* já está, mantemos */
 }
 
 /* Paginador alinhado à direita sem “empurrar” com margin fixa */
@@ -1618,130 +1618,149 @@ html { box-sizing: border-box; }
   display:block;
 }
 
-/* ===== Botão do menu (versão desktop: inline, NÃO FIXO) ===== */
-.offnav-trigger{
-  position: static;                 /* <-- tira do topo fixo */
-  width: 40px;
-  height: 40px;
-  display:grid;
-  place-items:center;
-  border-radius: 12px;
-  border: 1px solid rgba(0,0,0,.06);
-  background: #fff;
-  box-shadow: 0 6px 16px rgba(0,0,0,.08);
-  cursor: pointer;
-  transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+/* ==== FOOTER FULL-BLEED (cola até a borda, sem sobrar nada) ==== */
+footer.main-footer{
+  /* faz o footer “sair” do container central e ocupar a viewport */
+  position: relative !important;
+  left: 50% !important;
+  right: 50% !important;
+  margin-left: calc(-50vw + 0px) !important;
+  margin-right: calc(-50vw + 0px) !important;
+  width: 100vw !important;
+
+  /* remenda qualquer regra antiga */
+  margin-top: 38px !important;
+  padding-left: clamp(16px, 3vw, 40px) !important;
+  padding-right: clamp(16px, 3vw, 40px) !important;
+  box-sizing: border-box !important;
+  overflow-x: hidden !important;
 }
 
-.offnav-trigger:hover{ transform: scale(1.05); box-shadow: 0 10px 24px rgba(0,0,0,.12); }
-.offnav-trigger:focus-visible{ outline: 2px solid #4f46e5; outline-offset: 2px; }
-
-/* ===== Comportamento do painel (mantém o seu) ===== */
-.offnav{ position: fixed; inset:0; z-index: 1100; pointer-events:none; }
-.offnav[aria-hidden="false"]{ pointer-events:auto; }
-.offnav__backdrop{ position:absolute; inset:0; background:rgba(9,13,18,.55); backdrop-filter: blur(2px); opacity:0; transition:opacity .24s; }
-.offnav[aria-hidden="false"] .offnav__backdrop{ opacity:1; }
-.offnav__panel{
-  position:absolute; top:0; bottom:0; left:0; width:min(88vw,360px);
-  background: linear-gradient(to bottom right, rgba(22,27,33,.86), rgba(14,18,24,.9));
-  color:#e5e7eb; border-right:1px solid rgba(255,255,255,.06);
-  box-shadow: 0 28px 80px rgba(0,0,0,.45);
-  backdrop-filter: blur(12px) saturate(140%);
-  transform: translateX(-102%);
-  transition: transform .28s cubic-bezier(.2,.8,.2,1);
-  display:grid; grid-template-rows:auto auto 1fr auto; gap:8px; padding:12px;
+/* garante que nada do footer “puxe” pra fora */
+footer.main-footer *{
+  max-width: 100%;
 }
-.offnav[aria-hidden="false"] .offnav__panel{ transform: translateX(0); }
 
-/* ===== Mobile: botão flutuante (fixo) ===== */
-@media (max-width: 768px){
-  /* Dá um espacinho à esquerda do nav caso precise */
-  header nav{ padding-left: 8px; }
+/* remove empurrõezinhos que você tinha antes */
+footer.main-footer .footer-col{
+  transform: none !important;
+  margin: 0 !important;
+}
 
-  .offnav-trigger{
-    
-    top: 12px; left: 12px; z-index: 1200;     /* agora sim flutuante só no mobile */
-    background: rgba(255,255,255,.85);
-    backdrop-filter: blur(6px);
-    border: 1px solid rgba(255,255,255,.35);
+/* se tiver o círculo decorativo, aproxima pra não causar overflow */
+.footer-circle{ right: -24px !important; }
+@media (max-width: 768px){ .footer-circle{ right: -12px !important; } }
+
+/* segurança global pra não ter scroll horizontal */
+html, body{ margin:0; overflow-x:hidden; }
+:root{
+  --brand:#2b5fad; --accent:#7CC043;
+  --text-strong:#0f172a; --text:#1f2937; --text-dim:#6b7280;
+  --bg:#ffffff; --bg-2:#f5f7fb; --line:rgba(15,23,42,.08);
+  --shadow-1:0 8px 20px rgba(2,6,23,.10);
+  --shadow-2:0 16px 40px rgba(2,6,23,.14);
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --text-strong:#e6edf6; --text:#d1d9e6; --text-dim:#96a3b8;
+    --bg:#0c1118; --bg-2:#0f1520; --line:rgba(230,237,246,.08);
+    --shadow-1:0 10px 24px rgba(0,0,0,.35);
+    --shadow-2:0 18px 60px rgba(0,0,0,.5);
   }
 }
-/* painel: elevação + easing mais gostoso */
-.offnav__panel{
-  /* já existem as suas configs: só ajusto motion */
-  transition: transform .26s cubic-bezier(.2,.8,.25,1);
+
+/* ===== LAYOUT GERAL ===== */
+.site-header{ position:sticky; top:0; z-index:100; background:var(--bg); border-bottom:1px solid var(--line); }
+.site-nav{
+  max-width:1280px; margin:0 auto; padding:14px 24px;
+  display:grid; grid-template-columns:auto 1fr auto; align-items:center; column-gap:28px;
 }
 
-/* linhas de navegação mais ar/altura */
-.offnav__nav{ gap:4px; padding:8px 0; }
-.offnav__nav a{
-  grid-template-columns: 22px 1fr;
-  padding: 12px 10px;
-  border-radius: 12px;
-  font: 600 14px/1.2 "Poppins", system-ui, -apple-system, Segoe UI, Roboto;
-  letter-spacing:.2px;
-}
-.offnav__nav a i{ opacity:.9; }
+/* esquerda */
+.nav-left{ display:flex; align-items:center; gap:12px; }
+.nav-logo img{ height:42px; width:auto; display:block; }
 
-/* footer fixo dentro do painel (sem pular) */
-.offnav__footer{
-  position: sticky; bottom: 0;
-  padding: 10px 4px 6px;
-  background: linear-gradient(to top, rgba(0,0,0,.18), rgba(0,0,0,0));
-}
-
-/* respeita o notch no iOS */
-@supports (padding: max(0px)){
-  .offnav__panel{ padding-bottom: max(12px, env(safe-area-inset-bottom)); }
-}
-
-/* fallback sem blur se o browser não suportar */
-@supports not (backdrop-filter: blur(6px)){
-  .offnav__panel{ background: #11161d; }
-  .offnav__backdrop{ background: rgba(0,0,0,.55); }
-}
-@media (prefers-reduced-motion: reduce){
-  .offnav__panel, .offnav__backdrop, .offnav-trigger{ transition:none !important; }
-}
-.offnav-trigger:hover{ color:#2b5fad; background:#f8fbff; }
-@media (hover: hover){
-  .offnav-trigger:hover{ border-color: rgba(0,0,0,.08); }
-}
-/* Agrupa botão + logo (garante alinhamento) */
-.nav-left{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
-/* DESKTOP: botão inline, sem ficar em cima da logo */
+/* botão-menu (alinhado com leve mt) */
 .offnav-trigger{
-  position: static !important;   /* <- tira o fixed no desktop */
-  top: auto !important;
-  left: auto !important;
-  right: auto !important;
-  bottom: auto !important;
-  z-index: auto !important;
+  width:42px; height:42px;
+  display:grid; place-items:center;
+  border:1px solid var(--line); border-radius:12px; background:var(--bg);
+  margin-top:2px; /* alinha com a busca/pílulas */
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.offnav-trigger:hover{ transform:translateY(-1px); box-shadow:var(--shadow-1); }
 
-  width: 40px; height: 40px;
-  display: grid; place-items: center;
-  border-radius: 12px;
-  background: #fff;
-  border: 1px solid rgba(0,0,0,.06);
-  box-shadow: 0 6px 16px rgba(0,0,0,.08);
+.burger{ position:relative; width:18px; height:14px; }
+.burger span{ position:absolute; left:0; right:0; height:2px; border-radius:2px; background:var(--text-strong); transition:.2s; }
+.burger span:nth-child(1){ top:0 } .burger span:nth-child(2){ top:6px } .burger span:nth-child(3){ top:12px }
+.offnav-trigger[data-state="open"] .burger span:nth-child(1){ top:6px; transform:rotate(45deg) }
+.offnav-trigger[data-state="open"] .burger span:nth-child(2){ opacity:0; transform:scaleX(0) }
+.offnav-trigger[data-state="open"] .burger span:nth-child(3){ top:6px; transform:rotate(-45deg) }
+
+/* centro (busca) */
+.nav-search{ max-width:740px; position:relative; }
+.nav-search input{
+  width:100%; height:46px; padding:0 16px 0 44px;
+  border-radius:14px; background:var(--bg-2); border:1px solid var(--line);
+  font:500 14px/1.2 "Poppins",system-ui; color:var(--text);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.35);
+}
+.nav-search::before{
+  content:""; position:absolute; left:14px; top:50%; transform:translateY(-50%);
+  width:18px; height:18px; background:var(--text-dim);
+  mask:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 18a8 8 0 1 1 5.293-14.293A8 8 0 0 1 10 18Zm12.707 3.293-6.13-6.13a10 10 0 1 0-1.414 1.414l6.13 6.13 1.414-1.414Z"/></svg>') no-repeat 50% 50%;
 }
 
-/* MOBILE: volta a ser flutuante (fixed) */
-@media (max-width: 768px){
-  .offnav-trigger{
-    position: fixed !important;
-    top: 12px; left: 12px; z-index: 1200;
-    background: rgba(255,255,255,.85);
-    border: 1px solid rgba(255,255,255,.35);
-    backdrop-filter: blur(6px);
-  }
+/* direita */
+.nav-right{
+  display:flex; align-items:center; gap:22px;
+  padding-left:8px;
+  margin-right:16px; /* folguinha à direita */
 }
-.main-footer{
-  position: relative;
-  width: 100%;
+
+/* botão Anunciar – base forte pra vencer conflito */
+header .site-nav .nav-right .button-anunciar > #btnAnunciar,
+header .site-nav .button-anunciar > #btnAnunciar,
+header .button-anunciar > #btnAnunciar,
+button#btnAnunciar{
+  appearance:none;
+  height:42px; padding:0 18px; border:0; border-radius:999px;
+  background:linear-gradient(180deg, color-mix(in oklab, var(--accent), #fff 16%), var(--accent));
+  color:#fff; font:700 14px/1 "Poppins",system-ui;
+  display:inline-flex; align-items:center; gap:8px; cursor:pointer;
+  box-shadow:0 10px 24px color-mix(in oklab, var(--accent), #000 70% / 18%);
+  transition:transform .12s ease, box-shadow .12s ease, filter .12s ease;
+}
+#btnAnunciar:hover{
+  transform:translateY(-1px); filter:brightness(1.03);
+  box-shadow:0 14px 36px color-mix(in oklab, var(--accent), #000 70% / 26%);
+}
+
+/* “Olá, Lucas” clean (sem pílula preta) */
+.user-menu-dropdown{ position:relative; }
+.user-menu-trigger{
+  display:flex; align-items:center; gap:8px; height:42px; padding:0 14px;
+  border-radius:999px; border:1px solid var(--line); background:var(--bg);
+  color:var(--text); font:600 14px/1 "Poppins"; box-shadow:var(--shadow-1);
+  transition: box-shadow .15s ease, transform .15s ease;
+}
+.user-menu-trigger:hover{ box-shadow:var(--shadow-2); transform:translateY(-1px); }
+.user-menu-trigger .avatar{ width:24px; height:24px; border-radius:50%; object-fit:cover; }
+#navUserName{ white-space:nowrap; }
+
+/* dropdown (se usar) */
+.user-menu-content{
+  position:absolute; right:0; top:calc(100% + 10px);
+  min-width:260px; padding:8px; border-radius:14px;
+  background:var(--bg); border:1px solid var(--line); box-shadow:var(--shadow-2); display:none;
+}
+.user-menu-dropdown[aria-expanded="true"] .user-menu-content{ display:block; }
+
+/* responsivo: esconde busca no <880px> (opcional) */
+@media (max-width:880px){ .nav-center{ display:none } }
+
+/* ===== HARD-FIX contra estilos antigos (se existirem) ===== */
+.user-menu-trigger,
+#btnAnunciar{
+  background:var(--bg);
 }

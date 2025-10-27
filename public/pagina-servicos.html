@@ -7,6 +7,8 @@
     <link rel="icon" type="image/png" href="./img/logo-seta.png">
     <link rel="stylesheet" type="text/css" href="./css/servicos.css" />
 <link rel="stylesheet" href="./css/auth-modal.css">
+<link rel="stylesheet" href= "./css/menu.css">
+
     <!-- no <head> -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,25 +18,83 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css"
 />
 <!-- Estilos mínimos pra você enxergar os cards (opcional, pode remover) -->
-
+<link rel="stylesheet" href="./css/pro-overrides.css">
   </head>
   <body>
     
-        
-<div class="menuLateral" id="menuLateral">
-    <h1>das</h1>
-</div>
 
-<div>
+<header>
+  <nav class="site-nav">
+    <!-- ESQUERDA: botão + logo -->
+    <div class="nav-left">
+      <button
+        id="menuButton"
+        class="offnav-trigger"
+        aria-label="Abrir menu"
+        aria-controls="offnav"
+        aria-haspopup="dialog"
+        aria-expanded="false"
+        data-state="closed">
+        <span class="burger" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </span>
+      </button>
+
   
-</div>
+<!-- OFF-CANVAS -->
+<div id="offnav" class="offnav" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="offnav__backdrop" data-close></div>
 
-    <header>
-      <nav>
-        <div>
-          <button class="menu-button" onclick="abrirMenu()" id="menu-button">
-            <img src="img/menu.png" alt="Botao Menu" width="42" />
-          </button>
+  <aside class="offnav__panel" role="document" tabindex="-1">
+    <header class="offnav__header">
+      <button class="offnav__x" aria-label="Fechar menu" data-close><span aria-hidden="true">×</span></button>
+    </header>
+
+    <!-- Perfil / Trust -->
+    <section class="offnav__profile">
+      <img id="offnavAvatar" class="offnav__avatar" src="./img/perfil-charles.jpg" alt="" width="56" height="56" />
+      <div class="offnav__who">
+        <strong id="offnavUserName" data-user-name>Swap</strong>
+        <div class="offnav__meta" id="offnavBadges"></div>
+      </div>
+      <button id="offnavAnunciar" class="offnav__cta">Anunciar</button>
+    </section>
+
+    <!-- Ações rápidas -->
+    <section class="offnav__quick" aria-label="Ações rápidas">
+      <a href="./pagina_chat.html" class="qaction"><i class="fa-solid fa-comments"></i><span>Chat</span></a>
+      <a href="#" class="qaction"><i class="fa-solid fa-bag-shopping"></i><span>Pedidos</span></a>
+      <a href="#" class="qaction"><i class="fa-solid fa-store"></i><span>Vender</span></a>
+    </section>
+
+    <!-- Navegação principal -->
+    <nav class="offnav__nav" aria-label="Principal">
+      <a href="pagina-servicos.html"><i class="fa-solid fa-house"></i> Início</a>
+      <a href="#"><i class="fa-solid fa-cart-shopping"></i> Carrinho</a>
+      <a href="pagina_perfil.html"><i class="fa-solid fa-user-gear"></i> Minha conta</a>
+      <a href="#"><i class="fa-solid fa-bell"></i> Notificações</a>
+    </nav>
+
+    <div class="offnav__sep" role="separator" aria-hidden="true"></div>
+
+    <!-- Ajuda -->
+    <nav class="offnav__nav" aria-label="Ajuda">
+      <a href="#"><i class="fa-regular fa-circle-question"></i> FAQ</a>
+      <a href="#"><i class="fa-solid fa-shield-halved"></i> Suporte</a>
+      <a href="#"><i class="fa-regular fa-file-lines"></i> Termos & Privacidade</a>
+    </nav>
+
+    <!-- Rodapé -->
+    <footer class="offnav__footer">
+      <div class="hint">Pressione <kbd>/</kbd> para buscar</div>
+      <div class="auth">
+        <button id="offnavLogin" class="offnav__ghost">Entrar</button>
+        <button id="offnavLogout" class="offnav__ghost" hidden>Sair</button>
+      </div>
+      <small>© 2025 Skill Swap</small>
+    </footer>
+  </aside>
+</div>
           <a href="pagina-servicos.html">
             <img
               class="img-logo-skill"
@@ -48,6 +108,9 @@
           <input type="text" placeholder="🔍︎   Procure..." />
           <i></i>
         </div>
+
+        <div class="nav-right">
+
       <div class="button-anunciar">
   <button id="btnAnunciar" type="button">Anunciar</button>
 </div>
@@ -69,10 +132,13 @@
             </div>
             </div>
         </div>
-      </nav>
-    </header>
+     </div>
 
-  
+      </nav>
+      
+    </header>
+<!-- OFF-CANVAS -->
+
 
 <section class="hero-figma">
   <div class="hero-card">
@@ -301,5 +367,15 @@
 <script src="./js/perfilNav.js"></script>
 <script src="./js/servicePage.js" defer></script>
 <script src="./js/feed.js"></script>
+<script src="./js/menu.js"></script>
+
+<div id="offnav" class="offnav" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="offnav__backdrop" data-close></div>
+  <aside class="offnav__panel" role="document" tabindex="-1">
+    <!-- header, profile, nav, footer … -->
+  </aside>
+</div>
+
   </body>
 </html>
+

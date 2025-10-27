@@ -1,0 +1,462 @@
+:root{
+  --panel-w: 360px;
+  --radius: 14px;
+  --bg: #0f141b;
+  --bg-soft: #121925;
+  --text: #e6eaf2;
+  --text-dim: #b6c0d0;
+  --brand: #2b5fad;  /* sua paleta */
+  --ring: #4f46e5;
+  --shadow: 0 28px 80px rgba(0,0,0,.45);
+  --border: 1px solid rgba(255,255,255,.06);
+  --blur: 14px;
+}
+@media (prefers-color-scheme: light){
+  :root{ --bg:#ffffff; --bg-soft:#f6f8fb; --text:#111827; --text-dim:#4b5563; --border:1px solid rgba(0,0,0,.08); --shadow:0 28px 80px rgba(0,0,0,.18); }
+}
+
+/* Trigger */
+.offnav-trigger{
+  inline-size: 44px; block-size: 44px;
+  display:grid; place-items:center;
+  border-radius: 12px;
+  background:#fff; border:1px solid rgba(0,0,0,.06);
+  box-shadow: 0 6px 16px rgba(0,0,0,.08);
+  cursor:pointer;
+  transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+}
+.offnav-trigger:hover{ transform: translateY(-1px); box-shadow: 0 12px 28px rgba(0,0,0,.16); }
+.offnav-trigger:focus-visible{ outline:2px solid var(--ring); outline-offset:3px; }
+
+/* Hamburger → X */
+.burger{ position:relative; display:inline-block; inline-size:22px; block-size:14px; }
+.burger span{
+  position:absolute; left:0; right:0; block-size:2px; background:#111827; border-radius:2px;
+  transform-origin: 50% 50%;
+  transition: transform .18s ease, opacity .18s ease, top .18s ease;
+}
+.burger span:nth-child(1){ top:0; }
+.burger span:nth-child(2){ top:6px; }
+.burger span:nth-child(3){ top:12px; }
+.offnav[aria-hidden="false"] + .state .burger span{ /* fallback se usar um wrapper; ignorar */
+  /* não usado aqui */
+}
+.offnav-trigger[data-state="open"] .burger span:nth-child(1){ top:6px; transform:rotate(45deg); }
+.offnav-trigger[data-state="open"] .burger span:nth-child(2){ opacity:0; transform:scaleX(0); }
+.offnav-trigger[data-state="open"] .burger span:nth-child(3){ top:6px; transform:rotate(-45deg); }
+
+/* Container offnav */
+.offnav{ position: fixed; inset:0; z-index: 1100; pointer-events:none; }
+.offnav[aria-hidden="false"]{ pointer-events:auto; }
+
+.offnav__backdrop{
+  position:absolute; inset:0;
+  background: rgba(9,13,18,.55);
+  backdrop-filter: blur(2px);
+  opacity:0; transition: opacity .24s ease;
+}
+.offnav[aria-hidden="false"] .offnav__backdrop{ opacity:1; }
+
+.offnav__panel{
+  position:absolute; top:0; bottom:0; left:0; inline-size:min(90vw, var(--panel-w));
+  background: linear-gradient(to bottom right, color-mix(in oklab, var(--bg) 86%, #000), var(--bg-soft));
+  color: var(--text);
+  border-right: var(--border);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(var(--blur)) saturate(140%);
+  transform: translateX(-102%);
+  transition: transform .26s cubic-bezier(.2,.8,.25,1);
+  display:grid; grid-template-rows:auto auto auto 1fr auto; gap:8px; padding:12px;
+  overscroll-behavior: contain;
+}
+.offnav[aria-hidden="false"] .offnav__panel{ transform: translateX(0); }
+
+.offnav__header{ display:flex; align-items:center; gap:10px; }
+.offnav__title{ font:600 14px/1.1 "Poppins",system-ui; color:var(--text-dim); margin-left:auto; }
+.offnav__x{
+  margin-left:auto; inline-size:36px; block-size:36px; border-radius:10px; border:var(--border);
+  background: transparent; color:var(--text);
+  display:grid; place-items:center; cursor:pointer; transition: background .18s ease, transform .18s ease;
+}
+.offnav__x:hover{ background: rgba(255,255,255,.06); transform: scale(1.02); }
+.offnav__logo{ border-radius: 12px; }
+
+.offnav__profile{
+  display:grid; grid-template-columns:56px 1fr auto; gap:12px; align-items:center;
+  padding:10px; border-radius: var(--radius);
+  background: rgba(255,255,255,.04);
+  border: var(--border);
+}
+.offnav__avatar{ inline-size:56px; block-size:56px; border-radius:14px; object-fit:cover; }
+.offnav__who strong{ display:block; font:600 15px/1.2 "Poppins",system-ui; }
+.offnav__meta{ display:flex; gap:8px; flex-wrap:wrap; color:var(--text-dim); font:500 12px/1.1 "Poppins",system-ui; }
+.badge{ padding:4px 8px; border-radius:999px; border:var(--border); background: rgba(255,255,255,.04); }
+.badge--ok{ border-color: color-mix(in oklab, var(--brand), #fff 70%); }
+.star{ font-weight:700; }
+
+.offnav__cta{
+  padding:10px 14px; border-radius:12px; border:none; cursor:pointer;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--brand), #fff 15%), var(--brand));
+  color:white; font:700 14px/1 "Poppins",system-ui;
+  box-shadow: 0 8px 24px color-mix(in oklab, var(--brand), #000 70% / 25%);
+  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+}
+.offnav__cta:hover{ transform: translateY(-1px); box-shadow: 0 12px 32px rgba(0,0,0,.28); filter: brightness(1.03); }
+
+.offnav__quick{
+  display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; margin-top:2px;
+}
+.qaction{
+  display:grid; gap:6px; justify-items:center; padding:10px 8px; border-radius:12px;
+  border: var(--border); background: rgba(255,255,255,.04); color:var(--text);
+  text-decoration:none; font:600 12px/1 "Poppins",system-ui;
+  transition: transform .18s ease, background .18s ease, border-color .18s ease;
+}
+.qaction i{ font-size:18px; opacity:.95; }
+.qaction:hover{ transform: translateY(-1px); background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.14); }
+
+.offnav__nav{ display:grid; gap:4px; padding:6px 0; }
+.offnav__nav a{
+  display:grid; grid-template-columns:22px 1fr; align-items:center; gap:10px;
+  padding:12px 10px; border-radius:12px; color:var(--text); text-decoration:none;
+  font:600 14px/1.15 "Poppins",system-ui; letter-spacing:.2px; border:1px solid transparent;
+}
+.offnav__nav a i{ opacity:.9; }
+.offnav__nav a:hover{ background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.1); }
+
+.offnav__sep{ height:1px; background: linear-gradient(to right, transparent, rgba(255,255,255,.14), transparent); margin:6px 0; }
+
+.offnav__footer{
+  position: sticky; bottom:0; padding:10px 4px 6px;
+  background: linear-gradient(to top, rgba(0,0,0,.18), rgba(0,0,0,0));
+  display:grid; gap:8px; align-items:center; justify-items:center;
+}
+.offnav__ghost{
+  padding:8px 12px; border-radius:10px; border:var(--border); background:transparent; color:var(--text);
+  font:600 13px/1 "Poppins",system-ui; cursor:pointer;
+}
+.hint{ color:var(--text-dim); font:500 12px/1.1 "Poppins",system-ui; }
+
+/* Mobile: trigger flutuante */
+@media (max-width: 768px){
+  .offnav-trigger{
+    position: fixed; inset-block-start:12px; inset-inline-start:12px; z-index:1200;
+    background: rgba(255,255,255,.9); border: 1px solid rgba(0,0,0,.06);
+    backdrop-filter: blur(6px);
+  }
+}
+
+/* Respeita redução de movimento */
+@media (prefers-reduced-motion: reduce){
+  .offnav__panel, .offnav__backdrop, .offnav-trigger .burger span{
+    transition: none !important;
+  }
+}
+
+/* Impede bounce iOS quando aberto */
+html.offnav-open, body.offnav-open{ overflow:hidden; overscroll-behavior: none; }
+/* ===== Header layout PRO ===== */
+.site-header{ position: sticky; top:0; z-index:100; background:#fff; border-bottom:1px solid rgba(0,0,0,.06); }
+@media (prefers-color-scheme: dark){
+  .site-header{ background:#0f141b; border-bottom:1px solid rgba(255,255,255,.06); }
+}
+.site-nav{ max-width:1280px; margin:0 auto; padding:10px 16px; display:grid; grid-template-columns:auto 1fr auto; gap:16px; align-items:center; }
+.nav-left{ display:flex; align-items:center; gap:12px; }
+.nav-center{ display:flex; justify-content:center; }
+.nav-right{ display:flex; align-items:center; gap:16px; }
+
+.nav-search input{
+  width:min(680px, 100%);
+  padding:10px 12px;
+  border-radius:12px;
+  border:1px solid rgba(0,0,0,.08);
+  background:#fff;
+  font:500 14px/1.2 "Poppins", system-ui;
+}
+@media (prefers-color-scheme: dark){
+  .nav-search input{ background:#0f141b; color:#e6eaf2; border:1px solid rgba(255,255,255,.08); }
+}
+.nav-links-area{ display:flex; gap:16px; align-items:center; }:root{
+  --pro-btn-bg: #ffffff;
+  --pro-btn-fg: #0f172a;
+  --pro-btn-border: rgba(15,23,42,.08);
+  --pro-btn-halo: rgba(43,95,173,.35);   /* halo azul */
+  --pro-btn-brand: #2b5fad;              /* azul Skill */
+  --pro-btn-glass: rgba(255,255,255,.08);
+  --pro-btn-shadow: 0 8px 24px rgba(2,6,23,.12);
+  --pro-btn-shadow-hover: 0 14px 40px rgba(2,6,23,.18);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --pro-btn-bg: #0f141b;
+    --pro-btn-fg: #e6edf6;
+    --pro-btn-border: rgba(230,237,246,.12);
+    --pro-btn-halo: rgba(43,95,173,.55);
+    --pro-btn-glass: rgba(255,255,255,.06);
+    --pro-btn-shadow: 0 10px 28px rgba(0,0,0,.45);
+    --pro-btn-shadow-hover: 0 18px 56px rgba(0,0,0,.55);
+  }
+}
+
+/* ===== BOTÃO-MENU PRO (mantém classes existentes) ===== */
+.pro-menu-btn{
+  position: relative;
+  inline-size: 44px;
+  block-size: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  border: 1px solid var(--pro-btn-border);
+  background: var(--pro-btn-bg);
+  color: var(--pro-btn-fg);
+  box-shadow: var(--pro-btn-shadow);
+  cursor: pointer;
+  transition:
+    transform .16s ease,
+    box-shadow .16s ease,
+    background-color .16s ease,
+    border-color .16s ease,
+    filter .16s ease;
+  isolation: isolate;                 /* ripple em camada própria */
+}
+
+/* Variante GLASS (opcional via data-variant="glass") */
+.pro-menu-btn[data-variant="glass"]{
+  background: color-mix(in oklab, var(--pro-btn-bg) 82%, transparent);
+  backdrop-filter: blur(8px) saturate(125%);
+  border-color: color-mix(in oklab, var(--pro-btn-border), #fff 20%);
+}
+@supports not (backdrop-filter: blur(8px)){
+  .pro-menu-btn[data-variant="glass"]{ background: var(--pro-btn-bg); }
+}
+
+/* Halo suave ao pairar */
+.pro-menu-btn::before{
+  content: "";
+  position: absolute; inset: -6px;
+  border-radius: 16px;
+  background: radial-gradient(120px 120px at var(--mx,50%) var(--my,50%), var(--pro-btn-halo), transparent 60%);
+  opacity: 0; pointer-events: none;
+  transition: opacity .18s ease;
+  z-index: -1;
+}
+
+/* highlight superior (shimmer sutil) */
+.pro-menu-btn::after{
+  content: "";
+  position: absolute; inset: 0;
+  border-radius: 12px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,0) 40%),
+    linear-gradient(0deg, rgba(255,255,255,.06), rgba(255,255,255,0));
+  opacity: .4; pointer-events: none;
+}
+
+.pro-menu-btn:hover{
+  transform: translateY(-1px);
+  box-shadow: var(--pro-btn-shadow-hover);
+  border-color: color-mix(in oklab, var(--pro-btn-border), var(--pro-btn-brand) 25%);
+}
+.pro-menu-btn:hover::before{ opacity: 1; }
+
+/* Press depth + ripple container */
+.pro-menu-btn[data-pressed="true"]{ transform: translateY(0); filter: brightness(.98); }
+
+/* Foco acessível e bonito */
+.pro-menu-btn:focus-visible{
+  outline: 0;
+  box-shadow:
+    0 0 0 2px var(--pro-btn-bg),
+    0 0 0 4px color-mix(in oklab, var(--pro-btn-brand), #ffffff 40%);
+}
+
+/* Hamburger → X (usa seu .burger existente) */
+.pro-menu-btn .burger{ position: relative; inline-size: 22px; block-size: 14px; }
+.pro-menu-btn .burger span{
+  position: absolute; left: 0; right: 0; height: 2px; border-radius: 2px;
+  background: currentColor;
+  transform-origin: 50% 50%;
+  transition: transform .18s ease, opacity .18s ease, top .18s ease;
+}
+.pro-menu-btn .burger span:nth-child(1){ top: 0; }
+.pro-menu-btn .burger span:nth-child(2){ top: 6px; }
+.pro-menu-btn .burger span:nth-child(3){ top: 12px; }
+
+.pro-menu-btn[data-state="open"] .burger span:nth-child(1){ top: 6px; transform: rotate(45deg); }
+.pro-menu-btn[data-state="open"] .burger span:nth-child(2){ opacity: 0; transform: scaleX(0); }
+.pro-menu-btn[data-state="open"] .burger span:nth-child(3){ top: 6px; transform: rotate(-45deg); }
+
+/* Ripple element */
+.pro-menu-btn .ripple{
+  position: absolute; inset: 0; border-radius: 12px; overflow: hidden; pointer-events: none;
+}
+.pro-menu-btn .ripple span{
+  position: absolute; width: 12px; height: 12px; border-radius: 50%;
+  background: color-mix(in oklab, var(--pro-btn-brand), #fff 40%);
+  transform: translate(-50%,-50%) scale(0);
+  opacity: .18;
+  animation: pro-ripple .45s ease-out forwards;
+}
+@keyframes pro-ripple{
+  to{ transform: translate(-50%,-50%) scale(14); opacity: 0; }
+}
+
+/* Notificação (se precisar): .pro-menu-btn.has-updates */
+.pro-menu-btn.has-updates::after{
+  box-shadow:
+    0 0 0 0 rgba(124,192,67,.0),
+    0 0 0 0 rgba(124,192,67,.0);
+}
+.pro-menu-btn.has-updates::before{
+  background: radial-gradient(120px 120px at 50% 50%, rgba(124,192,67,.28), transparent 60%);
+  opacity: 1;
+}
+
+/* Respeita redução de movimento */
+@media (prefers-reduced-motion: reduce){
+  .pro-menu-btn, .pro-menu-btn .burger span{ transition: none !important; }
+  .pro-menu-btn .ripple span{ animation: none !important; opacity: 0 !important; }
+}
+/* ================== OFFNAV CLEAN ================== */
+.offnav--clean .offnav__header{
+  display:flex; align-items:center; justify-content:flex-end;
+  padding:10px; min-height:52px;
+  background: transparent; /* sem barra escura no topo */
+  border-bottom: none;
+}
+.offnav--clean .offnav__handle{
+  width:36px; height:4px; border-radius:999px;
+  background: rgba(255,255,255,.22);
+  margin: 6px auto 0; display:none;  /* ligue se quiser em mobile */
+}
+@media (max-width: 768px){
+  .offnav--clean .offnav__handle{ display:block; }
+}
+
+.offnav--clean .offnav__x{
+  width:38px; height:38px; border-radius:12px;
+  border:1px solid rgba(255,255,255,.10); background: rgba(255,255,255,.06);
+  color:inherit; display:grid; place-items:center;
+  backdrop-filter: blur(6px);
+}
+
+/* Perfil/CTA: mantém sua pegada, só melhora o respiro */
+.offnav--clean .offnav__profile{
+  margin-top:2px; padding:12px; border-radius:14px;
+}
+
+/* Quick actions: ok; sem mudanças grandes */
+.offnav--clean .offnav__quick{ margin-top:8px; }
+
+/* NAV PRINCIPAL: ALINHADO À ESQUERDA (mais PRO) */
+.offnav--clean .offnav__nav{ padding:8px 0; }
+.offnav--clean .offnav__nav a{
+  justify-content: flex-start; text-align:left;
+  padding:12px 12px; border-radius:12px;
+  font-weight:700;
+}
+
+/* Separador mais leve */
+.offnav--clean .offnav__sep{
+  height:1px; margin:10px 0;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,.12), transparent);
+}
+
+/* Rodapé */
+.offnav--clean .offnav__footer{ padding-bottom:8px; }
+
+/* Backdrop um pouco mais translúcido */
+.offnav--clean .offnav__backdrop{ background: rgba(3,6,16,.50); }
+
+/* Painel: nada de header/brand intrusivo */
+.offnav--clean .offnav__panel{
+  background: linear-gradient(180deg, rgba(12,17,24,.92), rgba(14,20,29,.94));
+  border-right: 1px solid rgba(255,255,255,.06);
+}
+
+/* ================== BOTÃO PERTO DA LOGO ================== */
+/* Não mexe no resto do header! Só o trigger ao lado da logo. */
+.offnav-trigger{
+  width:44px; height:44px;
+  border-radius:12px;
+  border:1px solid rgba(0,0,0,.08);
+  background:#fff;
+  box-shadow: 0 8px 20px rgba(2,6,23,.10);
+}
+@media (prefers-color-scheme: dark){
+  .offnav-trigger{
+    background: rgba(255,255,255,.10);
+    border-color: rgba(255,255,255,.12);
+    box-shadow: 0 12px 28px rgba(0,0,0,.35);
+  }
+}
+.offnav-trigger:hover{ transform: translateY(-1px); }
+.offnav-trigger .burger span{ background: currentColor; }
+@media (max-width: 768px){
+  .offnav--clean .offnav__x{ display:none; }
+  .offnav--clean .offnav__handle{ display:block; }
+}
+/* Painel precisa ser contexto p/ botão absoluto */
+.offnav__panel{ position: relative; }
+
+/* Esconde qualquer header interno antigo do offnav */
+.offnav__header{ display:none !important; }
+
+/* Botão fechar clean no canto (sem X gigante) */
+.offnav__close{
+  position: absolute; top: 10px; right: 10px;
+  width: 34px; height: 34px; border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.06);
+  color: inherit; cursor: pointer;
+  display: grid; place-items: center;
+  backdrop-filter: blur(6px);
+  transition: background .18s ease, transform .12s ease;
+}
+.offnav__close:hover{ background: rgba(255,255,255,.10); transform: translateY(-1px); }
+/* Ícone (SVG) – sem texto “X” aparecendo */
+.offnav__close::before{
+  content: "";
+  width: 16px; height: 16px; display: block;
+  background: currentColor;
+  -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="%23000" d="M18.3 5.7a1 1 0 0 0-1.4-1.4L12 9.17 7.1 4.3A1 1 0 0 0 5.7 5.7L10.6 10.6 5.7 15.5a1 1 0 1 0 1.4 1.4L12 12.03l4.9 4.87a1 1 0 0 0 1.4-1.4L13.4 10.6z"/></svg>') no-repeat 50% 50%;
+          mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M18.3 5.7a1 1 0 0 0-1.4-1.4L12 9.17 7.1 4.3A1 1 0 0 0 5.7 5.7L10.6 10.6 5.7 15.5a1 1 0 1 0 1.4 1.4L12 12.03l4.9 4.87a1 1 0 0 0 1.4-1.4L13.4 10.6z"/></svg>') no-repeat 50% 50%;
+}
+
+/* Avatar sempre rende e corta certo (inclusive se link quebrar) */
+.offnav__avatar{
+  width: 56px; height: 56px; border-radius: 14px; object-fit: cover;
+  background: rgba(255,255,255,.08);
+}
+.offnav__avatar[src=""], .offnav__avatar:not([src]){
+  content: none; background-image: url('img/avatar-default.png'); background-size: cover; background-position: center;
+}
+/* Painel como contexto p/ botão close */
+.offnav__panel{ position: relative; }
+
+/* Botão fechar clean no canto direito */
+.offnav__close{
+  position:absolute; top:10px; right:10px;
+  width:34px; height:34px; border-radius:10px;
+  border:1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.06);
+  color:inherit; display:grid; place-items:center;
+  cursor:pointer; backdrop-filter: blur(6px);
+  transition: background .18s ease, transform .12s ease;
+}
+.offnav__close:hover{ background: rgba(255,255,255,.10); transform: translateY(-1px); }
+.offnav__close::before{
+  content:""; width:16px; height:16px; background: currentColor;
+  -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23000" d="M18.3 5.7a1 1 0 0 0-1.4-1.4L12 9.17 7.1 4.3A1 1 0 0 0 5.7 5.7L10.6 10.6 5.7 15.5a1 1 0 1 0 1.4 1.4L12 12.03l4.9 4.87a1 1 0 0 0 1.4-1.4L13.4 10.6z"/></svg>') no-repeat 50% 50%;
+          mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.3 5.7a1 1 0 0 0-1.4-1.4L12 9.17 7.1 4.3A1 1 0 0 0 5.7 5.7L10.6 10.6 5.7 15.5a1 1 0 1 0 1.4 1.4L12 12.03l4.9 4.87a1 1 0 0 0 1.4-1.4L13.4 10.6z"/></svg>') no-repeat 50% 50%;
+}
+
+/* Avatar robusto */
+.offnav__avatar{
+  width:56px; height:56px; border-radius:14px; object-fit:cover;
+  background: rgba(255,255,255,.08);
+}
+.offnav__avatar[src=""], .offnav__avatar:not([src]){
+  content:none; background-image:url('img/avatar-default.png');
+  background-size:cover; background-position:center;
+}
