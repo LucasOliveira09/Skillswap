@@ -46,16 +46,22 @@
   <div class="offnav__backdrop" data-close></div>
 
    <aside class="offnav__panel" role="document" tabindex="-1">
-    <button class="offnav__close" data-close aria-label="Fechar menu"></button>
+   
     <header class="offnav__header">
      <button class="offnav__close" aria-label="Fechar menu"></button>
     </header>
 
     <!-- Perfil / Trust -->
      <section class="offnav__profile">
-      <img id="offnavAvatar" alt="Avatar" />
+      <div > 
+        <strong >Olá, Lucas</strong> 
+        <div class="offnav__meta" id="offnavBadges">
+          
+        </div> 
+    </div>
+     
       <div>
-        <strong id="offnavUserName" data-user-name>Visitante</strong>
+       
         <div class="offnav__meta" id="offnavBadges"></div>
       </div>
       <button id="offnavAnunciar" class="offnav__cta">Anunciar</button>
@@ -87,11 +93,12 @@
 
     <!-- Rodapé -->
     <footer class="offnav__footer">
-      <div class="hint">Pressione <kbd>/</kbd> para buscar </div>
+    
       <div class="auth">
         <button id="offnavLogin" class="offnav__ghost">Entrar</button>
-        <button id="offnavLogout" class="offnav__ghost" hidden>Sair</button>
+        <button id="offnavLogout" class="offnav__ghost">Sair</button>
       </div>
+      
       <small>© 2025 Skill Swap</small>
     </footer>
   </aside>

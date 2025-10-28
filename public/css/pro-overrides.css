@@ -605,9 +605,9 @@ button#btnAnunciar{
 @media (max-width: 880px){
   .nav-center{ display:none; }
 }
-.offnav-trigger{margin-top: 25px; margin-left: 105px; position: absolute;}
+.offnav-trigger{margin-top: 26px; margin-left: 115px; position: absolute;}
 header{
-    gap: 15px; margin-left: 115px;
+    gap: 15px; margin-left: 120px;
 }
 /* nav da offnav, esquerda pura */
 .offnav__nav { padding: 8px 0; }
@@ -671,4 +671,46 @@ header{
   color: var(--text) !important;
   border: 1px solid var(--line) !important;
   box-shadow: var(--shadow-1) !important;
+}
+.offnav__profile{
+  display:grid; grid-template-columns:56px 1fr auto;
+  gap:12px; align-items:center;
+}
+.offnav__profile .offnav__cta{ margin-left:auto; }
+/* tokens do pill */
+:root{
+  --user-pill-bg: var(--bg);
+  --user-pill-fg: var(--text);
+  --user-pill-border: var(--line);
+}
+
+/* base */
+.user-menu-dropdown > .user-menu-trigger{
+  background:var(--user-pill-bg) !important;
+  color:var(--user-pill-fg) !important;
+  border:1px solid var(--user-pill-border) !important;
+  box-shadow: var(--shadow-1) !important;
+}
+
+/* se existir alguma regra com data-logged, neutraliza aqui */
+#userMenuDropdown[data-logged="true"] > .user-menu-trigger{
+  background:var(--user-pill-bg) !important;
+  color:var(--user-pill-fg) !important;
+  border-color:var(--user-pill-border) !important;
+}
+
+
+/* força o tema claro/clean do pill de usuário */
+header .nav-right .user-menu-dropdown > .user-menu-trigger{
+  background: #ffffff !important;       /* troque aqui se quiser outra cor */
+  color: #0f172a !important;
+  border: 1px solid rgba(15,23,42,.10) !important;
+  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.1) !important;
+}
+
+/* estado logado não muda a cor (neutraliza estilos antigos) */
+#userMenuDropdown[data-logged="true"] > .user-menu-trigger{
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
 }
