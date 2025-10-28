@@ -609,3 +609,66 @@ button#btnAnunciar{
 header{
     gap: 15px; margin-left: 115px;
 }
+/* nav da offnav, esquerda pura */
+.offnav__nav { padding: 8px 0; }
+.offnav__panel{ position:relative; }
+.offnav__close{
+  position:absolute; top:10px; right:10px;
+  width:34px; height:34px; border-radius:10px;
+  border:1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.06);
+  color:inherit; display:grid; place-items:center; cursor:pointer;
+  backdrop-filter: blur(6px);
+  transition: background .18s ease, transform .12s ease;
+}
+.offnav__close:hover{ background: rgba(255,255,255,.10); transform: translateY(-1px); }
+.offnav__close::before{
+  content:""; width:16px; height:16px; background: currentColor; display:block;
+  -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.3 5.7a1 1 0 0 0-1.4-1.4L12 9.17 7.1 4.3A1 1 0 0 0 5.7 5.7L10.6 10.6 5.7 15.5a1 1 0 1 0 1.4 1.4L12 12.03l4.9 4.87a1 1 0 0 0 1.4-1.4L13.4 10.6z"/></svg>') no-repeat 50% 50%;
+          mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.3 5.7a1 1 0 0 0-1.4-1.4L12 9.17 7.1 4.3A1 1 0 0 0 5.7 5.7L10.6 10.6 5.7 15.5a1 1 0 1 0 1.4 1.4L12 12.03l4.9 4.87a1 1 0 0 0 1.4-1.4L13.4 10.6z"/></svg>') no-repeat 50% 50%;
+}
+/* bloco da direita com respiro */
+.nav-right{ display:flex; align-items:center; gap:22px; }
+
+/* “Anunciar” dominante em verde */
+#btnAnunciar{
+  height:42px; padding:0 18px; border:0; border-radius:999px;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--accent), #fff 16%), var(--accent)) !important;
+  color:#fff; font:700 14px/1 "Poppins"; display:inline-flex; align-items:center; gap:8px;
+  box-shadow: 0 10px 24px color-mix(in oklab, var(--accent), #000 70% / 18%);
+  transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
+}
+#btnAnunciar:hover{ transform:translateY(-1px); filter:brightness(1.03); }
+/* ID sugerido para o seu botão/pílula de boas-vindas */
+#btnBemVindo,
+.user-menu-dropdown > .user-menu-trigger{
+  background: var(--bg) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--line) !important;
+  box-shadow: var(--shadow-1) !important;
+}
+
+/* se existir alguma classe antiga aplicando o verde/gradiente: neutraliza */
+#btnBemVindo[class*="accent"],
+.user-menu-trigger[class*="accent"],
+#btnBemVindo[class*="primary"]{
+  background: var(--bg) !important;
+  background-image: none !important;
+}
+
+/* acessório: o ícone hambúrguer deve usar a cor do texto, não o verde */
+.offnav-trigger .burger span{ background: var(--text-strong); }
+/* perfil/quick/nav com mesmo recuo interno */
+.offnav__profile, .offnav__quick, .offnav__nav{ margin-inline: 0; }
+.offnav__panel{ padding: 12px 12px 10px 12px; } /* já está assim, só garantindo */
+#userMenuDropdown[data-logged="true"] > .user-menu-trigger{
+  background: var(--bg) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--line) !important;
+}
+#userMenuDropdown[data-logged="true"] > .user-menu-trigger{
+  background: var(--bg) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--line) !important;
+  box-shadow: var(--shadow-1) !important;
+}

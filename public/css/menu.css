@@ -460,3 +460,22 @@ html.offnav-open, body.offnav-open{ overflow:hidden; overscroll-behavior: none; 
   content:none; background-image:url('img/avatar-default.png');
   background-size:cover; background-position:center;
 }
+/* ID sugerido para o seu botão/pílula de boas-vindas */
+#btnBemVindo,
+.user-menu-dropdown > .user-menu-trigger{
+  background: var(--bg) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--line) !important;
+  box-shadow: var(--shadow-1) !important;
+}
+
+/* se existir alguma classe antiga aplicando o verde/gradiente: neutraliza */
+#btnBemVindo[class*="accent"],
+.user-menu-trigger[class*="accent"],
+#btnBemVindo[class*="primary"]{
+  background: var(--bg) !important;
+  background-image: none !important;
+}
+
+/* acessório: o ícone hambúrguer deve usar a cor do texto, não o verde */
+.offnav-trigger .burger span{ background: var(--text-strong); }
