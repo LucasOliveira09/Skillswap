@@ -40,28 +40,38 @@ function paintUserEverywhere(){
     if (navUserName) navUserName.textContent = user.name || 'Usuário';
     if (navUserAvatar && user.avatar) navUserAvatar.src = user.avatar;
 
-    if (dropdown) dropdown.setAttribute('data-logged', 'true');
     if (menu){
-      menu.innerHTML = `
-        <div class="um-head" style="display:flex; gap:8px; align-items:center; padding:8px;">
-          <img src="${user.avatar || 'img/avatar-default.png'}" width="36" height="36" style="border-radius:50%" alt="">
-          <div>
-            <strong style="display:block">${user.name || 'Usuário'}</strong>
-            <small style="opacity:.75">${user.verified ? 'Conta verificada' : 'Conta não verificada'}${user.rating ? ' • ' + fmtStars(user.rating) : ''}</small>
-          </div>
+  // hidrata UMA vez
+  if (!menu.dataset.hydrated) {
+    menu.innerHTML = `
+      <div class="um-head" style="display:flex; gap:8px; align-items:center; padding:8px;">
+        <img id="navUserAvatarInner" src="${user.avatar || 'img/avatar-default.png'}" width="36" height="36" style="border-radius:50%" alt="">
+        <div>
+          <strong id="navUserNameInner" style="display:block">${user.name || 'Usuário'}</strong>
+          <small id="navUserMeta" style="opacity:.75"></small>
         </div>
-        <hr style="border:none; height:1px; background:rgba(0,0,0,.06); margin:6px 0;">
-        <a role="menuitem" href="#" class="um-item">Meu perfil</a>
-        <a role="menuitem" href="#" class="um-item">Minhas vendas</a>
-        <a role="menuitem" href="#" class="um-item">Pedidos</a>
-        <a role="menuitem" href="#" class="um-item">Configurações</a>
-        <hr style="border:none; height:1px; background:rgba(0,0,0,.06); margin:6px 0;">
-        <button role="menuitem" id="umLogout" class="um-item">Sair</button>
-      `;
-      menu.querySelector('#umLogout')?.addEventListener('click', () => {
-        clearAuthUser();
-        closeOffnav();
-      });
+      </div>
+      <hr style="border:none; height:1px; background:rgba(0,0,0,.06); margin:6px 0;">
+      <a role="menuitem" href="#" class="um-item">Meu perfil</a>
+      <a role="menuitem" href="#" class="um-item">Minhas vendas</a>
+      <a role="menuitem" href="#" class="um-item">Pedidos</a>
+      <a role="menuitem" href="#" class="um-item">Configurações</a>
+      <hr style="border:none; height:1px; background:rgba(0,0,0,.06); margin:6px 0;">
+      <button role="menuitem" id="umLogout" class="um-item">Sair</button>
+    `;
+    menu.dataset.hydrated = "true";
+    menu.querySelector('#umLogout')?.addEventListener('click', () => {
+      clearAuthUser();
+      closeOffnav();
+    });
+  }
+  // atualiza só os textos/foto (sem trocar o HTML)
+  const nameInner = menu.querySelector('#navUserNameInner');
+  const metaInner = menu.querySelector('#navUserMeta');
+  const avatarInner = menu.querySelector('#navUserAvatarInner');
+  if (nameInner)  nameInner.textContent  = user?.name || 'Usuário';
+  if (avatarInner) avatarInner.src       = user?.avatar || 'img/avatar-default.png';
+  if (metaInner)   metaInner.textContent = (user?.verified ? 'Conta verificada' : 'Conta não verificada') + (user?.rating ? ' • ' + fmtStars(user.rating) : '');
     }
   }else{
     if (navUserName) navUserName.textContent = 'Entrar';

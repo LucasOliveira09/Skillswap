@@ -21,7 +21,8 @@
 <link rel="stylesheet" href="./css/pro-overrides.css">
   </head>
   <body>
-    
+    <div id="toast-root" aria-live="polite" aria-atomic="true"></div>
+
 
 <header>
   <nav class="site-nav">
@@ -45,16 +46,23 @@
 <div id="offnav" class="offnav" aria-hidden="true" role="dialog" aria-modal="true">
   <div class="offnav__backdrop" data-close></div>
 
-  <aside class="offnav__panel" role="document" tabindex="-1">
+   <aside class="offnav__panel" role="document" tabindex="-1">
+   
     <header class="offnav__header">
-      <button class="offnav__x" aria-label="Fechar menu" data-close><span aria-hidden="true">×</span></button>
+     <button class="offnav__close" aria-label="Fechar menu"></button>
     </header>
 
     <!-- Perfil / Trust -->
-    <section class="offnav__profile">
-      <img id="offnavAvatar" class="offnav__avatar" src="./img/perfil-charles.jpg" alt="" width="56" height="56" />
-      <div class="offnav__who">
-        <strong id="offnavUserName" data-user-name>Swap</strong>
+     <section class="offnav__profile">
+      <div > 
+        <strong >Olá, Lucas</strong> 
+        <div class="offnav__meta" id="offnavBadges">
+
+        </div> 
+    </div>
+     
+      <div>
+       
         <div class="offnav__meta" id="offnavBadges"></div>
       </div>
       <button id="offnavAnunciar" class="offnav__cta">Anunciar</button>
@@ -86,11 +94,12 @@
 
     <!-- Rodapé -->
     <footer class="offnav__footer">
-      <div class="hint">Pressione <kbd>/</kbd> para buscar </div>
+    
       <div class="auth">
         <button id="offnavLogin" class="offnav__ghost">Entrar</button>
-        <button id="offnavLogout" class="offnav__ghost" hidden>Sair</button>
+        <button id="offnavLogout" class="offnav__ghost">Sair</button>
       </div>
+      
       <small>© 2025 Skill Swap</small>
     </footer>
   </aside>
@@ -369,12 +378,7 @@
 <script src="./js/feed.js"></script>
 <script src="./js/menu.js"></script>
 
-<div id="offnav" class="offnav" aria-hidden="true" role="dialog" aria-modal="true">
-  <div class="offnav__backdrop" data-close></div>
-  <aside class="offnav__panel" role="document" tabindex="-1">
-    <!-- header, profile, nav, footer … -->
-  </aside>
-</div>
+
 
   </body>
 </html>

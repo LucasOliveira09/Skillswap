@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/eletronico.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>Painel Eletrônico | Skill Swap</title>
+    <link rel="icon" type="image/png" href="./img/logo-seta.png">
+
+    
+</head>
+<body>
+
+    <header>
+        
+ <a href="pagina-servicos.html">
+            <img
+              class="img-logo-skill"
+              src="img/logo-skill-swap.png"
+              alt="Logo Skill Swap"
+              width="140"
+            />
+          </a>
+
+          
+        <div class="search-container">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input placeholder="Buscar produtos..." class="search-input">
+        </div>
+
+        <!-- Botão do Carrinho -->
+        <button class="cart-button" id="cart-button">
+            <i class="fas fa-shopping-cart"></i>
+            <span id="cart-count">0</span>
+        </button>
+
+
+         
+    </header>
+
+    <div class="categories-container">
+        <nav class="categories-bar">
+
+            <button class="category-btn active" data-category="all">
+                <i class="fa-solid fa-globe"></i>
+                Todos
+            </button>
+
+            <button class="category-btn" data-category="smartphones">
+                <i class="fa-solid fa-mobile-screen-button"></i>
+                Smartphones
+            </button>
+
+
+            <button class="category-btn" data-category="laptops">
+                <i class="fa-solid fa-laptop"></i>
+                Notebooks
+            </button>
+
+            <button class="category-btn" data-category="headphones">
+                <i class="fa-solid fa-headphones"></i>
+                Fones
+            </button>
+
+            <button class="category-btn" data-category="accessories">
+                <i class="fa-solid fa-computer-mouse"></i>
+                Acessórios
+            </button>
+
+            <button class="category-btn" data-category="smartwatch">
+                <i class="fa-solid fa-clock"></i>
+                SmartWatches
+            </button>
+            <button class="category-btn" data-category="tablets">
+                <i class="fa-solid fa-tablet-screen-button"></i>
+                Tablets
+            </button>
+
+        </nav>
+    </div>
+
+    <section class="hero-section">
+        <h2>Black Friday Antecipada!</h2>
+        <p class="hero-p">Até 50% de desconto em produtos selecionados</p>
+    </section>
+
+    <main class="products">
+        <div class="products-container">
+
+        </div>
+    </main>
+
+    <footer>
+        <p class="footer-p">2026 - Todos os Direitos Reservados</p>
+    </footer>
+
+
+<!-- Carrinho (Sidebar) -->
+<div id="cart-sidebar" class="cart-sidebar">
+  <div class="cart-header">
+    <h2>Carrinho</h2>
+    <button id="close-cart">&times;</button>
+  </div>
+  <ul id="cart-items"></ul>
+  <div class="cart-footer">
+    <strong>Total: R$ <span id="cart-total">0,00</span></strong>
+    <button id="checkout-btn">Finalizar Compra</button>
+  </div>
+</div>
+
+
+<!-- Carrinho (Sidebar) -->
+<!--<div id="cart-sidebar" class="cart-sidebar">
+  <div class="cart-header">
+    <h2>Carrinho</h2>
+    <button id="close-cart">&times;</button>
+  </div>
+  <ul id="cart-items"></ul>
+  <div class="cart-footer">
+    <strong>Total: R$ <span id="cart-total">0,00</span></strong>
+    <button id="checkout-btn">Finalizar Compra</button>
+  </div>
+</div> -->
+
+<!-- Scripts (ordem importa) -->
+ 
+ <script src="./js/electronicPage.js"></script>
+
+<script src="./js/perfilNav.js"></script>
+<script src="./js/servicePage.js" defer></script>
+<script src="./js/feed.js"></script>
+<script src="./js/menu.js"></script>
+
+
+</body>
+<!----> 
+<!-- Scripts -->
+<!--<script src="main.js"></script> -->
+<!-- <script src="cart.js" defer></script> -->
+ <!--<script src="app.js"> defer</script> -->
+
+
+</html>
