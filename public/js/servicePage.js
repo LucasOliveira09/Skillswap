@@ -328,7 +328,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }).showToast();
         } else {
             // Fallback se o Toastify não carregar
-            alert("Você precisa estar logado para anunciar.");
+           toast("Você precisa estar logado para anunciar.", "warning", "Ação requer login");
+
         }
         
         // Salva a intenção de anunciar, para que o login possa te redirecionar
