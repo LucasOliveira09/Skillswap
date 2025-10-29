@@ -1,3 +1,4 @@
+
 const produtos = [
     {
         id: 1,
@@ -67,7 +68,7 @@ const produtos = [
         precoOriginal: 2999,
         desconto: 17,
         imagem: "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=400",
-        descricao: "Fone com cancelamento de ruído"
+        descricao: "Fone com cancelamento de ruído impecável e fácil acesso para transporte"
     },
     {
         id: 8,
@@ -77,7 +78,7 @@ const produtos = [
         precoOriginal: null,
         desconto: null,
         imagem: "https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?w=400",
-        descricao: "Notebook Windows premium"
+        descricao: "Notebook Windows premium, i710th, 16gb ram, placa integrada GTX750"
     },
     {
         id: 9,
@@ -91,13 +92,13 @@ const produtos = [
     },
      {
         id: 10,
-        nome: "Magic Keyboard para iPad Pro de 13 polegadas",
+        nome: "Magic Keyboard para iPad Pro",
         categoria: "tablets",
         preco: 949.90,
         precoOriginal: null,
         desconto: null,
         imagem: "https://m.media-amazon.com/images/S/aplus-media-library-service-media/f26a8683-305d-4b62-89dd-b597d84f521f.__CR0,0,800,600_PT0_SX600_V1___.jpg",
-        descricao: "Magic Keyboard para iPad Pro de 13 polegadas (M4)"
+        descricao: "Magic Keyboard para iPad Pro de 13 polegadas, super acessível para transporte, última tecnologia para seu iPad Pro"
     },
     {
         id: 11,
@@ -107,7 +108,7 @@ const produtos = [
         precoOriginal: null,
         desconto: null,
         imagem: "https://techminuto.com.br/wp-content/uploads/2022/01/Melhores-Mouses-da-Razer.jpg",
-        descricao: "Mouse Gamer Razer Mamba Chroma, 7 Botões, 16000DPI"
+        descricao: "Mouse Gamer Razer Mamba Chroma, sem fio, 7 Botões, 16000DPI, conforto e qualidade para jogar seu RPG"
     },
     {
         id: 12,
@@ -123,6 +124,7 @@ const produtos = [
     },
 
 ];
+
 let textoPesquisa = ""
 let categoriaAtual = "all"
 
@@ -214,6 +216,7 @@ function trocarCategoria(categoria) {
 }
 
 // ================== EVENTOS DOM ==================
+// ================== EVENTOS DOM ==================
 window.addEventListener('DOMContentLoaded', function () {
     mostrarProduto(); // Mostrar produtos inicialmente
 
@@ -225,4 +228,6 @@ window.addEventListener('DOMContentLoaded', function () {
             trocarCategoria(categoria);
         });
     });
+
+
 });

@@ -5,8 +5,8 @@
 }
 
 :root {
-    --primary-color: rgba(151, 160, 255, 0.999);
-    --secondary-color: #6c007aca;
+    --primary-color: #8bc63f;
+    --secondary-color: #255188;
     --accent-color: #a61cfc;
     --text-color: #2c3e50;
     --light-gray: #f8f9fa;
@@ -136,27 +136,21 @@ header {
     background: #ff9d00;
    background: #ff9900;
 background: #9b3eb0;
-background: radial-gradient(circle, rgba(155, 62, 176, 1) 0%, rgba(56, 57, 130, 1) 100%);
+background: radial-gradient(circle, rgba(155, 62, 176, 1) 0%, #255188 100%);
     color: #FFFFFF;
     text-align: center;
     padding: 3rem 2rem;
 }
 
 .hero-section h2 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
+    font-size: 2.6rem;
+    margin-bottom: 0.8rem;
 }
 
 .hero-section p {
     font-size: 1.2rem;
 }
 
-footer {
-    background-color: rgba(56, 57, 130, 1);
-    color: #ffffff;
-    text-align: center;
-    padding: 2rem;
-}
 
 .products {
     width: 100%;
@@ -215,14 +209,14 @@ footer {
 
 .products-price {
     font-size: 1.4rem;
-    color: rgb(141, 150, 255);
+    color:#a0bd92;
     margin-bottom: 1rem;
     font-weight: bold;
 }
 
 .products-button {
     width: 100%;
-    background-color: rgb(71, 67, 195);
+    background-color: var(--secondary-color);
     color: #FFFFFF;
     border: none;
     padding: 0.7rem;
@@ -233,7 +227,7 @@ footer {
     transition: 0.4s;
 }
 .products-button:hover {
-    background-color: var(--secondary-color);
+    background-color: #285f92;
 }
 
 .cart-button {
@@ -446,3 +440,6 @@ footer {
   background: #f3f4f6;
 }
 
+.hero-section h2{
+  font-weight: bold;
+}
