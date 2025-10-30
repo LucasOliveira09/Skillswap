@@ -42,6 +42,34 @@
             <i class="fas fa-shopping-cart"></i>
             <span id="cart-count">0</span>
         </button>
+        <!-- Overlay com blur -->
+<div class="cart-overlay" id="cart-overlay" hidden></div>
+
+<!-- Drawer do carrinho -->
+<aside class="cart-drawer" id="cart-drawer" aria-hidden="true" aria-labelledby="cart-title">
+  <header class="cart-header">
+    <h3 id="cart-title">Seu carrinho</h3>
+    <button class="cart-close" id="cart-close" aria-label="Fechar carrinho">×</button>
+  </header>
+
+  <div class="cart-items" id="cart-items">
+    <!-- itens renderizados via JS -->
+  </div>
+
+  <footer class="cart-footer">
+    <div class="cart-row">
+      <span>Subtotal</span><strong id="cart-subtotal">R$ 0,00</strong>
+    </div>
+    <!-- (Opcional) Campo de cupom
+    <div class="cart-coupon">
+      <input id="cart-coupon-input" placeholder="Cupom de desconto" />
+      <button id="cart-coupon-apply">Aplicar</button>
+    </div> -->
+
+    <button class="cart-cta" id="cart-review">Revisar pedido</button>
+  </footer>
+</aside>
+
 
 
          

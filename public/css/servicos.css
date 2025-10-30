@@ -485,6 +485,50 @@ header nav a:hover {
 
 
 
+/* NOVO BANNER COM SLIDES*/
+/* ====== Carrossel base ====== */
+.ticket-carousel{position:relative;max-width:1200px;margin:20px auto;padding:0 88px;isolation:isolate}
+.tc-viewport{position:relative;overflow:hidden;border-radius:18px;box-shadow:0 12px 28px rgba(0,0,0,.16),0 8px 8px rgba(0,0,0,.08);background:transparent}
+.tc-viewport::before,.tc-viewport::after{
+  content:"";position:absolute;top:50%;width:64px;height:64px;border-radius:50%;
+  background:#fff;transform:translateY(-50%);z-index:2;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)
+}
+.tc-viewport::before{left:-32px}.tc-viewport::after{right:-32px}
+.tc-track{display:flex}
+.tc-slide{min-width:100%;aspect-ratio:16/4.2;opacity:0;pointer-events:none;transition:opacity .28s ease}
+.tc-slide.is-active{opacity:1;pointer-events:auto}
+.tc-slide__inner{position:relative;width:100%;height:100%;overflow:hidden;border-radius:18px;background:var(--blue)}
+.tc-slide__inner.alt{display:grid;place-items:center;background:linear-gradient(140deg,#21507f 0%,#183a5e 100%)}
+.tc-slide__inner.alt.alt-2{background:linear-gradient(140deg,#1e4a76 0%,#153553 100%)}
+.alt-inner{color:#fff;text-align:center;padding:24px}
+.alt-inner h3{font:800 34px/1.05 Poppins,system-ui;margin:0 0 8px}
+.alt-inner p{font:400 18px/1.35 Poppins,system-ui;opacity:.95}
+
+.tc-arrow{
+  position:absolute;top:50%;transform:translateY(-50%);width:56px;height:56px;border-radius:50%;
+  display:grid;place-content:center;background:#fff;color:var(--blue);border:0;cursor:pointer;z-index:3;
+  box-shadow:0 6px 24px rgba(0,0,0,.12),0 2px 8px rgba(0,0,0,.06)
+}
+.tc-prev{left:12px}.tc-next{right:12px}
+.tc-arrow:hover{filter:brightness(.98);transform:translateY(-50%) scale(1.02)}
+.tc-arrow:active{transform:translateY(-50%) scale(.98)}
+.tc-arrow:focus-visible{outline:3px solid #94c5ff;outline-offset:3px}
+
+.tc-dots{position:absolute;left:24px;bottom:14px;display:flex;gap:8px;z-index:3}
+.tc-dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.55);border:0;cursor:pointer}
+.tc-dot.is-active{background:#fff;transform:scale(1.1)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+@media (max-width:960px){
+  .ticket-carousel{padding:0 72px}
+  .tc-viewport::before,.tc-viewport::after{width:56px;height:56px}
+}
+@media (max-width:720px){
+  .ticket-carousel{padding:0 64px}
+  .tc-slide{aspect-ratio:16/6}
+}
+
+
 
 
 
