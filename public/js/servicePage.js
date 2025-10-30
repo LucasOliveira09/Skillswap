@@ -210,6 +210,7 @@ const produtos = [
     descricao: "Seg/Qua • 14h–15h • Aula individual",
     authorAvatar: "./img/avatar-lucas.jpg",
     authorName: "Lucas Leite.",
+    authorId: "1",
     stars: 3,
     needs: ["Limpeza"],
     postedAtMs: Date.now() - 2000 * 80 * 90, // ex.: há 5 minutos
@@ -243,7 +244,7 @@ const produtos = [
     descricao: "Seg/Qua • 14h–15h • Aula individual",
     authorAvatar: "./img/avatar-matheus.jpg",
     authorName: "Matheus Souza.",
-    authorId: "5",
+    authorId: "2",
     stars: 4,
     needs: ["Corrida"],
     postedAtMs: Date.now() - 1500 * 80 * 90, // ex.: há 5 minutos
@@ -281,6 +282,9 @@ const renderStars = (n = 5) =>
 const card = (p) => `
 
   <article class="product-card" data-id="${p.id}">
+    <div>
+      <a class="linkFormat" href="pagina_${p.id}.html">
+    
     <div class="img-wrap">
       <img class="products-img" src="${p.imagem}" alt="${p.nome}">
       <span class="chip chip-category">${p.categoria || "Serviço"}</span>
@@ -332,13 +336,15 @@ ${p.include?.length ? `
   </ul>
 ` : ''}
 
-
+</a>
+</div>
       <div class="product-footer">
-        <img class="author-avatar" src="${p.authorAvatar}" alt="${
+        <a href="pagina_perfil.html?id=${p.authorId}"><img class="author-avatar" src="${p.authorAvatar}" alt="${
   p.authorName
-}">
+}"></a>
+
         <div class="author-meta">
-          <span class="author-name">${p.authorName}</span>
+          <a class="author-name" href="pagina_perfil.html?id=${p.authorId}">${p.authorName}</a>
           <div class="author-stars" aria-label="${p.stars} de 5">
             ${"★".repeat(p.stars || 0)}${"☆".repeat(5 - (p.stars || 0))}
           </div>
