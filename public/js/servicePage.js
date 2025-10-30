@@ -208,7 +208,7 @@ const produtos = [
     preco: 210.00, 
     imagem: "./img/banheiro-servico.jpg",
     descricao: "Seg/Qua • 14h–15h • Aula individual",
-    authorAvatar: "./img/avatar-lucas.jpg",
+    authorAvatar: "./img/avatar-emerson.jpg",
     authorName: "Lucas Leite.",
     authorId: "1",
     stars: 3,

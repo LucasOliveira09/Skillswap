@@ -37,38 +37,78 @@
             <input placeholder="Buscar produtos..." class="search-input">
         </div>
 
+
         <!-- Botão do Carrinho -->
-        <button class="cart-button" id="cart-button">
-            <i class="fas fa-shopping-cart"></i>
-            <span id="cart-count">0</span>
-        </button>
+<button class="cart-button cart-toggle" id="cart-button" aria-label="Abrir carrinho" aria-expanded="false">
+  <i class="fas fa-shopping-cart"></i>
+  <span id="cart-count">0</span>
+</button>
         <!-- Overlay com blur -->
 <div class="cart-overlay" id="cart-overlay" hidden></div>
 
 <!-- Drawer do carrinho -->
-<aside class="cart-drawer" id="cart-drawer" aria-hidden="true" aria-labelledby="cart-title">
+<!-- Drawer -->
+<aside id="cart-drawer" class="cart-drawer" role="dialog" aria-labelledby="cart-title">
   <header class="cart-header">
-    <h3 id="cart-title">Seu carrinho</h3>
-    <button class="cart-close" id="cart-close" aria-label="Fechar carrinho">×</button>
+    <h2 id="cart-title">Meu carrinho</h2>
+    <button id="cart-close" class="cart-close" aria-label="Fechar">×</button>
   </header>
 
-  <div class="cart-items" id="cart-items">
-    <!-- itens renderizados via JS -->
+  <div id="cart-items" class="cart-items">
+    <!-- skeleton opcional -->
+
   </div>
-
   <footer class="cart-footer">
-    <div class="cart-row">
-      <span>Subtotal</span><strong id="cart-subtotal">R$ 0,00</strong>
-    </div>
-    <!-- (Opcional) Campo de cupom
-    <div class="cart-coupon">
-      <input id="cart-coupon-input" placeholder="Cupom de desconto" />
-      <button id="cart-coupon-apply">Aplicar</button>
-    </div> -->
+    <!-- CUPOM -->
+    <div class="cart-coupon" id="cart-coupon">
+      <label for="cart-coupon-input">Cupom</label>
+      <div class="coupon-field">
+        <input id="cart-coupon-input" placeholder="Digite seu cupom (ex: 10)" inputmode="text" autocomplete="off" />
+        <button id="cart-coupon-apply" disabled>Aplicar</button>
+      </div>
+      <p class="coupon-hint">Dica: cupons não são acumulativos. Apenas letras e números.</p>
+      <p class="coupon-feedback" id="coupon-feedback" aria-live="polite"></p>
 
+      <!-- chip aparece quando aplicado -->
+      <div class="coupon-chip" id="coupon-chip" hidden>
+        <span id="coupon-code"></span>
+        <button class="chip-remove" id="coupon-remove" aria-label="Remover cupom">×</button>
+      </div>
+    </div>
+
+<section class="cart-ship" id="cart-ship">
+  <label for="ship-cep">Calcular frete e prazo</label>
+  <div class="ship-row">
+    <input id="ship-cep" inputmode="numeric" maxlength="9" placeholder="00000-000">
+    <button id="ship-calc" type="button">Calcular</button>
+  </div>
+  <p class="ship-hint">Digite seu CEP para ver opções.</p>
+  <div id="ship-options" role="radiogroup" aria-label="Opções de entrega"></div>
+</section>
+
+<!-- Linha de frete no rodapé de totais -->
+<div class="totals-row" id="cart-shipping" hidden>
+  <span>Frete</span><strong id="cart-shipping-amount">—</strong>
+</div>
+
+
+    <!-- SUBTOTAL + ECONOMIA -->
+    <div class="cart-row">
+      <span>Subtotal</span>
+      <strong id="cart-subtotal">R$ 0,00</strong>
+    </div>
+    <div class="cart-row savings" id="cart-savings" hidden>
+      <span>Você economizou</span>
+      <strong id="cart-savings-amount">R$ 0,00</strong>
+    </div>
+
+    <!-- CTA -->
     <button class="cart-cta" id="cart-review">Revisar pedido</button>
   </footer>
 </aside>
+
+<!-- região para mensagens de acessibilidade -->
+<div id="live-region" aria-live="polite" class="sr-only"></div>
 
 
 
@@ -154,20 +194,7 @@
             <a href="#"><img src="img/botao-google-play.png" alt="Google Play" width="180"></a>
         </div>
     </footer>
-
-
-<!-- Carrinho (Sidebar) -->
-<div id="cart-sidebar" class="cart-sidebar">
-  <div class="cart-header">
-    <h2>Carrinho</h2>
-    <button id="close-cart">&times;</button>
-  </div>
-  <ul id="cart-items"></ul>
-  <div class="cart-footer">
-    <strong>Total: R$ <span id="cart-total">0,00</span></strong>
-    <button id="checkout-btn">Finalizar Compra</button>
-  </div>
-</div>
+<div id="toast-container"></div>
 
 
 <!-- Carrinho (Sidebar) -->
@@ -185,8 +212,7 @@
 
 <!-- Scripts (ordem importa) -->
  
- <script src="./js/electronicPage.js"></script>
-
+<script src="./js/electronicPage.js"></script>
 <script src="./js/perfilNav.js"></script>
 <script src="./js/servicePage.js" defer></script>
 <script src="./js/feed.js"></script>
@@ -195,10 +221,7 @@
 
 </body>
 <!----> 
-<!-- Scripts -->
-<!--<script src="main.js"></script> -->
-<!-- <script src="cart.js" defer></script> -->
- <!--<script src="app.js"> defer</script> -->
+
 
 
 </html>
