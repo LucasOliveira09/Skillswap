@@ -239,7 +239,7 @@ const produtos = [
     id: 5,
     nome: "Carona Unifio",
     categoria: "Corrida",
-    preco: 20.00 , 
+    preco: 2.00 , 
     imagem: "./img/hb-servico.webp",
     descricao: "Seg/Qua • 14h–15h • Aula individual",
     authorAvatar: "./img/avatar-matheus.jpg",

@@ -1,0 +1,192 @@
+/* --- FONTES (Mantidas) --- */
+@import url('https://fonts.googleapis.com/css2?family=Abel&display=swap');
+/*font-family: "Abel", sans-serif; */
+@import url('https://fonts.googleapis.com/css2?family=Martel+Sans:wght@200;300;400;600;700;800;900&display=swap');
+/*font-family: "Martel Sans", sans-serif; */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+/*font-family: "Montserrat", sans-serif; */
+@import url('https://fonts.googleapis.com/css2?family=Angkor&display=swap');
+/*font-family: "Angkor", serif;*/
+
+
+/* --- ESTILOS ESPECÍFICOS (Mantidos) --- */
+
+/* Cor de fundo do input de pesquisa */
+header nav input[type="text"] {
+    font-family: "Abel", sans-serif;
+    font-size: 15px;
+    background-color: rgb(240, 246, 250);
+    border: 0px solid;
+    border-radius: 3px;
+    /* Largura e padding agora são controlados pelo .form-control do Bootstrap */
+}
+
+/* Links do breadcrumb */
+.inicio-links {
+    text-decoration: none;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* Fontes específicas */
+.foto-gilberto {
+    font-family: "Martel Sans", sans-serif;
+}
+
+.aulas-jiu {
+    font-family: "Montserrat", sans-serif;
+}
+
+/* Fonte do título "Relacionados" (classe nova) */
+.relacionados-titulo {
+    font-family: "Montserrat", sans-serif;
+}
+
+/* Fonte da lista de produtos */
+.lista-produtos {
+    font-family: "Martel Sans", sans-serif;
+}
+
+/* Estilos de Preço (Mantidos) */
+.product-price {
+    margin: 5px 0;
+}
+
+.current-price {
+    color: #ff5722;
+    font-size: 18px;
+    font-weight: 700;
+    margin-right: 10px;
+}
+
+.old-price {
+    color: #a0a0a0;
+    font-size: 14px;
+    font-weight: 400;
+    text-decoration: line-through;
+}
+
+.rating-produto {
+    color: #a0a0a0;
+    margin-left: 10px ;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+/* Cor das estrelas (movido para .text-warning no HTML) */
+/* .estrelas-rating { color: gold } */
+
+
+/* --- BOTÕES (Estilos específicos mantidos) --- */
+
+/* Estilização base (agora combinada com .btn) */
+aside button {
+    cursor: pointer;
+    font-family: "Montserrat", sans-serif;
+    transition: background-color 0.3s;
+    /* As classes .btn e .btn-lg do Bootstrap cuidam de padding, border, radius, font-size */
+}
+
+/* Botão "Entrar em contato" */
+aside button:first-child {
+    background-color: rgba(37, 81, 136, 1);
+    color: white;
+}
+
+aside button:first-child:hover {
+    background-color: #1a385f;
+}
+
+/* Botão de coração */
+aside button:last-child {
+    width: 60px;
+    height: 60px;
+    padding: 0; /* Sobrescreve o padding do .btn */
+    background-color: white;
+    border: 1px solid #ccc; 
+    border-radius: 8px;
+    font-size: 28px;
+    line-height: 1;
+    color: #333;
+    /* flex-grow, display, justify-content, align-items são do .btn */
+}
+
+aside button:last-child:hover {
+    background-color: #f5f5f5;
+    border-color: #a0a0a0;
+}
+
+/* --- FOOTER (Estilos de fonte e círculos mantidos) --- */
+
+/* Cor e posição são controladas no HTML, mas poderiam ficar aqui */
+.main-footer {
+    /* background-color: rgba(37, 81, 136, 1); */
+    /* color: rgb(255, 255, 255); */
+    /* position: relative; */
+    /* overflow: hidden; */
+    /* Layout (padding, display, justify, align) removido */
+}
+
+/* Círculos (Mantidos 100%) */
+.footer-circle {
+    width: 450px;
+    height: 450px;
+    border-radius: 100%;
+    background-color: #8cc63f;
+    border: 2px solid white;
+    position: absolute;
+    bottom: 60px;
+    right: -90px;
+    z-index: 1;
+}
+
+.footer-circletwo {
+    width: 500px;
+    height: 500px;
+    border-radius: 100%;
+    background-color: #8bc63f00;
+    border: 2px solid white;
+    position: absolute;
+    bottom: 36px;
+    right: -115px;
+    z-index: 1;
+}
+
+/* Fontes do Footer (Mantidas) */
+.skillswap {
+    font-family: "Angkor", serif;
+    font-weight: 200;
+    font-size: 39px;
+}
+
+.ultimo-footer {
+    font-family: "Abel", sans-serif;
+}
+
+.sobre-nos-titulo,
+.faqs {
+    font-family: "Abel", sans-serif;
+    /* text-align: center; (removido, .text-center no HTML) */
+    /* display: block; (removido) */
+    /* margin-top: 46px; (removido, .mt-4 no HTML) */
+}
+
+.footer-download-titulo {
+    font-family: "Abel", sans-serif;
+    /* text-align: center; (removido, .text-center no HTML) */
+    /* z-index: 2; (movido para o HTML) */
+}
+
+/* (Regras .footer-download a img removidas, .d-block e .mt-4 no HTML) */
+
+.img_perf {
+    width: 15%;
+}
+
+.text-color{
+    color: black;
+}
+

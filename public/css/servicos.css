@@ -985,9 +985,10 @@ background-color: rgb(255, 255, 255);
 /* bloco de perfil dentro do card */
 .product-footer{
   margin-top:12px;
-  padding-top:12px;
+  padding-top:32px;
   border-top:1px solid #eee;      /* “linha” do Figma */
   display:flex; align-items:center; gap:10px;
+  padding: 20px;
 }
 
 .linkFormat {
@@ -999,10 +1000,11 @@ background-color: rgb(255, 255, 255);
   width:36px; height:36px;
   border-radius:999px;
   object-fit:cover; object-position:center;
-  flex:0 0 36px;                  /* não estica */
+  flex:0 0 36px;     
+            /* não estica */
 }
 
-.author-meta{ line-height:1.1; }
+.author-meta{ line-height:1.1;}
 .author-name{ display:block; font-weight:600; color:#333; font-size:.95rem; text-decoration: none;}
 .author-stars{ color:#f5a623; font-size:.7rem; letter-spacing:.5px; }
 
