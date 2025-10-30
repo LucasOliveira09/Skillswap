@@ -21,6 +21,9 @@
 <link rel="stylesheet" href="./css/pro-overrides.css">
   </head>
   <body>
+    <!-- ==== BANNER TICKET - ISOLADO (funciona sozinho) ==== -->
+
+
     <div id="toast-root" aria-live="polite" aria-atomic="true"></div>
 
 
@@ -147,26 +150,251 @@
       
     </header>
 <!-- OFF-CANVAS -->
+ 
+<!-- ===== HERO CAROUSEL (limpo, sem moldura externa) ===== -->
+<section class="ticket-carousel" role="region" aria-roledescription="carousel" aria-label="Destaques">
+  <button class="tc-arrow tc-prev" aria-label="Anterior">
+    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+      <path d="M15.5 4.5L8 12l7.5 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
 
+  <div class="tc-viewport" aria-live="polite">
+    <ul class="tc-track">
+      <!-- SLIDE 1 (seu hero original) -->
+      <li class="tc-slide is-active" id="hero-slide-1" aria-hidden="false">
+        <section class="hero-figma">
+          <div class="hero-card">
+            <span class="ring ring-big"></span>
+            <span class="ring ring-small"></span>
+            <div class="hero-text">
+              <p class="hero-kicker">Sua habilidade vale muito<br>troque, colabore, cresça</p>
+              <h1 class="hero-title">SKILL<br>SWAP</h1>
+              <p class="hero-sub">Aqui, cada talento tem valor<br>troque e aproveite.</p>
+              <span class="hero-dots" aria-hidden="true">—•••••—</span>
+            </div>
+          </div>
+        </section>
+      </li>
 
-<section class="hero-figma">
-  <div class="hero-card">
-    <!-- círculos verdes com 2 bordas -->
-    <span class="ring ring-big"></span>
-    <span class="ring ring-small"></span>
+      <!-- SLIDE 2 -->
+      <li class="tc-slide you" id="hero-slide-2" aria-hidden="true">
+        <section class="hero-figma">
+          <div class="hero-card">
+            <span class="ring ring-big"></span>
+            <span class="ring ring-small"></span>
+            <div class="hero-text">
+              <p class="hero-kicker">Troque serviços com segurança</p>
+              <h1 class="hero-title">VERIFICAÇÃO<br>AVALIAÇÕES</h1>
+              <p class="hero-sub">Conexões confiáveis para suas trocas.</p>
+              <span class="hero-dots" aria-hidden="true">—•••••—</span>
+            </div>
+          </div>
+        </section>
+      </li>
 
-    <!-- bolhas laterais (decor) -->
-    <span class="paddle left"></span>
-    <span class="paddle right"></span>
-
-    <div class="hero-text">
-      <p class="hero-kicker">Sua habilidade vale muito<br>troque, colabore, cresça</p>
-      <h1 class="hero-title">SKILL<br>SWAP</h1>
-      <p class="hero-sub">Aqui, cada talento tem valor<br>troque e aproveite.</p>
-      <span class="hero-dots" aria-hidden="true">—•••••—</span>
-    </div>
+      <!-- SLIDE 3 -->
+      <li class="tc-slide" id="hero-slide-3" aria-hidden="true">
+        <section class="hero-figma">
+          <div class="hero-card">
+            <span class="ring ring-big"></span>
+            <span class="ring ring-small"></span>
+            <div class="hero-text">
+              <p class="hero-kicker">Destaque-se na comunidade</p>
+              <h1 class="hero-title">GANHE<br>VISIBILIDADE</h1>
+              <p class="hero-sub">Mostre seu talento e encontre oportunidades.</p>
+              <span class="hero-dots" aria-hidden="true">—•••••—</span>
+            </div>
+          </div>
+        </section>
+      </li>
+    </ul>
   </div>
+
+  <button class="tc-arrow tc-next" aria-label="Próximo">
+    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+      <path d="M8.5 4.5L16 12l-7.5 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <div class="tc-dots" role="tablist" aria-label="Ir para o slide"></div>
+  <p class="tc-status sr-only" aria-live="polite">Slide 1 de 3</p>
 </section>
+
+<style>
+  /* ===== Wrapper LIMPO (sem moldura/branco) ===== */
+  .ticket-carousel{
+    position:relative;
+    max-width:1200px;
+    margin:16px auto;
+    padding:0;                 /* remove respiro que criava “cartão branco” */
+    isolation:isolate;
+  }
+  .tc-viewport{
+    position:relative;
+    overflow:visible;          /* deixa o recorte do seu hero aparecer */
+    background:transparent;
+    border-radius:0;
+    box-shadow:none;
+  }
+  /* removemos pseudo-recortes do viewport */
+  .tc-viewport::before, .tc-viewport::after{ content:none; }
+
+  /* Track/Slides empilhados (não desloca layout) */
+  .tc-track{ position:relative; }
+  .tc-slide{
+    position:absolute; inset:0;
+    opacity:0; pointer-events:none;
+    will-change: transform, opacity;
+  }
+  .tc-slide.is-active{ pointer-events:auto; }
+
+  /* ===== Animações PRO (entrada/saída + parallax nas bolhas) ===== */
+  @keyframes heroIn {
+    0%   { opacity:0; transform:translateX(22px) scale(1.012); }
+    60%  { opacity:1; }
+    100% { opacity:1; transform:translateX(0) scale(1); }
+  }
+  @keyframes heroOut {
+    0%   { opacity:1; transform:translateX(0) scale(1); }
+    100% { opacity:0; transform:translateX(-18px) scale(.996); }
+  }
+  .tc-slide.is-entering{ animation:heroIn .65s cubic-bezier(.22,.61,.36,1) both; z-index:2; }
+  .tc-slide.is-leaving { animation:heroOut .48s ease-in both; z-index:1; }
+
+  /* parallax sutil nas rings quando o slide está ativo */
+  .tc-slide .hero-card .ring{
+    transition: transform .7s cubic-bezier(.22,.61,.36,1);
+  }
+  .tc-slide.is-entering .hero-card .ring-big,
+  .tc-slide.is-active  .hero-card .ring-big{ transform:translate3d(6px,-3px,0) scale(1.035); }
+  .tc-slide.is-entering .hero-card .ring-small,
+  .tc-slide.is-active  .hero-card .ring-small{ transform:translate3d(-8px,6px,0) scale(1.02); }
+.tc-slide you{background-color: aquamarine;}
+  /* Setas (sobre o seu hero) */
+  .tc-arrow{
+    position:absolute; top:44%; margin-right:0.9%; transform:translateY(-50%);
+    width:40px; height:0px; border-radius:50%;
+    display:grid; place-content:center;
+    background:none; color:#234F81; border:0; cursor:pointer; z-index:5;
+    box-shadow:0 6px 24px rgba(0,0,0,.12), 0 2px 8px rgba(0,0,0,.06);
+  }
+  .tc-prev{ left:21px; }
+  .tc-next{ right:10px; }
+  .tc-arrow:hover{ filter:brightness(.98); transform:translateY(-50%) scale(1.02); }
+  .tc-arrow:active{ transform:translateY(-50%) scale(.98); }
+  .tc-arrow:focus-visible{ outline:3px solid #94c5ff; outline-offset:3px; }
+
+  /* Dots (sobre o hero, canto inferior esquerdo) */
+  .tc-dots{
+    position:absolute; left:24px; bottom:10px; display:flex; gap:8px; z-index:5;
+  }
+  .tc-dot{ width:9px; height:9px; border-radius:50%; background:rgba(255,255,255,.55); border:0; cursor:pointer; }
+  .tc-dot.is-active{ background:#fff; transform:scale(1.1); }
+
+  .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+
+  /* Responsivo – mantém tudo limpo */
+  @media (max-width:960px){ .tc-prev{ left:8px; } .tc-next{ right:8px; } }
+
+  
+</style>
+
+<script>
+(function(){
+  const root  = document.currentScript.previousElementSibling.previousElementSibling;
+  const slides = [...root.querySelectorAll('.tc-slide')];
+  const prev   = root.querySelector('.tc-prev');
+  const next   = root.querySelector('.tc-next');
+  const dotsWrap = root.querySelector('.tc-dots');
+  const status = root.querySelector('.tc-status');
+  if(!slides.length) return;
+
+  let index = slides.findIndex(s=>s.classList.contains('is-active'));
+  if(index<0) index = 0;
+
+  // Dots
+  dotsWrap.innerHTML = '';
+  slides.forEach((s,i)=>{
+    const b = document.createElement('button');
+    b.className = 'tc-dot'+(i===index?' is-active':'');
+    b.setAttribute('role','tab');
+    b.setAttribute('aria-controls', s.id || `slide-${i+1}`);
+    b.setAttribute('aria-selected', String(i===index));
+    b.addEventListener('click', ()=> goTo(i));
+    dotsWrap.appendChild(b);
+  });
+  const dots = [...dotsWrap.querySelectorAll('.tc-dot')];
+
+  function setActive(i, withAnim=true){
+    slides.forEach((s,k)=>{
+      const isTarget = k===i, isCurrent = k===index;
+      s.classList.remove('is-entering','is-leaving','is-active');
+
+      // animação suave (entrada/saída)
+      if(withAnim && isCurrent && !isTarget) s.classList.add('is-leaving');
+      if(isTarget){
+        // força reflow p/ reiniciar animação
+        void s.offsetWidth;
+        s.classList.add(withAnim ? 'is-entering' : 'is-active');
+        // quando a animação terminar, fixa como ativo
+        s.addEventListener('animationend', function onEnd(){
+          s.classList.remove('is-entering'); s.classList.add('is-active'); s.removeEventListener('animationend', onEnd);
+        });
+      }
+
+      s.setAttribute('aria-hidden', String(!isTarget));
+      if(dots[k]){
+        dots[k].classList.toggle('is-active', isTarget);
+        dots[k].setAttribute('aria-selected', String(isTarget));
+      }
+    });
+    status.textContent = `Slide ${i+1} de ${slides.length}`;
+  }
+
+  function goTo(i){ if(i===index) return; const prevIndex = index; setActive(i,true); index = i; }
+  const nextSlide = ()=> goTo((index+1)%slides.length);
+  const prevSlide = ()=> goTo((index-1+slides.length)%slides.length);
+
+  prev.addEventListener('click', prevSlide);
+  next.addEventListener('click', nextSlide);
+
+  // Teclado
+  root.addEventListener('keydown', (e)=>{
+    if(e.key==='ArrowRight'){ e.preventDefault(); nextSlide(); }
+    if(e.key==='ArrowLeft'){  e.preventDefault(); prevSlide(); }
+  });
+
+  // Swipe básico
+  let startX=null, dragging=false;
+  const getX = e => (e.touches?e.touches[0]:e).clientX;
+  root.addEventListener('pointerdown', e=>{ dragging=true; startX=getX(e); }, {passive:true});
+  root.addEventListener('pointerup',   e=>{ if(!dragging) return; const dx=getX(e)-startX; if(Math.abs(dx)>40) (dx<0?nextSlide():prevSlide()); dragging=false; }, {passive:true});
+  root.addEventListener('touchstart',  e=>{ dragging=true; startX=getX(e); }, {passive:true});
+  root.addEventListener('touchend',    e=>{ if(!dragging) return; const dx=getX(e)-startX; if(Math.abs(dx)>40) (dx<0?nextSlide():prevSlide()); dragging=false; }, {passive:true});
+
+  // Autoplay com pausa
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let timer=null;
+  const start = ()=> { if(reduced) return; clearInterval(timer); timer=setInterval(nextSlide, 6000); };
+  const stop  = ()=> clearInterval(timer);
+  root.addEventListener('mouseenter', stop);
+  root.addEventListener('mouseleave', start);
+  root.addEventListener('focusin', stop);
+  root.addEventListener('focusout', start);
+
+  // Garantir IDs
+  slides.forEach((s,i)=> s.id || (s.id = `slide-${i+1}`));
+
+  // Estado inicial (sem pulo visual)
+  slides.forEach((s,k)=>{
+    s.classList.toggle('is-active', k===index);
+    s.setAttribute('aria-hidden', String(k!==index));
+  });
+  start();
+})();
+</script>
+<!-- ====== Ticket Carousel (com seu banner) ====== -->
 
 <main class="products">
   <h2>Últimos postados...</h2>
@@ -374,6 +602,8 @@
     </div>
   </div>
 </div>
+
+
 
 
 <script src="./js/perfilNav.js"defer></script>
