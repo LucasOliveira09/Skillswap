@@ -19,6 +19,9 @@
     
 </head>
 <body>
+<div id="app-root">
+  <!-- header, banner, categorias, grid, footer... -->
+</div>
 
     <header>
         
@@ -60,6 +63,7 @@
   </div>
   <footer class="cart-footer">
     <!-- CUPOM -->
+     <!-- 
     <div class="cart-coupon" id="cart-coupon">
       <label for="cart-coupon-input">Cupom</label>
       <div class="coupon-field">
@@ -67,7 +71,7 @@
         <button id="cart-coupon-apply" disabled>Aplicar</button>
       </div>
       <p class="coupon-hint">Dica: cupons não são acumulativos. Apenas letras e números.</p>
-      <p class="coupon-feedback" id="coupon-feedback" aria-live="polite"></p>
+      <p class="coupon-feedback" id="coupon-feedback" aria-live="polite"></p> -->
 
       <!-- chip aparece quando aplicado -->
       <div class="coupon-chip" id="coupon-chip" hidden>
@@ -144,9 +148,9 @@
                 Acessórios
             </button>
 
-            <button class="category-btn" data-category="smartwatch">
-                <i class="fa-solid fa-clock"></i>
-                SmartWatches
+            <button class="category-btn" data-category="Consoles">
+               <i class="fa-solid fa-face-smile"></i>
+                Consoles
             </button>
             <button class="category-btn" data-category="tablets">
                 <i class="fa-solid fa-tablet-screen-button"></i>
@@ -211,12 +215,18 @@
 </div> -->
 
 <!-- Scripts (ordem importa) -->
- 
-<script src="./js/electronicPage.js"></script>
+ <script src="js/electronicPage.js"></script>
+
+
+
+<script src="js/servicePage.js" defer></script>
+
+
 <script src="./js/perfilNav.js"></script>
-<script src="./js/servicePage.js" defer></script>
+
 <script src="./js/feed.js"></script>
 <script src="./js/menu.js"></script>
+
 
 
 </body>

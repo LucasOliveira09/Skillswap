@@ -985,3 +985,12 @@ body.cart-open .cart-button{
 .ship-tag{font-size:12px;padding:4px 8px;border-radius:999px;background:#eef2ff;color:#1e3a8a}
 .ship-price{margin-left:auto;font-weight:700}
 .totals-row{display:flex;justify-content:space-between;align-items:center;padding:8px 16px}
+/* ===== Corrige sobreposição de cards quando carrinho aberto ===== */
+body.cart-open main.products,
+body.cart-open .hero-section {
+  filter: blur(2px);
+  pointer-events: none;
+  user-select: none;
+  transform: none !important;
+  z-index: 0 !important;
+}

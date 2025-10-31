@@ -1,749 +1,1088 @@
+/************** SkillSwap – Eletrônicos (PRO UX) **************
+ * Arquivo único — substitua seu js/electronicPage.js por este.
+ * Requisitos no HTML já atendidos pelo seu markup enviado.
+ **************************************************************/
+/* SkillSwap – Eletrônicos (PRO UX) – build 2025-10-31
+   Recursos:
+   - Drawer + overlay/blur com camadas seguras (z-index alto)
+   - Grid de produtos com descontos, preço riscado, rating, parcelas, frete grátis
+   - Carrinho com localStorage (CART_KEY)
+   - Toast PRO (canto inferior direito, CTA Ver carrinho)
+   - Cupom PRO (validação, feedback, chip-remover)
+   - Frete: aparece somente após "Calcular"; permite ocultar opções
+   - Nenhuma variável global (exceto window.SS para debug)
+*/
+(function () {
+  "use strict";
 
+  // ========= Namespace =========
+  const SS = (window.SS = window.SS || {});
 
-const produtos = [
-    {
-        id: 1,
-        nome: "iPhone 16 Pro Max",
-        categoria: "smartphones",
-        preco: 5759.90,
-        precoOriginal: 8999.99,
-        desconto: 11,
-        imagem: "https://www.notebookcheck.info/fileadmin/Notebooks/News/_nc4/rohan-4Ti0LfaqQZY-unsplash.jpg",
-        descricao: "Smartphone Apple com câmera avançada"
-    },
-    {
-        id: 2,
-        nome: "MacBook Air M3",
-        categoria: "laptops",
-        preco: 10499.90,
-        precoOriginal: 10999.90,
-        desconto: 18,
-        imagem: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400",
-        descricao: "Notebook Apple ultrafino e potente"
-    },
-    {
-        id: 3,
-        nome: "AirPods Pro",
-        categoria: "headphones",
-        preco: 1099.90,
-        precoOriginal: 2299,
-        desconto: 17,
-        imagem: "https://preview.redd.it/should-i-buy-airpods-pro-2-v0-vzrxrswuf4se1.jpg?width=640&crop=smart&auto=webp&s=6385cd1c678e5f3d76bb07a2e9af4f1130fd05d7",
-        descricao: "Fones sem fio com cancelamento de ruído"
-    },
-    {
-        id: 4,
-        nome: "Samsung Galaxy S24",
-        categoria: "smartphones",
-        preco: 4699.90,
-        precoOriginal: 6299,
-        desconto: 13,
-        imagem: "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=400",
-        descricao: "Smartphone Samsung com tela AMOLED"
-    },
-    {
-        id: 5,
-        nome: "Apple Watch Series 9",
-        categoria: "smartwatch",
-        preco: 2389.90,
-        precoOriginal: 3799.90,
-        desconto: 13,
-        imagem: "https://noticias.r7.com/resizer/H7AZPL7xNg12h8QLzb2tSc49Wvw=/arc-photo-newr7/arc2-prod/public/RRB4RLTJMRNHTLBNBSJVXNMGBY.jpg",
-        descricao: "Relógio inteligente com monitoramento"
-    },
-    {
-        id: 6,
-        nome: "Teclado Mecânico",
-        categoria: "accessories",
-        preco: 599.90,
-        precoOriginal: null,
-        desconto: null,
-        imagem: "https://pcdiga-prod.eu.saleor.cloud/media/thumbnails/products/p052625_1_862513ae_thumbnail_1024.jpg",
-        descricao: "Teclado mecânico RGB para gamers"
-    },
-    {
-        id: 7,
-        nome: "Sony WH-1000XM5",
-        categoria: "headphones",
-        preco: 2199.90,
-        precoOriginal: 2999,
-        desconto: 17,
-        imagem: "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=400",
-        descricao: "Fone com cancelamento de ruído impecável e fácil acesso para transporte"
-    },
-    {
-        id: 8,
-        nome: "Dell XPS 13",
-        categoria: "laptops",
-        preco: 7999.90,
-        precoOriginal: null,
-        desconto: null,
-        imagem: "https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?w=400",
-        descricao: "Notebook Windows premium, i710th, 16gb ram, placa integrada GTX750"
-    },
-    {
-        id: 9,
-        nome: "iPad Pro",
-        categoria: "tablets",
-        preco: 4499.90,
-        precoOriginal: null,
-        desconto: null,
-        imagem: "https://www.techenet.com/wp-content/uploads/2021/06/iPadPro2021-2.jpg",
-        descricao: "Toque, desenhe e digite como mágica em um único aparelho."
-    },
-     {
-        id: 10,
-        nome: "Magic Keyboard para iPad Pro",
-        categoria: "tablets",
-        preco: 949.90,
-        precoOriginal: null,
-        desconto: null,
-        imagem: "https://m.media-amazon.com/images/S/aplus-media-library-service-media/f26a8683-305d-4b62-89dd-b597d84f521f.__CR0,0,800,600_PT0_SX600_V1___.jpg",
-        descricao: "Magic Keyboard para iPad Pro de 13 polegadas, super acessível para transporte, última tecnologia para seu iPad Pro"
-    },
-    {
-        id: 11,
-        nome: "Mouse Sem Fio Gamer",
-        categoria: "accessories",
-        preco: 319.90,
-        precoOriginal: null,
-        desconto: null,
-        imagem: "https://techminuto.com.br/wp-content/uploads/2022/01/Melhores-Mouses-da-Razer.jpg",
-        descricao: "Mouse Gamer Razer Mamba Chroma, sem fio, 7 Botões, 16000DPI, conforto e qualidade para jogar seu RPG"
-    },
-    {
-        id: 12,
-        nome: "MacBook Air M4",
-        categoria: "laptops",
-        preco: 15919.90,
-        precoOriginal: null,
-        desconto: null,
-        imagem: "https://webp.br.cdn.pxr.nl/news/2025/03/05/8499ab2fed92cf05e00302aa39450fb7bfee733e.jpg?width=1200",
-        descricao: "Superleve e com pouco mais de 1 cm de espessura, o MacBook Air se encaixa facilmente na correria da sua rotina",
+  // ========= CSS injetado (apenas 1x) =========
+  (function injectCSS() {
+    if (document.getElementById("ss-electronics-style")) return;
+    const css = `
+    /* Camadas */
+    #cart-overlay{position:fixed;inset:0;background:rgba(17,24,39,.45);
+      -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);
+      z-index:2147483600;opacity:0;transition:opacity .25s ease; }
+    #cart-overlay.active{opacity:1}
+    #cart-drawer{position:fixed;top:0;right:0;height:100vh;width:min(420px,92vw);
+      background:#fff;box-shadow:0 10px 30px rgba(0,0,0,.18);
+      z-index:2147483606;transform:translateX(100%);transition:transform .28s cubic-bezier(.2,.7,.2,1);
+      display:flex;flex-direction:column;}
+    #cart-drawer.open{transform:translateX(0)}
+    body.cart-open{overflow:hidden}
+    /* Blur só no wrapper se existir (não mata cliques do drawer) */
+    body.cart-open #app-root{filter:blur(3px) saturate(.96)}
 
+    /* Toast */
+    #toast-container{position:fixed;right:16px;bottom:16px;display:flex;flex-direction:column;gap:12px;z-index:2147483647}
+    .toast{display:flex;gap:12px;align-items:center;width:min(380px,92vw);padding:10px 12px;border-radius:14px;color:#fff;
+      background:rgba(17,24,39,.88);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.15);animation:toastIn .18s ease-out;
+      box-shadow:0 10px 30px rgba(0,0,0,.25);}
+    .toast img{width:56px;height:56px;border-radius:10px;object-fit:cover}
+    .toast-info{flex:1;min-width:0}
+    .toast-info strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .toast-sub{font-size:.9rem;opacity:.9;margin-top:2px}
+    .toast-cta{display:flex;gap:8px}
+    .toast-cta button{border:0;padding:8px 10px;border-radius:10px;cursor:pointer}
+    .toast-cta .see{background:#fff;color:#111827}
+    .toast-cta .cont{background:#111827;color:#fff;border:1px solid #374151}
+    @keyframes toastIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-    },
+    /* Cards */
+    .products-card{position:relative;border:1px solid #eee;border-radius:14px;overflow:hidden;background:#fff;transition:transform .2s,box-shadow .2s}
+    .products-card:hover{transform:translateY(-2.5px);box-shadow: rgba(0,0,0,.16) 0px 3px 6px, rgba(0,0,0,.23) 0px 3px 6px;}
+    .badge-off{position:absolute;left:12px;top:12px;padding:6px 10px;font-weight:700;font-size:.82rem;background:#ef4444;color:#fff;border-radius:999px}
+    .products-img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+    .price-row{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:.35rem 0 .55rem}
+    .price-now{font-size:1.18rem;font-weight:800;color:#111827;line-height:1}
+    .price-old{font-size:.95rem;color:#9ca3af;text-decoration:line-through;line-height:1}
+    .price-off{font-size:.85rem;font-weight:700;color:#ef4444;line-height:1}
+    .stars{display:flex;align-items:center;gap:4px;margin:.25rem 0 .25rem}
+    .stars i{font-size:.95rem;color:#fbbf24}
+    .stars small{color:#6b7280}
+    .parcelas{color:#374151;font-size:.9rem;margin:.2rem 0}
+    .chip-frete{display:inline-flex;gap:6px;align-items:center;background:#10b9811a;border:1px solid #10b98133;color:#065f46;font-weight:600;border-radius:999px;padding:4px 8px;font-size:.82rem;margin:.25rem 0}
 
-];
-window.produtos = produtos;
-let textoPesquisa = ""
-let categoriaAtual = "all"
+    /* Carrinho itens */
+    .cart-item{display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid #f3f4f6}
+    .cart-item img{width:64px;height:64px;border-radius:10px;object-fit:cover}
+    .cart-item .title{font-weight:700}
+    .cart-item .meta{color:#6b7280;font-size:.9rem;margin-top:2px}
+    .cart-item .actions{margin-left:auto;display:flex;gap:6px}
+    .cart-item .actions button{padding:6px 8px;border-radius:8px;border:1px solid #e5e7eb;background:#f9fafb;cursor:pointer}
 
+    /* Cupom estados */
+    .cart-coupon.is-loading input{opacity:.6}
+    .cart-coupon.is-valid .coupon-field{outline:2px solid #10b98144;border-radius:10px}
+    .cart-coupon.is-invalid .coupon-field{outline:2px solid #ef444444;border-radius:10px}
 
-let containerProdutos = document.querySelector(".products-container")
-let input = document.querySelector(".search-input")
-let botoesMenu = document.querySelectorAll(".category-btn")
-// selectorAll chama todos os botôes em vez de 1 
+    /* Frete */
+    .ship-opt{display:flex;align-items:flex-start;gap:10px;border:1px solid #e5e7eb;border-radius:10px;padding:10px;margin-bottom:8px}
+    .ship-opt label{display:flex;gap:10px;align-items:center;cursor:pointer;width:100%}
+    .ship-meta{display:flex;gap:10px;color:#6b7280;font-size:.9rem}
+    .ship-price{margin-left:auto;font-weight:700}
+    .ship-actions{display:flex;gap:8px;margin-top:8px}
+    .ship-actions button{padding:6px 10px;border-radius:8px;border:1px solid #e5e7eb;background:#f9fafb;cursor:pointer}
+    `;
+    const s = document.createElement("style");
+    s.id = "ss-electronics-style";
+    s.textContent = css;
+    document.head.appendChild(s);
+  })();
 
-// function formatarPreco(preco) {
-     // console.log(preco);
-   // return ` ${preco.toFixed(2).replace('.', ',')}`;
-// }
-
-
-// ================== INTEGRAÇÃO COM O CARRINHO ==================
-function integrarCarrinho() {
-  document.querySelectorAll(".products-card").forEach(card => {
-    const btn = card.querySelector(".products-button");
-    btn.addEventListener("click", () => {
-      const productId = parseInt(card.dataset.id);
-      const produto = produtos.find(p => p.id === productId);
-      if (produto) addToCart({
-        id: produto.id,
-        name: produto.nome,
-        price: produto.preco,
-        image: card.dataset.image || produto.imagem // <— AQUI
-      });
-    });
-  });
-}
-
-
-// ================== FORMATAR PREÇO ==================
-function formatarPreco(preco) {
-    return preco.toLocaleString('pt-BR', {
-        style: 'currency',
-        currency: 'BRL',
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-    });
-}
-
-// ================== MOSTRAR PRODUTOS ==================
-function mostrarProduto() {
-    let htmlProdutos = "";
-
-    let produtosFiltrados = produtos.filter(prd => {
-        let passouCategoria = (categoriaAtual === "all" || prd.categoria === categoriaAtual);
-        let passouPesquisa = prd.nome.toLowerCase().includes(textoPesquisa.toLowerCase());
-        return passouCategoria && passouPesquisa;
+  // ========= Helpers & Estado =========
+  const $ = (s, p = document) => p.querySelector(s);
+  const $$ = (s, p = document) => [...p.querySelectorAll(s)];
+  const $id = (s) => document.getElementById(s);
+  const BRL = (n) =>
+    Number(n || 0).toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
     });
 
-    produtosFiltrados.forEach(prd => {
-        htmlProdutos += `
-            <div class="products-card" data-id="${prd.id}">
-                <img class="products-img" src="${prd.imagem}" alt="${prd.nome}">
-                <div class="products-info">
-                    <h3 class="products-name">${prd.nome}</h3>
-                    <p class="products-description">${prd.descricao}</p>
-                    <p class="products-price">${formatarPreco(prd.preco)}</p>
-                    <button class="products-button">Adicionar ao carrinho!</button>
-                </div>
+  // DOM
+  const elGrid = $(".products-container");
+  const elSearch = $(".search-input");
+  const elCatBtns = $$(".category-btn");
+
+  // Carrinho
+  const elCartBtn = $id("cart-button");
+  const elBadge = $id("cart-count");
+  const elOverlay = $id("cart-overlay");
+  const elDrawer = $id("cart-drawer");
+  const elClose = $id("cart-close");
+  const elItems = $id("cart-items");
+  const elSubtotal = $id("cart-subtotal");
+  const elReview = $id("cart-review");
+
+  // Frete
+  const elShipCep = $id("ship-cep");
+  const elShipCalc = $id("ship-calc");
+  const elShipOpts = $id("ship-options");
+  const elShipRow = $id("cart-shipping");
+  const elShipAmt = $id("cart-shipping-amount");
+
+  // Cupom
+  const elCupomWrap = $id("cart-coupon");
+  const elCupomIn = $id("cart-coupon-input");
+  const elCupomBtn = $id("cart-coupon-apply");
+  const elCupomFeed = $id("coupon-feedback");
+  const elChip = $id("coupon-chip");
+  const elChipCode = $id("coupon-code");
+  const elChipRem = $id("coupon-remove");
+
+  // Toast container (garantido 1x, no body)
+  function ensureToastContainer() {
+    let c = $id("toast-container");
+    if (!c) {
+      c = document.createElement("div");
+      c.id = "toast-container";
+      document.body.appendChild(c);
+    }
+    if (c.parentNode !== document.body) {
+      c.remove();
+      document.body.appendChild(c);
+    }
+    return c;
+  }
+
+  // Estado
+  let textoPesquisa = "";
+  let categoriaAtual = "all";
+  let shipCalculated = false;
+
+  const CART_KEY = "ss_cart";
+  const COUPON_KEY = "ss_coupon";
+  const SHIP_KEY = "ss_ship";
+
+  const COUPONS = {
+    BEMVINDO10: { type: "percent", value: 10, min: 0, label: "Bem-vindo 10%" },
+    SKILLSWAP20: {
+      type: "percent",
+      value: 20,
+      min: 1000,
+      label: "20% acima de R$ 1.000",
+    },
+    DESCONTO50: {
+      type: "fixed",
+      value: 50,
+      min: 200,
+      label: "R$ 50 off acima de R$ 200",
+    },
+  };
+
+  // Catálogo demo (troque pelos seus dados se quiser)
+  const produtos = [
+    {
+      id: 1,
+      nome: "iPhone 16 Pro Max",
+      categoria: "smartphones",
+      preco: 5759.9,
+      precoOriginal: 8999.99,
+      desconto: 36,
+      imagem:
+        "https://www.notebookcheck.info/fileadmin/Notebooks/News/_nc4/rohan-4Ti0LfaqQZY-unsplash.jpg",
+      descricao: "Smartphone Apple com câmera avançada",
+    },
+    {
+      id: 2,
+      nome: "MacBook Air M3",
+      categoria: "laptops",
+      preco: 10499.9,
+      precoOriginal: 11999.9,
+      desconto: 12,
+      imagem:
+        "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400",
+      descricao: "Notebook Apple ultrafino e potente",
+    },
+    {
+      id: 3,
+      nome: "AirPods Pro",
+      categoria: "headphones",
+      preco: 1099.9,
+      precoOriginal: 2299.0,
+      desconto: 52,
+      imagem:
+        "https://preview.redd.it/should-i-buy-airpods-pro-2-v0-vzrxrswuf4se1.jpg?width=640&crop=smart&auto=webp&s=6385cd1c678e5f3d76bb07a2e9af4f1130fd05d7",
+      descricao: "Fones sem fio com cancelamento de ruído",
+    },
+    {
+      id: 4,
+      nome: "Samsung Galaxy S24",
+      categoria: "smartphones",
+      preco: 4699.9,
+      precoOriginal: 6299.0,
+      desconto: 25,
+      imagem:
+        "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=400",
+      descricao: "Smartphone Samsung com tela AMOLED",
+    },
+    {
+      id: 5,
+      nome: "PlayStation 5 PRO",
+      categoria: "Consoles",
+      preco: 5389.9,
+      precoOriginal: 7799.9,
+      desconto: 37,
+      imagem:
+        "https://mestredasmilhas.com/wp-content/uploads/2023/04/ps5.webp",
+      descricao: "Black Edition 1tb",
+    },
+    {
+      id: 6,
+      nome: "Teclado Mecânico",
+      categoria: "accessories",
+      preco: 599.9,
+      precoOriginal: 799.0,
+      desconto: 25,
+      imagem:
+        "https://pcdiga-prod.eu.saleor.cloud/media/thumbnails/products/p052625_1_862513ae_thumbnail_1024.jpg",
+      descricao: "Teclado mecânico RGB gamer",
+    },
+    {
+      id: 7,
+      nome: "Sony WH-1000XM5",
+      categoria: "headphones",
+      preco: 2199.9,
+      precoOriginal: 2999.0,
+      desconto: 27,
+      imagem:
+        "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=400",
+      descricao: "Fone com cancelamento de ruído impecável",
+    },
+    {
+      id: 8,
+      nome: "Dell XPS 13",
+      categoria: "laptops",
+      preco: 7999.9,
+      precoOriginal: 8999.0,
+      desconto: 11,
+      imagem:
+        "https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?w=400",
+      descricao: "Notebook i7, 16GB RAM",
+    },
+    {
+      id: 9,
+      nome: "iPad Pro",
+      categoria: "tablets",
+      preco: 4499.9,
+      precoOriginal: 5199.0,
+      desconto: 13,
+      imagem:
+        "https://www.techenet.com/wp-content/uploads/2021/06/iPadPro2021-2.jpg",
+      descricao: "Toque, desenhe e digite como mágica",
+    },
+    {
+      id: 10,
+      nome: "Magic Keyboard para iPad Pro",
+      categoria: "tablets",
+      preco: 949.9,
+      precoOriginal: 1199.0,
+      desconto: 21,
+      imagem:
+        "https://m.media-amazon.com/images/S/aplus-media-library-service-media/f26a8683-305d-4b62-89dd-b597d84f521f.__CR0,0,800,600_PT0_SX600_V1___.jpg",
+      descricao: "Teclado oficial para iPad Pro (13”)",
+    },
+    {
+      id: 11,
+      nome: "Apple Watch Series 9",
+      categoria: "accessories",
+      preco: 2389.9,
+      precoOriginal: 3799.9,
+      desconto: 37,
+      imagem:
+        "https://noticias.r7.com/resizer/H7AZPL7xNg12h8QLzb2tSc49Wvw=/arc-photo-newr7/arc2-prod/public/RRB4RLTJMRNHTLBNBSJVXNMGBY.jpg",
+      descricao: "Relógio inteligente com monitoramento",
+    },
+    {
+      id: 12,
+      nome: "MacBook Air M4",
+      categoria: "laptops",
+      preco: 15919.9,
+      precoOriginal: 16999.9,
+      desconto: 6,
+      imagem:
+        "https://webp.br.cdn.pxr.nl/news/2025/03/05/8499ab2fed92cf05e00302aa39450fb7bfee733e.jpg?width=1200",
+      descricao: "Superleve, ~1 cm espessura",
+    },
+  ];
+  SS.produtos = produtos;
+
+  // ========= Utils =========
+  const resolveImageFor = (id, fb) => {
+    if (fb) return fb;
+    const p = produtos.find((x) => x.id === id);
+    if (p?.imagem) return p.imagem;
+    const card = document.querySelector(`.products-card[data-id="${id}"]`);
+    if (card) {
+      const src = card.querySelector(".products-img")?.src;
+      if (src) return src;
+    }
+    return "img/placeholder.png";
+  };
+  const BRStars = (seed) => {
+    const base = 37 * (seed || 1);
+    const frac = (Math.sin(base) + 1) / 2;
+    const val = 4.2 + 0.7 * frac;
+    const cnt = 50 + Math.floor(frac * 450);
+    return { rating: Math.round(val * 10) / 10, count: cnt };
+  };
+  const starsHTML = (r) => {
+    const full = Math.floor(r);
+    const half = r - full >= 0.5;
+    let h = "";
+    for (let i = 0; i < full; i++) h += '<i class="fa-solid fa-star"></i>';
+    if (half) h += '<i class="fa-regular fa-star-half-stroke"></i>';
+    while ((h.match(/fa-star/g) || []).length < 5)
+      h += '<i class="fa-regular fa-star"></i>';
+    return h;
+  };
+  const parcelaHTML = (preco) => {
+    if (preco < 300) return "";
+    const v = preco / 10;
+    return `<div class="parcelas">em 10x de <b>${BRL(v)}</b> sem juros</div>`;
+  };
+  const freeShipChipHTML = (preco) =>
+    preco >= 299
+      ? `<div class="chip-frete"><i class="fa-solid fa-truck-fast"></i> Frete GRÁTIS</div>`
+      : "";
+
+  // ========= Grid =========
+  function renderGrid() {
+    if (!elGrid) return;
+    const list = produtos.filter((p) => {
+      const okCat = categoriaAtual === "all" || p.categoria === categoriaAtual;
+      const okTxt = p.nome
+        .toLowerCase()
+        .includes((textoPesquisa || "").toLowerCase());
+      return okCat && okTxt;
+    });
+    elGrid.innerHTML = list
+      .map((prd) => {
+        const hasOff = !!(prd.precoOriginal && prd.desconto);
+        const { rating, count } = BRStars(prd.id);
+        return `
+        <div class="products-card" data-id="${prd.id}">
+          ${hasOff ? `<span class="badge-off">-${prd.desconto}%</span>` : ""}
+          <img class="products-img" src="${prd.imagem}" alt="${prd.nome}">
+          <div class="products-info">
+            <h3 class="products-name">${prd.nome}</h3>
+            <div class="stars">${starsHTML(
+              rating
+            )} <small>(${rating} • ${count})</small></div>
+            <p class="products-description">${prd.descricao}</p>
+            ${freeShipChipHTML(prd.preco)}
+            <div class="price-row">
+              <span class="price-now">${BRL(prd.preco)}</span>
+              ${
+                hasOff
+                  ? `<span class="price-old">${BRL(prd.precoOriginal)}</span>`
+                  : ""
+              }
+              ${
+                hasOff ? `<span class="price-off">-${prd.desconto}%</span>` : ""
+              }
             </div>
-        `;
-    });
-
-    containerProdutos.innerHTML = htmlProdutos;
-
-    // Integrar carrinho aos produtos renderizados
-    integrarCarrinho();
-}
-
-// ================== PESQUISA ==================
-function pesquisar() {
-    textoPesquisa = input.value;
-    mostrarProduto();
-}
-
-// ================== TROCAR CATEGORIA ==================
-function trocarCategoria(categoria) {
-    categoriaAtual = categoria;
-    botoesMenu.forEach(botaoMenu => {
-        botaoMenu.classList.remove('active');
-        if (botaoMenu.getAttribute("data-category") === categoria) {
-            botaoMenu.classList.add("active");
-        }
-    });
-    mostrarProduto();
-}
-// ===== Carrinho PRO UX =====
-const CART_KEY = 'ss_cart';
-const $id = (s) => document.getElementById(s);
-const elCartBtn  = $id('cart-button');
-const elBadge    = $id('cart-count');
-const elOverlay  = $id('cart-overlay');
-const elDrawer   = $id('cart-drawer');
-const elClose    = $id('cart-close');
-const elItems    = $id('cart-items');
-const elSubtotal = $id('cart-subtotal');
-const elReview   = $id('cart-review');
-let _lastFocusEl = null;
-// ===== Cupom (refs + config) =====
-const COUPON_KEY = 'ss_coupon';
-const elCupomIn   = document.getElementById('cart-coupon-input');
-const elCupomBtn  = document.getElementById('cart-coupon-apply');
-const elCupomFeed = document.getElementById('coupon-feedback');
-const elChip      = document.getElementById('coupon-chip');
-const elChipCode  = document.getElementById('coupon-code');
-const elChipRem   = document.getElementById('coupon-remove');
-const elSavingsRow = document.getElementById('cart-savings');
-const elSavingsAmt = document.getElementById('cart-savings-amount');
-
-// catálago de cupons (exemplo — ajuste conforme seu negócio)
-const COUPONS = {
-  BEMVINDO10:  { type:'percent', value:10,  min:0,    label:'Bem-vindo 10%' },
-  SKILLSWAP20: { type:'percent', value:20,  min:1000, label:'20% acima de R$ 1.000' },
-  DESCONTO50:  { type:'fixed',   value:50,  min:200,  label:'R$ 50 off acima de R$ 200' },
-};
-
-
-const BRL = (n)=> n.toLocaleString('pt-BR',{style:'currency', currency:'BRL'});
-
-// Estado
-function getCart(){ try{ return JSON.parse(localStorage.getItem(CART_KEY) || '[]'); }catch{ return []; } }
-function setCart(items){
-  localStorage.setItem(CART_KEY, JSON.stringify(items));
-  renderCart();             // re-render itens
-  updateTotalsWithCoupon(); // re-totaliza considerando cupom
-}
-function ensureToastContainer(){
-  let c = document.getElementById('toast-container');
-  if (!c){
-    c = document.createElement('div');
-    c.id = 'toast-container';
-    document.body.appendChild(c);
-  }
-  return c;
-}
-function closeAllToasts(){
-  document.querySelectorAll('.toast').forEach(t => t.remove());
-}
-function showToastSafe(prod){
-  const cont = ensureToastContainer();
-  const imgSrc = prod.image || resolveImageFor(prod.id) || 'img/placeholder.png';
-
-  const toast = document.createElement('div');
-  toast.className = 'toast';
-  toast.innerHTML = `
-    <img src="${imgSrc}" alt="${prod.name || 'Produto'}">
-    <div class="toast-info">
-      <strong>${prod.name || 'Produto adicionado'}</strong>
-      <small>Adicionado ao carrinho</small>
-    </div>
-    <button type="button">Ver</button>
-  `;
-  cont.appendChild(toast);
-
-  toast.querySelector('button').addEventListener('click', () => {
-    closeAllToasts();
-    openCart();
-  });
-
-  setTimeout(() => toast.remove(), 3000);
-}
-
-
-// Ações
-function addToCart(prod){ // {id, name, price, image?}
-  const cart = getCart();
-  const i = cart.findIndex(x => x.id === prod.id);
-  const safeImg = resolveImageFor(prod.id, prod.image);
-
-  if (i >= 0){
-    cart[i].qty += 1;
-    if (!cart[i].image) cart[i].image = safeImg;
-  } else {
-    cart.push({ id: prod.id, name: prod.name, price: prod.price, image: safeImg, qty: 1 });
-  }
-  setCart(cart);
-
-  // Feedback moderno: badge + toast (não abre drawer à força)
-  try { bumpBadge?.(); } catch {}
-  showToastSafe({ ...prod, image: safeImg });
-}
-
-function showToast(prod){
-  const cont = document.getElementById('toast-container');
-  const toast = document.createElement('div');
-  toast.className = 'toast';
-  toast.innerHTML = `
-    <img src="${prod.image}" alt="${prod.name}">
-    <div class="toast-info">
-      <strong>${prod.name}</strong>
-      <small>Adicionado ao carrinho</small>
-    </div>
-    <button>Ver</button>
-  `;
-  cont.appendChild(toast);
-
-  const btn = toast.querySelector('button');
-  btn.addEventListener('click', () => {
-    closeAllToasts();
-    openCart();
-  });
-
-  setTimeout(()=> toast.remove(), 3000);
-}
-
-function closeAllToasts(){
-  document.querySelectorAll('.toast').forEach(t=>t.remove());
-}
-
-function removeItem(id){ setCart(getCart().filter(x=>x.id!==id)); }
-function changeQty(id, d){ setCart(getCart().map(x=> x.id===id ? {...x, qty: Math.max(1, x.qty + d)} : x)); }
-function subtotal(){ return getCart().reduce((a,b)=>a + b.price*b.qty, 0); }
-
-// UI
-function openCart(){
-  _lastFocusEl = document.activeElement;
-  elDrawer.classList.add('open');
-  elOverlay.classList.add('active');
-  elOverlay.hidden = false;
-  elCartBtn?.setAttribute('aria-expanded','true');
-  document.body.classList.add('cart-open');       // <— ADICIONE ESTA LINHA
-  setTimeout(()=> elClose?.focus(), 10);
-}
-
-function closeCart(){
-  elDrawer.classList.remove('open');
-  elOverlay.classList.remove('active');
-  setTimeout(()=>{ elOverlay.hidden = true; }, 320);
-  elCartBtn?.setAttribute('aria-expanded','false');
-  document.body.classList.remove('cart-open');    // <— E ESTA
-  if (_lastFocusEl && typeof _lastFocusEl.focus === 'function') _lastFocusEl.focus();
-}
-
-function renderCart(){
-  const cart = getCart();
-  const count = cart.reduce((a,b)=>a+b.qty,0);
-  if (elBadge) elBadge.textContent = count;
-
-  elItems.innerHTML = cart.length ? cart.map(it=>{
-    const img = resolveImageFor(it.id, it.image); // <— garante src
-    return `
-      <div class="cart-item">
-        <img src="${img}" alt="${it.name}">
-        <div>
-          <div class="title">${it.name}</div>
-          <div class="meta">${BRL(it.price)} • qtd <strong>${it.qty}</strong></div>
+            ${parcelaHTML(prd.preco)}
+            <button class="products-button" type="button">Adicionar ao carrinho!</button>
+          </div>
         </div>
-        <div class="actions">
-          <button class="btn-dec" data-id="${it.id}" aria-label="Diminuir">−</button>
-          <button class="btn-inc" data-id="${it.id}" aria-label="Aumentar">＋</button>
-          <button class="btn-rem" data-id="${it.id}" aria-label="Remover">🗑</button>
+      `;
+      })
+      .join("");
+  }
+
+  // ========= Busca/Categoria =========
+  function pesquisar() {
+    textoPesquisa = elSearch?.value || "";
+    renderGrid();
+  }
+  function trocarCategoria(cat) {
+    categoriaAtual = cat;
+    elCatBtns.forEach((b) =>
+      b.classList.toggle("active", b.getAttribute("data-category") === cat)
+    );
+    renderGrid();
+  }
+
+  // ========= Carrinho (estado) =========
+  function getCart() {
+    try {
+      return JSON.parse(localStorage.getItem(CART_KEY) || "[]");
+    } catch {
+      return [];
+    }
+  }
+  function setCart(items) {
+    localStorage.setItem(CART_KEY, JSON.stringify(items));
+    renderCart();
+    updateTotals();
+  }
+  function addToCart(prod) {
+    const cart = getCart();
+    const i = cart.findIndex((x) => x.id === prod.id);
+    const img = resolveImageFor(prod.id, prod.image);
+    if (i >= 0) {
+      cart[i].qty += 1;
+      if (!cart[i].image) cart[i].image = img;
+    } else {
+      cart.push({
+        id: prod.id,
+        name: prod.name,
+        price: prod.price,
+        image: img,
+        qty: 1,
+      });
+    }
+    setCart(cart);
+    showToast({ id: prod.id, name: prod.name, image: img });
+  }
+  SS.addToCart = addToCart;
+  SS.getCart = getCart;
+
+  function removeItem(id) {
+    setCart(getCart().filter((x) => x.id !== id));
+  }
+  function changeQty(id, d) {
+    setCart(
+      getCart().map((x) =>
+        x.id === id ? { ...x, qty: Math.max(1, x.qty + d) } : x
+      )
+    );
+  }
+  function subtotal() {
+    return getCart().reduce(
+      (a, b) => a + (Number(b.price) || 0) * (Number(b.qty) || 0),
+      0
+    );
+  }
+
+  // ========= Carrinho (UI) =========
+  let _lastFocus = null;
+  function openCart() {
+    _lastFocus = document.activeElement;
+    elDrawer?.classList.add("open");
+    elOverlay?.classList.add("active");
+    if (elOverlay) elOverlay.hidden = false;
+    document.body.classList.add("cart-open");
+    elCartBtn?.setAttribute("aria-expanded", "true");
+    setTimeout(() => elClose?.focus(), 10);
+  }
+  function closeCart() {
+    elDrawer?.classList.remove("open");
+    elOverlay?.classList.remove("active");
+    if (elOverlay) setTimeout(() => (elOverlay.hidden = true), 280);
+    document.body.classList.remove("cart-open");
+    elCartBtn?.setAttribute("aria-expanded", "false");
+    if (_lastFocus?.focus) _lastFocus.focus();
+  }
+  function renderCart() {
+    const cart = getCart();
+    const count = cart.reduce((a, b) => a + b.qty, 0);
+    if (elBadge) elBadge.textContent = String(count);
+
+    if (!elItems) return;
+    elItems.innerHTML = cart.length
+      ? cart
+          .map((it) => {
+            const img = resolveImageFor(it.id, it.image);
+            return `
+        <div class="cart-item">
+          <img src="${img}" alt="${it.name}">
+          <div>
+            <div class="title">${it.name}</div>
+            <div class="meta">${BRL(it.price)} • qtd <strong>${
+              it.qty
+            }</strong></div>
+          </div>
+          <div class="actions">
+            <button class="btn-dec" data-id="${
+              it.id
+            }" aria-label="Diminuir">−</button>
+            <button class="btn-inc" data-id="${
+              it.id
+            }" aria-label="Aumentar">＋</button>
+            <button class="btn-rem" data-id="${
+              it.id
+            }" aria-label="Remover">🗑</button>
+          </div>
         </div>
+      `;
+          })
+          .join("")
+      : `<p>Seu carrinho está vazio.</p>`;
+  }
+
+  // ========= Cupom =========
+  const getAppliedCoupon = () => {
+    try {
+      return JSON.parse(localStorage.getItem(COUPON_KEY) || "null");
+    } catch {
+      return null;
+    }
+  };
+  const setAppliedCoupon = (obj) => {
+    if (!obj) localStorage.removeItem(COUPON_KEY);
+    else localStorage.setItem(COUPON_KEY, JSON.stringify(obj));
+  };
+  function calcDiscount(sub, c) {
+    if (!c) return 0;
+    if (sub < (c.min || 0)) return 0;
+    if (c.type === "percent") return Math.max(0, sub * (c.value / 100));
+    if (c.type === "fixed") return Math.min(sub, c.value);
+    return 0;
+  }
+  function validateCouponInput(code) {
+    const up = (code || "").trim().toUpperCase();
+    if (!/^[A-Z0-9]{5,14}$/.test(up))
+      return { ok: false, msg: "Cupom inválido. Use letras/números (5–14)." };
+    const rule = COUPONS[up];
+    if (!rule) return { ok: false, msg: "Cupom não encontrado ou expirado." };
+    const sub = subtotal();
+    if (sub < (rule.min || 0))
+      return {
+        ok: false,
+        msg: `Mínimo para este cupom: ${BRL(rule.min || 0)}.`,
+      };
+    return { ok: true, up, rule };
+  }
+  function updateCouponUI() {
+    const applied = getAppliedCoupon();
+    const has = !!applied;
+    if (elChip) elChip.hidden = !has;
+    if (elCupomIn) {
+      elCupomIn.readOnly = has;
+      if (has) elCupomIn.value = applied.code;
+    }
+    if (elCupomBtn) elCupomBtn.disabled = has || !elCupomIn?.value?.trim();
+    if (elChipCode && has) elChipCode.textContent = applied.code;
+    elCupomFeed && (elCupomFeed.textContent = "");
+    elCupomWrap?.classList.remove("is-valid", "is-invalid", "is-loading");
+  }
+
+  // ========= Frete =========
+  const getShipState = () => {
+    try {
+      return JSON.parse(localStorage.getItem(SHIP_KEY) || "null");
+    } catch {
+      return null;
+    }
+  };
+  const setShipState = (v) => {
+    if (!v) localStorage.removeItem(SHIP_KEY);
+    else localStorage.setItem(SHIP_KEY, JSON.stringify(v));
+  };
+  const maskCEP = (v) =>
+    (v || "")
+      .replace(/\D/g, "")
+      .slice(0, 8)
+      .replace(/(\d{5})(\d{0,3})/, "$1-$2");
+  const addDaysStr = (d) => {
+    const dt = new Date();
+    dt.setDate(dt.getDate() + d);
+    return dt.toLocaleDateString("pt-BR");
+  };
+  function calcShipOptions(sub) {
+    if (sub >= 999) {
+      return [
+        {
+          id: "free",
+          name: "Frete Grátis",
+          price: 0,
+          eta: `chega até ${addDaysStr(7)}`,
+        },
+      ];
+    }
+    const base = Math.min(0.05 * sub, 49.9);
+    const econ = Math.max(14.9, 0.6 * base);
+    const pad = Math.max(19.9, 0.85 * base);
+    const exp = Math.max(29.9, base);
+    return [
+      {
+        id: "econ",
+        name: "Econômico",
+        price: econ,
+        eta: `${addDaysStr(7)} a ${addDaysStr(10)}`,
+      },
+      {
+        id: "pad",
+        name: "Padrão",
+        price: pad,
+        eta: `${addDaysStr(5)} a ${addDaysStr(8)}`,
+      },
+      {
+        id: "exp",
+        name: "Expresso",
+        price: exp,
+        eta: `${addDaysStr(2)} a ${addDaysStr(4)}`,
+      },
+    ];
+  }
+  function renderShipOptions(opts, selectedId) {
+    if (!elShipOpts) return;
+    elShipOpts.innerHTML =
+      opts
+        .map(
+          (o) => `
+        <div class="ship-opt">
+          <label>
+            <input type="radio" name="shipopt" value="${o.id}" ${
+            o.id === selectedId ? "checked" : ""
+          }>
+            <div>
+              <div><strong>${o.name}</strong></div>
+              <div class="ship-meta"><span>${o.eta}</span></div>
+            </div>
+            <div class="ship-price">${BRL(o.price)}</div>
+          </label>
+        </div>
+      `
+        )
+        .join("") +
+      `
+      <div class="ship-actions">
+        <button type="button" id="ship-hide">Ocultar opções</button>
       </div>
     `;
-  }).join('') : `<p>Seu carrinho está vazio.</p>`;
+    elShipOpts.querySelectorAll('input[name="shipopt"]').forEach((r) => {
+      r.addEventListener("change", () => {
+        const pick = opts.find((x) => x.id === r.value);
+        setShipState({ cep: elShipCep.value, pick, calc: true });
+        shipCalculated = true;
+        updateTotals();
+      });
+    });
+    elShipOpts
+      .querySelector("#ship-hide")
+      ?.addEventListener("click", () => (elShipOpts.innerHTML = ""));
+  }
+  const currentShippingPrice = () => {
+    if (!shipCalculated) return 0;
+    const st = getShipState();
+    return st?.pick?.price || 0;
+  };
 
- updateTotalsWithCoupon();
-
-}
-renderCart();
-updateCouponUI();
-updateTotalsWithCoupon();
-
-
-
-// ===== Cupom: estado e cálculo =====
-function getAppliedCoupon(){
-  try{ return JSON.parse(localStorage.getItem(COUPON_KEY) || 'null'); }catch{ return null; }
-}
-function setAppliedCoupon(obj){
-  if (!obj) localStorage.removeItem(COUPON_KEY);
-  else localStorage.setItem(COUPON_KEY, JSON.stringify(obj));
-}
-
-function calcDiscount(sub, coupon){
-  if (!coupon) return 0;
-  if (sub < (coupon.min || 0)) return 0;
-  if (coupon.type === 'percent') return Math.max(0, sub * (coupon.value/100));
-  if (coupon.type === 'fixed')   return Math.min(sub, coupon.value);
-  return 0;
-}
-
-function updateCouponUI(){
-  const applied = getAppliedCoupon();
-  const has = !!applied;
-
-  if (elChip)      elChip.hidden = !has;
-  if (elCupomIn)   elCupomIn.readOnly = has;
-  if (elCupomBtn)  elCupomBtn.disabled = has || !elCupomIn?.value?.trim();
-
-  elCupomFeed && (elCupomFeed.textContent = "");
-  elCupomIn  && (elCupomIn.value = has ? applied.code : elCupomIn.value);
-  elChipCode && has && (elChipCode.textContent = applied.code);
-
-  // remove classes de estado
-  document.getElementById('cart-coupon')?.classList.remove('is-valid','is-invalid','is-loading');
-}
-
-function updateTotalsWithCoupon(){
-  const sub = subtotal();
-  const applied = getAppliedCoupon();
-  const off = calcDiscount(sub, applied);
-  const final = Math.max(0, sub - off);
-
-  if (elSavingsRow) elSavingsRow.hidden = !(off > 0);
-  if (elSavingsAmt) elSavingsAmt.textContent = BRL(off);
-  if (elSubtotal)   elSubtotal.textContent = BRL(final);
-
-  // opcional: manda total final para a página de pagamento
-  localStorage.setItem('ss_cart_subtotal', String(final));
-}
-
-function validateCouponInput(code){
-  const up = (code||"").trim().toUpperCase();
-  if (!/^[A-Z0-9]{5,14}$/.test(up)) return { ok:false, msg:"Cupom inválido. Use apenas letras/números (5–14)." };
-  const rule = COUPONS[up];
-  if (!rule) return { ok:false, msg:"Cupom não encontrado ou expirado." };
-  const sub = subtotal();
-  if (sub < (rule.min||0)) return { ok:false, msg:`Este cupom exige mínimo de ${BRL(rule.min||0)}.` };
-  return { ok:true, up, rule };
-}
-
-// Eventos principais
-elCartBtn?.addEventListener('click', openCart);
-elClose?.addEventListener('click', closeCart);
-elOverlay?.addEventListener('click', closeCart);
-document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeCart(); });
-
-// ===== Eventos do Cupom =====
-if (elCupomIn && elCupomBtn){
-  elCupomIn.addEventListener('input', () => {
-    elCupomBtn.disabled = !elCupomIn.value.trim();
-  });
-
-  elCupomBtn.addEventListener('click', async () => {
-    const wrap = document.getElementById('cart-coupon');
-    if (!elCupomIn.value.trim()) return;
-
-    wrap?.classList.add('is-loading');
-    await new Promise(r=>setTimeout(r, 450));
-
-    const v = validateCouponInput(elCupomIn.value);
-    wrap?.classList.remove('is-loading');
-
-    if (!v.ok){
-      wrap?.classList.add('is-invalid');
-      elCupomFeed && (elCupomFeed.textContent = v.msg);
-      return;
+  // ========= Totais =========
+  function updateTotals() {
+    const sub = subtotal();
+    // cupom
+    const applied = getAppliedCoupon();
+    const off = calcDiscount(sub, applied);
+    const partial = Math.max(0, sub - off);
+    // frete
+    const ship = currentShippingPrice();
+    if (elShipRow) {
+      if (shipCalculated) {
+        elShipRow.hidden = false;
+        if (elShipAmt) elShipAmt.textContent = BRL(ship);
+      } else {
+        elShipRow.hidden = true;
+        if (elShipAmt) elShipAmt.textContent = "—";
+      }
     }
+    const final = Math.max(0, partial + (shipCalculated ? ship : 0));
+    const elSavingsRow = $id("cart-savings");
+    const elSavingsAmt = $id("cart-savings-amount");
+    if (elSavingsRow) elSavingsRow.hidden = !(off > 0);
+    if (elSavingsAmt) elSavingsAmt.textContent = BRL(off);
+    if (elSubtotal) elSubtotal.textContent = BRL(final);
+    localStorage.setItem("ss_cart_subtotal", String(final));
+  }
 
-    setAppliedCoupon({ code:v.up, ...v.rule });
-    wrap?.classList.remove('is-invalid');
-    wrap?.classList.add('is-valid');
-    elCupomFeed && (elCupomFeed.textContent = "Cupom aplicado com sucesso!");
+  // ========= Toast =========
+  function showToast(prod) {
+    ensureToastContainer();
+    const cont = $id("toast-container");
+    const img = prod.image || resolveImageFor(prod.id) || "img/placeholder.png";
+    const sub = subtotal();
+    const t = document.createElement("div");
+    t.className = "toast";
+    t.innerHTML = `
+      <img src="${img}" alt="${prod.name || "Produto"}">
+      <div class="toast-info">
+        <strong>${prod.name || "Produto adicionado"}</strong>
+        <div class="toast-sub">Adicionado ao carrinho • Subtotal: <b>${BRL(
+          sub
+        )}</b></div>
+      </div>
+      <div class="toast-cta">
+        <button class="cont" type="button">Continuar</button>
+        <button class="see" type="button">Ver carrinho</button>
+      </div>
+    `;
+    cont.appendChild(t);
+    t.querySelector(".cont")?.addEventListener("click", () => t.remove());
+    t.querySelector(".see")?.addEventListener("click", () => {
+      t.remove();
+      openCart();
+    });
+    setTimeout(() => t.remove(), 3500);
+  }
+  SS.showToast = showToast;
 
-    updateCouponUI();
-    updateTotalsWithCoupon();
+  // ========= Eventos =========
+  // Add to cart (delegação)
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest(".products-button");
+    if (!btn) return;
+    const card = btn.closest(".products-card");
+    if (!card) return;
+    const id = Number(card.dataset.id);
+    const p = produtos.find((x) => x.id === id);
+    if (!p) return;
+    addToCart({ id: p.id, name: p.nome, price: p.preco, image: p.imagem });
   });
-}
 
-if (elChipRem){
-  elChipRem.addEventListener('click', ()=>{
+  // Drawer
+  elCartBtn?.addEventListener("click", openCart);
+  elClose?.addEventListener("click", closeCart);
+  elOverlay?.addEventListener("click", closeCart);
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeCart();
+  });
+
+  // Itens do carrinho (delegação)
+  elItems?.addEventListener("click", (e) => {
+    const t = e.target;
+    const id = Number(t.dataset.id);
+    if (!id) return;
+    if (t.classList.contains("btn-inc")) changeQty(id, +1);
+    if (t.classList.contains("btn-dec")) changeQty(id, -1);
+    if (t.classList.contains("btn-rem")) removeItem(id);
+  });
+
+  // Revisar pedido
+  elReview?.addEventListener("click", () => {
+    localStorage.setItem("ss_cart_subtotal", String(subtotal()));
+    window.location.href = "pagina_pagamentos.html";
+  });
+
+  // Cupom
+  if (elCupomIn && elCupomBtn) {
+    elCupomIn.addEventListener("input", () => {
+      const up = (elCupomIn.value || "").trim().toUpperCase();
+      elCupomBtn.disabled = !/^[A-Z0-9]{5,14}$/.test(up);
+      elCupomWrap?.classList.remove("is-valid", "is-invalid");
+      elCupomFeed && (elCupomFeed.textContent = "");
+    });
+    elCupomBtn.addEventListener("click", async () => {
+      if (!elCupomIn.value.trim()) return;
+      elCupomWrap?.classList.add("is-loading");
+      await new Promise((r) => setTimeout(r, 300));
+      const v = validateCouponInput(elCupomIn.value);
+      elCupomWrap?.classList.remove("is-loading");
+      if (!v.ok) {
+        elCupomWrap?.classList.add("is-invalid");
+        elCupomFeed && (elCupomFeed.textContent = v.msg);
+        return;
+      }
+      setAppliedCoupon({ code: v.up, ...v.rule });
+      elCupomWrap?.classList.remove("is-invalid");
+      elCupomWrap?.classList.add("is-valid");
+      elCupomFeed && (elCupomFeed.textContent = "Cupom aplicado com sucesso!");
+      updateCouponUI();
+      updateTotals();
+    });
+  }
+  elChipRem?.addEventListener("click", () => {
     setAppliedCoupon(null);
     elCupomFeed && (elCupomFeed.textContent = "Cupom removido.");
     updateCouponUI();
-    updateTotalsWithCoupon();
+    updateTotals();
   });
-}
 
+  // CEP máscara + calcular frete (só mostra opções DEPOIS de clicar)
+  if (elShipCep) {
+    elShipCep.addEventListener("input", () => {
+      const cur = elShipCep.selectionStart;
+      elShipCep.value = maskCEP(elShipCep.value);
+      elShipCep.setSelectionRange(cur, cur);
+    });
+  }
+  if (elShipCalc) {
+    elShipCalc.addEventListener("click", () => {
+      const cep = (elShipCep?.value || "").replace(/\D/g, "");
+      const hint = document.querySelector(".ship-hint");
+      if (cep.length !== 8) {
+        if (hint) hint.textContent = "CEP inválido. Ex: 01311-000";
+        return;
+      }
+      const opts = calcShipOptions(subtotal());
+      const selected = opts[0].id;
+      setShipState({
+        cep: elShipCep.value,
+        pick: opts.find((o) => o.id === selected),
+        calc: true,
+      });
+      shipCalculated = true;
+      renderShipOptions(opts, selected);
+      updateTotals();
+      if (hint) hint.textContent = `Opções para ${elShipCep.value}:`;
+    });
+  }
 
-
-// === Toast Glass PRO ===
-function ensureToastContainer(){
-  let c = document.getElementById('toast-container');
-  if (!c){
-    c = document.createElement('div');
-    c.id = 'toast-container';
+  // ========= Boot =========
+  window.addEventListener("DOMContentLoaded", () => {
+    ensureToastContainer();
+    elSearch?.addEventListener("input", pesquisar);
+    elCatBtns.forEach((btn) =>
+      btn.addEventListener("click", () =>
+        trocarCategoria(btn.getAttribute("data-category"))
+      )
+    );
+    renderGrid();
+    renderCart();
+    updateCouponUI();
+    // Frete começa escondido
+    shipCalculated = false;
+    if (elShipRow) {
+      elShipRow.hidden = true;
+      if (elShipAmt) elShipAmt.textContent = "—";
+    }
+    updateTotals();
+    // Corrige imagens antigas do carrinho (compat)
+    const fixed = getCart().map((it) => ({
+      ...it,
+      image: resolveImageFor(it.id, it.image),
+    }));
+    setCart(fixed);
+  });
+})();
+// === FIX TOAST VISUAL / Z-INDEX / BLUR ===
+(function fixToast() {
+  let c = document.getElementById("toast-container");
+  if (!c) {
+    c = document.createElement("div");
+    c.id = "toast-container";
     document.body.appendChild(c);
   }
-  return c;
-}
-
-function showToast(prod) {
-  // Garante que o container exista
-  let cont = document.getElementById('toast-container');
-  if (!cont) {
-    cont = document.createElement('div');
-    cont.id = 'toast-container';
-    document.body.appendChild(cont);
+  // garante que esteja no <body>
+  if (c.parentNode !== document.body) {
+    c.remove();
+    document.body.appendChild(c);
   }
 
-  const toast = document.createElement('div');
-  toast.className = 'toast';
-  toast.innerHTML = `
-    <img src="${prod.image || resolveImageFor(prod.id)}" alt="${prod.name}">
-    <div class="toast-info">
-      <strong>${prod.name}</strong>
-      <small>Adicionado ao carrinho</small>
-    </div>
-    <button type="button" class="toast-btn">Ver</button>
-  `;
-
-  cont.appendChild(toast);
-
-  const btn = toast.querySelector('.toast-btn');
-  btn.addEventListener('click', () => {
-    closeAllToasts();
-    openCart();
+  // força camada e cliques
+  Object.assign(c.style, {
+    position: "fixed",
+    right: "16px",
+    bottom: "16px",
+    display: "flex",
+    flexDirection: "column",
+    gap: "12px",
+    zIndex: "2147483647",
+    pointerEvents: "auto",
   });
 
-  // Animação e remoção
-  setTimeout(() => toast.remove(), 3000);
-}
-
-
-// opcional: expõe no escopo global (facilita testar no console)
-window.showToast = showToast;
-
-
-// Delegação itens
-elItems.addEventListener('click', (e)=>{
-  const t = e.target;
-  const id = Number(t.dataset.id);
-  if (!id) return;
-  if (t.classList.contains('btn-inc')) changeQty(id, +1);
-  if (t.classList.contains('btn-dec')) changeQty(id, -1);
-  if (t.classList.contains('btn-rem')) removeItem(id);
-});
-function resolveImageFor(id, fallback){
-  if (fallback) return fallback;
-
-  // 1) tenta o array local (mesmo em script type="module")
-  try {
-    if (typeof produtos !== 'undefined') {
-      const p = produtos.find(x => x.id === id);
-      if (p?.imagem) return p.imagem;
-    }
-  } catch {}
-
-  // 2) tenta o window (se não for módulo)
-  const arr = (window.produtos || []);
-  const p2 = arr.find(x => x.id === id);
-  if (p2?.imagem) return p2.imagem;
-
-  // 3) tenta achar um card no DOM com data-image
-  const card = document.querySelector(`.products-card[data-id="${id}"]`);
-  if (card?.dataset?.image) return card.dataset.image;
-
-  // 4) fallback local
-  return 'img/placeholder.png'; // garanta que esse arquivo exista
-}
-
-
-// Revisar pedido -> pagamentos
-elReview?.addEventListener('click', ()=>{
-  localStorage.setItem('ss_cart_subtotal', String(subtotal()));
-  window.location.href = 'pagina_pagamentos.html';
-});
-
-// Integra com seus cards existentes
-function integrarBotoesProduto(){
-  document.querySelectorAll('.products-card').forEach(card=>{
-    const btn = card.querySelector('.products-button');
-    btn?.addEventListener('click', ()=>{
-      const id = Number(card.dataset.id);
-      const p = (window.produtos || []).find(x=>x.id===id);
-      if (!p) return;
-      addToCart({ id: p.id, name: p.nome, price: p.preco, image: p.imagem });
-    });
-  });
-}
-
-// rode após render de produtos
-integrarBotoesProduto();
-// Hidrata imagens ausentes no carrinho legado
-(function hydrateCartImagesOnce(){
-  const cart = getCart();
-  const fixed = cart.map(it => ({
-    ...it,
-    image: resolveImageFor(it.id, it.image)
-  }));
-  setCart(fixed);
+  console.log("✅ Toast container reposicionado no topo (fora do blur)");
 })();
 
-// Caso você re-renderize a grade após busca/filtro, chame integrarBotoesProduto() novamente.
+// === SkillSwap SAFE PATCH v10 — blur, camadas e toast visível ===
+(function SAFE_PATCH() {
+  // 0) GARANTE IDs/elementos
+  function byId(id) {
+    return document.getElementById(id);
+  }
+  const ensure = (id) => {
+    let el = byId(id);
+    if (!el) {
+      el = document.createElement("div");
+      el.id = id;
+    }
+    if (el.parentNode !== document.body) {
+      try {
+        el.parentNode?.removeChild(el);
+      } catch {}
+      document.body.appendChild(el);
+    }
+    return el;
+  };
 
-/*
-// ===== Estado base do carrinho =====
-const CART_KEY = 'ss_cart';
-const MONEY = (n) => n.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+  const overlay = ensure("cart-overlay");
+  const drawer = ensure("cart-drawer");
+  const toastCt = ensure("toast-container");
 
-function getCart(){ try { return JSON.parse(localStorage.getItem(CART_KEY) || '[]'); } catch { return []; } }
-function setCart(items){ localStorage.setItem(CART_KEY, JSON.stringify(items)); updateCartUI(); }
+  // 1) CSS ÚNICO (z-index + blur só no #app-root)
+  if (!byId("ss-safe-style")) {
+    const css = `
+      /* Camadas máximas e cliques corretos */
+      #cart-overlay{position:fixed!important;inset:0!important;background:rgba(17,24,39,.45)!important;
+        -webkit-backdrop-filter:blur(3px)!important;backdrop-filter:blur(3px)!important;
+        z-index:2147483600!important;opacity:0;transition:opacity .25s ease;}
+      #cart-overlay.active{opacity:1;}
+      #cart-drawer{position:fixed!important;top:0!important;right:0!important;height:100vh!important;width:min(420px,92vw)!important;
+        background:#fff!important;box-shadow:0 10px 30px rgba(0,0,0,.18)!important;
+        z-index:2147483606!important;transform:translateX(100%)!important;transition:transform .28s cubic-bezier(.2,.7,.2,1)!important;
+        display:flex!important;flex-direction:column!important;pointer-events:auto!important;}
+      #cart-drawer.open{transform:translateX(0)!important;}
+      #toast-container{position:fixed!important;right:16px!important;bottom:16px!important;display:flex!important;
+        flex-direction:column!important;gap:12px!important;z-index:2147483647!important;pointer-events:auto!important;}
 
-function addItem(prod){ // {id, name, price, image}
-  const cart = getCart();
-  const i = cart.findIndex(x => x.id === prod.id);
-  if (i >= 0) cart[i].qty += 1;
-  else cart.push({...prod, qty: 1});
-  setCart(cart);
-  openCart(); // UX: abre o carrinho ao adicionar
-}
+      /* Blur SOMENTE no wrapper, se existir */
+      body.cart-open #app-root{filter:blur(3px) saturate(.96); pointer-events:none;}
+      /* …mas o drawer e o toast continuam clicáveis */
+      body.cart-open #cart-drawer, body.cart-open #cart-drawer *{pointer-events:auto!important;}
+      body.cart-open #toast-container, body.cart-open #toast-container *{pointer-events:auto!important;}
+    `;
+    const st = document.createElement("style");
+    st.id = "ss-safe-style";
+    st.textContent = css;
+    document.head.appendChild(st);
+  }
 
-function removeItem(id){
-  const cart = getCart().filter(x => x.id !== id);
-  setCart(cart);
-}
-
-function changeQty(id, delta){
-  const cart = getCart().map(x => x.id === id ? {...x, qty: Math.max(1, x.qty + delta)} : x);
-  setCart(cart);
-}
-
-function getSubtotal(){
-  return getCart().reduce((acc, it) => acc + it.price * it.qty, 0);
-}
-
-// ===== UI =====
-const elDrawer = document.getElementById('cart-drawer');
-const elOverlay = document.getElementById('cart-overlay');
-const elItems   = document.getElementById('cart-items');
-const elSubtotal= document.getElementById('cart-subtotal');
-const elCount   = document.getElementById('cart-count');
-
-function openCart(){
-  elDrawer.classList.add('open');
-  elOverlay.classList.add('active');
-  elOverlay.hidden = false;
-  document.querySelector('.cart-toggle')?.setAttribute('aria-expanded','true');
-}
-function closeCart(){
-  elDrawer.classList.remove('open');
-  elOverlay.classList.remove('active');
-  setTimeout(()=>{ elOverlay.hidden = true; }, 300);
-  document.querySelector('.cart-toggle')?.setAttribute('aria-expanded','false');
-}
-
-function updateCartUI(){
-  const cart = getCart();
-  // badge
-  const count = cart.reduce((a,b)=>a+b.qty,0);
-  if (elCount) elCount.textContent = count;
-
-  // itens
-  elItems.innerHTML = cart.length ? cart.map(it => `
-    <div class="cart-item">
-      <img src="${it.image || ''}" alt="${it.name}">
-      <div>
-        <div class="title">${it.name}</div>
-        <div class="meta">${MONEY(it.price)} • qtd <strong>${it.qty}</strong></div>
-      </div>
-      <div class="actions">
-        <button class="btn-dec" data-id="${it.id}">−</button>
-        <button class="btn-inc" data-id="${it.id}">＋</button>
-        <button class="btn-rem" data-id="${it.id}" title="Remover">🗑</button>
-      </div>
-    </div>
-  `).join('') : `<p>Seu carrinho está vazio.</p>`;
-
-  // subtotal
-  elSubtotal.textContent = MONEY(getSubtotal());
-}
-updateCartUI();
-
-// Eventos globais
-document.querySelector('.cart-toggle')?.addEventListener('click', openCart);
-document.querySelector('.cart-close')?.addEventListener('click', closeCart);
-elOverlay.addEventListener('click', closeCart);
-document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') closeCart(); });
-
-// Delegação dos botões de item
-elItems.addEventListener('click', (e)=>{
-  const id = Number(e.target.dataset.id);
-  if (!id) return;
-  if (e.target.classList.contains('btn-inc')) changeQty(id, +1);
-  if (e.target.classList.contains('btn-dec')) changeQty(id, -1);
-  if (e.target.classList.contains('btn-rem')) removeItem(id);
-});
-
-// ===== Integração "Revisar pedido" -> página de pagamentos =====
-document.getElementById('cart-review')?.addEventListener('click', ()=>{
-  // Armazenar subtotal para conferir na outra página (além do carrinho completo)
-  localStorage.setItem('ss_cart_subtotal', String(getSubtotal()));
-  window.location.href = 'pagina_pagamentos.html'; // ajuste seu caminho se necessário
-});
-
-// ===== Exemplo de "adicionar ao carrinho" com seus produtos existentes =====
-// Chame isso quando clicar em "Compre Agora!"
-function hookProductButtons(){
-  document.querySelectorAll('.products-card').forEach(card=>{
-    const btn = card.querySelector('.products-button');
-    btn?.addEventListener('click', ()=>{
-      const id = Number(card.dataset.id);
-      const p = produtos.find(x=>x.id===id);
-      if (!p) return;
-      addItem({ id: p.id, name: p.nome, price: p.preco, image: p.imagem });
-    });
+  // 2) ABRIR/FECHAR — robusto (não depende de outros handlers)
+  const btnOpen = byId("cart-button");
+  const btnClose = byId("cart-close");
+  function openCart() {
+    document.body.classList.add("cart-open");
+    overlay.hidden = false;
+    overlay.classList.add("active");
+    drawer.classList.add("open");
+    setTimeout(() => {
+      try {
+        btnClose?.focus();
+      } catch {}
+    }, 10);
+  }
+  function closeCart() {
+    drawer.classList.remove("open");
+    overlay.classList.remove("active");
+    setTimeout(() => (overlay.hidden = true), 250);
+    document.body.classList.remove("cart-open");
+  }
+  btnOpen?.addEventListener("click", openCart);
+  btnClose?.addEventListener("click", closeCart);
+  overlay?.addEventListener("click", closeCart);
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeCart();
   });
-}
-hookProductButtons();
-*/
-// ================== EVENTOS DOM ==================
-// ================== EVENTOS DOM ==================
-window.addEventListener('DOMContentLoaded', function () {
-    mostrarProduto(); // Mostrar produtos inicialmente
 
-    input.addEventListener('input', pesquisar);
-
-    botoesMenu.forEach(botaoMenu => {
-        botaoMenu.addEventListener('click', () => {
-            let categoria = botaoMenu.getAttribute("data-category");
-            trocarCategoria(categoria);
-        });
+  // 3) TOAST À PROVA DE CSS — sobrescreve SS.showToast
+  function BRL(n) {
+    return Number(n || 0).toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
     });
+  }
+  function safeSubtotal() {
+    try {
+      const cart = JSON.parse(localStorage.getItem("ss_cart") || "[]");
+      return cart.reduce(
+        (a, b) => a + (Number(b.price) || 0) * (Number(b.qty) || 0),
+        0
+      );
+    } catch {
+      return 0;
+    }
+  }
+  function resolveImageFor(id, fallback) {
+    if (fallback) return fallback;
+    const card = document.querySelector(
+      '.products-card[data-id="' + id + '"] .products-img'
+    );
+    return card?.src || "img/placeholder.png";
+  }
+  function SHOW_TOAST({ id, name, image } = {}) {
+    const t = document.createElement("div");
+    // INLINE styles (ignora qualquer .toast do seu CSS antigo)
+    t.setAttribute("role", "status");
+    t.style.cssText = [
+      "display:flex",
+      "align-items:center",
+      "gap:12px",
+      "width:min(380px,92vw)",
+      "padding:10px 12px",
+      "border-radius:14px",
+      "color:#fff",
+      "background:rgba(17,24,39,.9)",
+      "backdrop-filter:blur(8px)",
+      "border:1px solid rgba(255,255,255,.15)",
+      "box-shadow:0 10px 30px rgba(0,0,0,.25)",
+      "animation: none",
+    ].join(";");
 
+    const img = document.createElement("img");
+    img.src = resolveImageFor(id, image);
+    img.alt = "";
+    img.style.width = "56px";
+    img.style.height = "56px";
+    img.style.objectFit = "cover";
+    img.style.borderRadius = "10px";
 
-});
+    const info = document.createElement("div");
+    info.style.flex = "1";
+    info.style.minWidth = "0";
+    info.innerHTML = `
+      <strong style="display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${
+        name || "Produto adicionado"
+      }</strong>
+      <div style="opacity:.9;margin-top:2px">Subtotal: <b>${BRL(
+        safeSubtotal()
+      )}</b></div>
+    `;
+
+    const ctas = document.createElement("div");
+    const btnCont = document.createElement("button");
+    const btnSee = document.createElement("button");
+    [btnCont, btnSee].forEach((b) => {
+      b.style.border = "0";
+      b.style.padding = "8px 10px";
+      b.style.borderRadius = "10px";
+      b.style.cursor = "pointer";
+      b.style.marginLeft = "8px";
+    });
+    btnCont.textContent = "Continuar";
+    btnCont.style.background = "#111827";
+    btnCont.style.color = "#fff";
+    btnCont.style.border = "1px solid #374151";
+    btnSee.textContent = "Ver carrinho";
+    btnSee.style.background = "#fff";
+    btnSee.style.color = "#111827";
+
+    ctas.appendChild(btnCont);
+    ctas.appendChild(btnSee);
+    t.appendChild(img);
+    t.appendChild(info);
+    t.appendChild(ctas);
+    toastCt.appendChild(t);
+
+    btnCont.onclick = () => t.remove();
+    btnSee.onclick = () => {
+      t.remove();
+      openCart();
+    };
+    setTimeout(() => {
+      try {
+        t.remove();
+      } catch {}
+    }, 3500);
+  }
+
+  // expõe e PRIORIZA o nosso toast
+  window.SS = window.SS || {};
+  window.SS.showToast = SHOW_TOAST;
+
+  // 4) REBIND do botão "Adicionar ao carrinho" (não mexe no seu addToCart)
+  document.addEventListener(
+    "click",
+    (e) => {
+      const btn = e.target.closest(".products-button");
+      if (!btn) return;
+      const card = btn.closest(".products-card");
+      if (!card) return;
+      const id = Number(card.dataset.id) || 0;
+      const name =
+        card.querySelector(".products-name")?.textContent?.trim() || "Produto";
+      // chama o toast SEM depender das classes/estilos antigos
+      SHOW_TOAST({ id, name });
+    },
+    { capture: true }
+  );
+
+  console.log(
+    "✅ SAFE PATCH v10 aplicado (camadas + blur isolado + toast inline)."
+  );
+})();
