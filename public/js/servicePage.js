@@ -168,7 +168,6 @@ const period = ["mês", "VIP", "pacote 10 aulas", "12x", "UN"];
 const produtos = [
   {
     id: 1,
-    authorId: "1",
     nome: "Aula de Futebol",
     categoria: "Esportes",
     preco: 100.0,
@@ -187,7 +186,6 @@ const produtos = [
   
   {
     id: 2,
-    authorId: "2",
     nome: "Aula de Jiu-jitsu",
     categoria: "Esportes",
     preco: 80.0,
@@ -210,9 +208,9 @@ const produtos = [
     preco: 210.00, 
     imagem: "./img/banheiro-servico.jpg",
     descricao: "Seg/Qua • 14h–15h • Aula individual",
-    authorAvatar: "./img/avatar-lucas.jpg",
+    authorAvatar: "./img/avatar-emerson.jpg",
     authorName: "Lucas Leite.",
-    authorId: "3",
+    authorId: "1",
     stars: 3,
     needs: ["Limpeza"],
     postedAtMs: Date.now() - 2000 * 80 * 90, // ex.: há 5 minutos
@@ -223,7 +221,6 @@ const produtos = [
   },
     {
     id: 4,
-    authorId: "4",
     nome: "Canivette Suíço",
     categoria: "Semi-novos",
     preco: 50.00, 
@@ -247,7 +244,7 @@ const produtos = [
     descricao: "Seg/Qua • 14h–15h • Aula individual",
     authorAvatar: "./img/avatar-matheus.jpg",
     authorName: "Matheus Souza.",
-    authorId: "5",
+    authorId: "4",
     stars: 4,
     needs: ["Corrida"],
     postedAtMs: Date.now() - 1500 * 80 * 90, // ex.: há 5 minutos

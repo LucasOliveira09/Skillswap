@@ -102,9 +102,9 @@ async function carregarDadosPerfil(userId) {
         // *** LÓGICA DE DEMONSTRAÇÃO ESTATICA PARA ID 4 ***
         
         // Usamos '==' para comparar string da URL (userId) com número
-        if (userId == 5) {
+        if (userId == 4) {
             
-            console.log("Carregando dados ESTÁTICOS para o perfil ID 5 (Matheus).");
+            console.log("Carregando dados ESTÁTICOS para o perfil ID 4 (Matheus).");
 
             servicosData = [
                 {
