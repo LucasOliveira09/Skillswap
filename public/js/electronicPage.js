@@ -163,7 +163,7 @@
     SKILLSWAP20: {
       type: "percent",
       value: 20,
-      min: 1000,
+      min: 800,
       label: "20% acima de R$ 1.000",
     },
     DESCONTO50: {
@@ -752,7 +752,7 @@
   // Revisar pedido
   elReview?.addEventListener("click", () => {
     localStorage.setItem("ss_cart_subtotal", String(subtotal()));
-    window.location.href = "pagina_pagamentos.html";
+    window.location.href = "pagina-resumo.html";
   });
 
   // Cupom
