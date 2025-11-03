@@ -208,6 +208,7 @@ aside button:last-child:hover {
 .gallery-main-img{
   display:block; height:auto; max-height:540px; object-fit:cover;
   transition:opacity .25s ease;
+  cursor: pointer;
 }
 .gallery-thumbs{
   display:grid; grid-template-columns: repeat(auto-fill, minmax(84px,1fr));

@@ -72,9 +72,8 @@
         <div class="gallery-main position-relative">
           <!-- imagem principal -->
           <img id="mainPhoto"
-               src="https://images.pexels.com/photos/2033450/pexels-photo-2033450.jpeg?auto=compress&cs=tinysrgb&w=1400"
-               srcset="https://images.pexels.com/photos/2033450/pexels-photo-2033450.jpeg?auto=compress&cs=tinysrgb&w=1000 1000w,
-                       https://images.pexels.com/photos/2033450/pexels-photo-2033450.jpeg?auto=compress&cs=tinysrgb&w=1600 1600w"
+               src=""
+               srcset=""
                sizes="(max-width:992px) 100vw, 62vw"
                fetchpriority="high"
                class="w-100 gallery-main-img"
@@ -85,9 +84,9 @@
 
         <!-- thumbs: traseira, frente, interior, painel, porta-malas, lateral -->
         <div class="gallery-thumbs">
-          <img class="thumb active" src="https://images.pexels.com/photos/2033450/pexels-photo-2033450.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Traseira" loading="lazy">
-          <img class="thumb" src="https://images.unsplash.com/photo-1605515290091-7d65e82a1a42?q=80&w=1400&auto=format&fit=crop" alt="Frente" loading="lazy">
-          <img class="thumb" src="https://images.pexels.com/photos/34453314/pexels-photo-34453314.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Interior" loading="lazy">
+          <img class="thumb active" src="https://quatrorodas.abril.com.br/wp-content/uploads/2023/02/DSCF3649.jpg?quality=70&strip=info" alt="Traseira" loading="lazy">
+          <img class="thumb" src="https://quatrorodas.abril.com.br/wp-content/uploads/2023/02/DSCF3343.jpg?crop=1&resize=1212,909" alt="Frente" loading="lazy">
+          <img class="thumb" src="https://quatrorodas.abril.com.br/wp-content/uploads/2023/02/DSCF3349.jpg?quality=70&strip=info" alt="Interior" loading="lazy">
           <img class="thumb" src="https://images.pexels.com/photos/31968462/pexels-photo-31968462.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Painel" loading="lazy">
           <img class="thumb" src="https://images.unsplash.com/photo-1623045605147-3a0e32766952?q=80&w=1400&auto=format&fit=crop" alt="Porta-malas" loading="lazy">
           <img class="thumb" src="https://images.unsplash.com/photo-1606662392205-0a42a9e5f76d?q=80&w=1400&auto=format&fit=crop" alt="Lateral" loading="lazy">
@@ -171,7 +170,7 @@
       <div class="col">
         <article class="card rel-card h-100 border-0">
           <div class="rel-media">
-            <img src="https://images.unsplash.com/photo-1605515290091-7d65e82a1a42?q=80&w=1400&auto=format&fit=crop" class="card-img-top" alt="Sedan branco na rua" loading="lazy">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4fYZIltHnIt4XW6LT1pvbq0B6mJA92ZPZDQ&s" class="card-img-top" alt="Sedan branco na rua" loading="lazy">
             <span class="chip">Corrida</span>
             <button class="rel-cta"><i class="bi bi-eye me-1"></i>ver mais</button>
           </div>
@@ -186,7 +185,7 @@
       <div class="col">
         <article class="card rel-card h-100 border-0">
           <div class="rel-media">
-            <img src="https://images.unsplash.com/photo-1606662392205-0a42a9e5f76d?q=80&w=1400&auto=format&fit=crop" class="card-img-top" alt="Lateral do sedan" loading="lazy">
+            <img src="https://www.expreso.com.pe/wp-content/uploads/2025/02/ATU-del-taxista-independiente.jpg" class="card-img-top" alt="Lateral do sedan" loading="lazy">
             <span class="chip">Corrida</span>
             <button class="rel-cta"><i class="bi bi-eye me-1"></i>ver mais</button>
           </div>
@@ -201,7 +200,7 @@
       <div class="col">
         <article class="card rel-card h-100 border-0">
           <div class="rel-media">
-            <img src="https://images.unsplash.com/photo-1623045605147-3a0e32766952?q=80&w=1400&auto=format&fit=crop" class="card-img-top" alt="Porta-malas de sedan" loading="lazy">
+            <img src="https://dicas.olx.com.br/wp-content/uploads/2022/01/CARROS-PARA-UBER_ARGO-1024x576.png" class="card-img-top" alt="Porta-malas de sedan" loading="lazy">
             <span class="chip">Corrida</span>
             <button class="rel-cta"><i class="bi bi-eye me-1"></i>ver mais</button>
           </div>
@@ -263,17 +262,63 @@ const $=(s,c=document)=>c.querySelector(s), $$=(s,c=document)=>Array.from(c.quer
 
 /* GALERIA */
 (function(){
-  const main=$('#mainPhoto'); const thumbs=$$('.thumb'); let idx=0;
-  function setPhoto(i){
-    idx=(i+thumbs.length)%thumbs.length;
-    thumbs.forEach(t=>t.classList.remove('active')); thumbs[idx].classList.add('active');
-    const src=thumbs[idx].src, alt=thumbs[idx].alt; main.style.opacity=0.15;
-    const img=new Image(); img.onload=()=>{ main.src=src; main.alt=alt; main.style.opacity=1; }; img.src=src;
+  // Supondo que você tenha helpers $ e $$
+  // const $ = document.querySelector.bind(document);
+  // const $$ = document.querySelectorAll.bind(document);
+
+  const main = $('#mainPhoto');
+  const thumbs = $$('.thumb');
+  let idx = 0;
+
+  function setPhoto(i) {
+    // Cálculo do índice com wrap-around (módulo)
+    idx = (i + thumbs.length) % thumbs.length;
+    
+    // Remove a classe 'active' de todas as miniaturas
+    thumbs.forEach(t => t.classList.remove('active'));
+    
+    // Adiciona 'active' apenas à miniatura atual
+    const currentThumb = thumbs[idx];
+    if (!currentThumb) return; // Sai se não houver miniaturas
+    
+    currentThumb.classList.add('active');
+    
+    const src = currentThumb.src;
+    const alt = currentThumb.alt;
+    
+    // Efeito de fade-out rápido
+    main.style.opacity = 0.15;
+    
+    // Pre-carrega a imagem antes de exibi-la
+    const img = new Image();
+    img.onload = () => {
+      main.src = src;
+      main.alt = alt;
+      main.style.opacity = 1; // Efeito de fade-in
+    };
+    img.src = src;
   }
-  thumbs.forEach((t,i)=>t.addEventListener('click',()=>setPhoto(i)));
-  $('.gallery-nav.prev').addEventListener('click',()=>setPhoto(idx-1));
-  $('.gallery-nav.next').addEventListener('click',()=>setPhoto(idx+1));
-  document.addEventListener('keydown',e=>{ if(e.key==='ArrowLeft')setPhoto(idx-1); if(e.key==='ArrowRight')setPhoto(idx+1); });
+
+  // Listeners para as miniaturas
+  thumbs.forEach((t, i) => t.addEventListener('click', () => setPhoto(i)));
+
+  // Listeners para os botões de navegação
+  $('.gallery-nav.prev').addEventListener('click', () => setPhoto(idx - 1));
+  $('.gallery-nav.next').addEventListener('click', () => setPhoto(idx + 1));
+
+  // Listeners para o teclado
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') setPhoto(idx - 1);
+    if (e.key === 'ArrowRight') setPhoto(idx + 1);
+  });
+
+  // --- MUDANÇA PRINCIPAL ---
+  // Adiciona o listener de clique na imagem principal para avançar
+  main.addEventListener('click', () => setPhoto(idx + 1));
+
+  // --- CORREÇÃO ---
+  // Inicializa a galeria com a primeira foto
+  setPhoto(0);
 })();
 
 /* CTA STICKY */
