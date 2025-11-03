@@ -605,19 +605,14 @@
         id: "econ",
         name: "Econômico",
         price: econ,
-        eta: `${addDaysStr(7)} a ${addDaysStr(10)}`,
+        eta: `${addDaysStr(18)} a ${addDaysStr(25)}`,
       },
-      {
-        id: "pad",
-        name: "Padrão",
-        price: pad,
-        eta: `${addDaysStr(5)} a ${addDaysStr(8)}`,
-      },
+
       {
         id: "exp",
         name: "Expresso",
         price: exp,
-        eta: `${addDaysStr(2)} a ${addDaysStr(4)}`,
+        eta: `${addDaysStr(7)} a ${addDaysStr(10)}`,
       },
     ];
   }

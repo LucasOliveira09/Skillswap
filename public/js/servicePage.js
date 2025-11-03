@@ -163,6 +163,7 @@ const needs = [
   "Aprendizagem",
   "Limpeza",
   "Outros",
+  "Serviço braçal",
 ];
 const period = ["mês", "VIP", "pacote 10 aulas", "12x", "UN"];
 const produtos = [
@@ -208,7 +209,7 @@ const produtos = [
     preco: 210.00, 
     imagem: "./img/banheiro-servico.jpg",
     descricao: "Seg/Qua • 14h–15h • Aula individual",
-    authorAvatar: "./img/avatar-emerson.jpg",
+    authorAvatar: "./img/avatar-lucas.jpg",
     authorName: "Lucas Leite.",
     authorId: "1",
     stars: 3,
@@ -221,19 +222,19 @@ const produtos = [
   },
     {
     id: 4,
-    nome: "Canivette Suíço",
-    categoria: "Semi-novos",
-    preco: 50.00, 
-    imagem: "./img/faca-canivete.jpg",
-    descricao: "Seg/Qua • 14h–15h • Aula individual",
+    nome: "Capinador Terreno ",
+    categoria: "serviço",
+    preco: 100.00, 
+    imagem: "./img/serviço-braçal.gif",
+    descricao: "Seg/Sex • 6h–17h • Serviço braçal",
     authorAvatar: "./img/avatar-emerson.jpg",
     authorName: "Emerson Vinicius.",
     stars: 1,
-    needs: ["Semi-novos"],
+    needs: ["Serviço braçal"],
     postedAtMs: Date.now() - 1000 * 800 * 40, 
     location: "Ribeirão do Sul / SP",          // ex.: há 5 minutos
-    include: ["Capa protetora", "Lâmina extra"],
-    period: ["UN"],
+    include: ["Enxada", "Veneno para plantas"],
+    period: ["Dia"],
   },
       {
     id: 5,
