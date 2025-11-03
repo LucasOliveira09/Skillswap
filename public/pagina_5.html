@@ -1,257 +1,330 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    
-    <link rel="stylesheet" href="css/produtos5.css" />
-    
-    <title>Aulas de Jiu-Jitsu para Menores | Skill Swap</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Carona HB20 Sedan | SkillSwap</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/produtos5.css">
 </head>
 <body>
 
-    <header class="border-bottom">
-        <nav class="navbar navbar-expand-lg navbar-light bg-white" style="max-width: 1500px; margin: 0 auto;">
-            <div class="container-fluid">
-                
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <a class="navbar-brand" href="pagina-servicos.html">
-                    <img class="img-logo-skill" src="img/logo-skill-swap.png" alt="Logo Skill Swap" width="140">
-                </a>
+<header class="border-bottom bg-white">
+  <nav class="navbar navbar-expand-lg" style="max-width:1500px;margin:0 auto;">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="pagina-servicos.html">
+        <img src="img/logo-skill-swap.png" width="140" alt="SkillSwap">
+      </a>
+      <div class="collapse navbar-collapse" id="mainNavbar">
+        <form class="d-flex mx-auto" style="width:60%;">
+          <input class="form-control" type="text" placeholder="🔍︎   Procure...">
+        </form>
+        <ul class="navbar-nav ms-auto d-flex flex-row align-items-center gap-3">
+          <li class="nav-item"><a class="nav-link d-flex align-items-center gap-1" href="index.html"><img src="img/man.png" height="15" alt="">Entrar / Registrar-se</a></li>
+          <li class="nav-item"><a class="nav-link d-flex align-items-center gap-1" href="#"><img src="img/carrinho.png" height="15" alt="">Carrinho</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
 
-                <div class="collapse navbar-collapse" id="mainNavbar">
-                    
-                    <form class="d-flex mx-auto" style="width: 60%;">
-                        <input class="form-control" type="text" placeholder="🔍︎   Procure...">
-                    </form>
+<div class="container-xl">
+  <nav aria-label="breadcrumb" class="py-2 mt-2">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a class="inicio-links" href="pagina-servicos.html">Início</a></li>
+      <li class="breadcrumb-item">Corridas</li>
+      <li class="breadcrumb-item active" aria-current="page">Carona HB20 Sedan</li>
+    </ol>
+  </nav>
+</div>
 
-                    <ul class="navbar-nav ms-auto d-flex flex-row align-items-center gap-3">
-                        <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center gap-1" href="index.html">
-                                <img src="img/man.png" alt="Icone perfl" height="15">
-                                <span>Entrar / Registrar-se</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center gap-1" href="#">
-                                <img src="img/carrinho.png" alt="Carrinho icone" height="15">
-                                <span>Carrinho</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
+<!-- sentinel para o CTA fixo -->
+<div id="sentinel" class="container-xxl" style="height:1px"></div>
 
-    <div class="container-xl">
-        <nav aria-label="breadcrumb" class="py-2 mt-2">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="pagina-servicos.html" class="inicio-links">Início</a></li>
-                <li class="breadcrumb-item">Jiu-Jitsu</li>
-                <li class="breadcrumb-item active" aria-current="page">Aulas professor GB</li>
-            </ol>
-        </nav>
+<main class="container-xxl">
+
+  <!-- toasts -->
+  <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index:1080"></div>
+
+  <!-- CTA fixo -->
+  <div class="cta-sticky shadow-lg">
+    <div class="container-xxl d-flex align-items-center gap-3">
+      <img src="https://images.pexels.com/photos/2033450/pexels-photo-2033450.jpeg?auto=compress&cs=tinysrgb&w=800"
+           width="56" height="56" class="rounded object-fit-cover d-none d-sm-block" alt="HB20 mini" loading="lazy">
+      <div class="me-auto">
+        <div class="fw-semibold small text-muted">Carona Unifio</div>
+        <div class="h6 m-0">HB20 Sedan · R$ 2,00 <span class="fw-normal text-muted">/ km</span></div>
+      </div>
+      <button id="ctaStickyBtn" class="btn btn-lg btn-primary px-4"><i class="bi bi-chat-dots me-1"></i> Entrar em contato</button>
+    </div>
+  </div>
+
+  <section class="row py-4 g-4">
+
+    <!-- GALERIA -->
+    <div class="col-lg-7">
+      <div class="gallery card border-0 rounded-4 overflow-hidden shadow-sm">
+        <div class="gallery-main position-relative">
+          <!-- imagem principal -->
+          <img id="mainPhoto"
+               src="https://images.pexels.com/photos/2033450/pexels-photo-2033450.jpeg?auto=compress&cs=tinysrgb&w=1400"
+               srcset="https://images.pexels.com/photos/2033450/pexels-photo-2033450.jpeg?auto=compress&cs=tinysrgb&w=1000 1000w,
+                       https://images.pexels.com/photos/2033450/pexels-photo-2033450.jpeg?auto=compress&cs=tinysrgb&w=1600 1600w"
+               sizes="(max-width:992px) 100vw, 62vw"
+               fetchpriority="high"
+               class="w-100 gallery-main-img"
+               alt="Sedan branco visto de trás">
+          <button class="gallery-nav prev" aria-label="Anterior"><i class="bi bi-chevron-left"></i></button>
+          <button class="gallery-nav next" aria-label="Próxima"><i class="bi bi-chevron-right"></i></button>
+        </div>
+
+        <!-- thumbs: traseira, frente, interior, painel, porta-malas, lateral -->
+        <div class="gallery-thumbs">
+          <img class="thumb active" src="https://images.pexels.com/photos/2033450/pexels-photo-2033450.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Traseira" loading="lazy">
+          <img class="thumb" src="https://images.unsplash.com/photo-1605515290091-7d65e82a1a42?q=80&w=1400&auto=format&fit=crop" alt="Frente" loading="lazy">
+          <img class="thumb" src="https://images.pexels.com/photos/34453314/pexels-photo-34453314.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Interior" loading="lazy">
+          <img class="thumb" src="https://images.pexels.com/photos/31968462/pexels-photo-31968462.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Painel" loading="lazy">
+          <img class="thumb" src="https://images.unsplash.com/photo-1623045605147-3a0e32766952?q=80&w=1400&auto=format&fit=crop" alt="Porta-malas" loading="lazy">
+          <img class="thumb" src="https://images.unsplash.com/photo-1606662392205-0a42a9e5f76d?q=80&w=1400&auto=format&fit=crop" alt="Lateral" loading="lazy">
+        </div>
+      </div>
     </div>
 
-    <main class="container-xxl">
-        
-        <section class="row py-3 g-4">
-            
-            <div class="col-lg-7">
-                <div class="galeria-fotos row g-3">
-                    
-                    <div class="miniaturas col-auto d-flex flex-column gap-2">
-                        <div><img src="img/jiujitsu1.png" alt="Aula de Jiu-Jitsu" height="120" class="rounded"></div>
-                        <div><img src="img/jiujitsu2.png" alt="Aula de Jiu-Jitsu" height="120" class="rounded"></div>
-                        <div><img src="img/jiujitsu3.png" alt="Aula de Jiu-Jitsu" height="120" class="rounded"></div>
-                        <div><img src="img/jiujitsu4.png" alt="Aula de Jiu-Jitsu" height="120" class="rounded"></div>
-                    </div>
-                    
-                    <div class="imagem-principal col">
-                        <img src="img/alunosjiujitsu.png" alt="Alunos praticando Jiu-Jitsu" class="img-fluid rounded" style="width: 100%; object-fit: cover;">
-                    </div>
-                </div>
-            </div>
+    <!-- SIDEBAR -->
+    <aside class="col-lg-5">
 
-            <aside class="col-lg-5">
-                
-                <div class="foto-gilberto d-flex align-items-center gap-3">
-                    <img src="img/avatar-matheus.jpg" alt="Foto de perfil" class="rounded-circle img_perf">
-                    <div>
-                        <a href="pagina_perfil.html?id=4" class="text-decoration-none text-color"><h4>MATHEUS DE SOUZA</h4></a>
-                        <span>
-                            <small class="me-1 text-muted">5.0</small>
-                            <span class="text-warning">★★★★★</span>
-                            <small class="ms-1 text-muted">| 10 Avaliações</small>
-                        </span>
-                    </div>
-                </div>
-                
-                <h2 class="aulas-jiu mt-3">Carona Unifio!</h2>
-                <h2 class="aulas-jiu fw-bold my-2">R$ 2,00/km</h2>
-                <p class="aulas-jiu text-muted">A mais de 3 anos nessa profissão que tanto amo, levar pessoas pra cima e pra baixo!!</p>
+      <!-- perfil -->
+      <div class="d-flex align-items-center gap-3">
+        <img src="img/avatar-matheus.jpg" class="rounded-circle img_perf" alt="Matheus de Souza">
+        <div>
+          <a href="pagina_perfil.html?id=4" class="text-decoration-none text-color"><h4 class="mb-0">MATHEUS DE SOUZA</h4></a>
+          <span><small class="me-1 text-muted">5.0</small><span class="text-warning" aria-label="5 estrelas">★★★★★</span><small class="ms-1 text-muted">| 10 avaliações</small></span>
+          <div class="small text-muted mt-1"><i class="bi bi-geo-alt me-1"></i> Ourinhos / SP</div>
+        </div>
+      </div>
 
-                <hr class="my-3">
-                
-                <div class="div-botao d-flex gap-3 mt-4">
-                    <button id="btnEntrarEmContato" class="btn btn-lg flex-grow-1">Entrar em contato</button>
-                    <button class="btn btn-lg">♡</button>
-                </div>
-            </aside>
-        </section>
+      <!-- título e preço -->
+      <h2 class="mt-3">Carona Unifio (HB20 Sedan)</h2>
+      <div class="display-6 fw-bold lh-1">R$ 2,00 <span class="fs-5 fw-normal text-muted">/ km</span></div>
+      <p class="text-muted mt-2">Motorista há 3+ anos, carro revisado e documentação em dia. Pontualidade e conforto para seus trajetos acadêmicos.</p>
 
-        <section class="mb-5"> <div class="d-flex align-items-center gap-2 mt-4 mb-4">
-                <div style="width: 12px; height: 24px; background-color: rgba(37, 81, 136, 1); border-radius: 3px;"></div>
-                <h3 class="m-0 relacionados-titulo">Relacionados</h3>
-            </div>
+      <!-- selos -->
+      <div class="d-flex gap-2 flex-wrap mb-3">
+        <span class="badge rounded-pill bg-success-subtle text-success-emphasis"><i class="bi bi-patch-check-fill me-1"></i> Verificado</span>
+        <span class="badge rounded-pill bg-primary-subtle text-primary-emphasis"><i class="bi bi-clock-history me-1"></i> responde ~30min</span>
+        <span class="badge rounded-pill bg-warning-subtle text-warning-emphasis"><i class="bi bi-people-fill me-1"></i> 120+ corridas</span>
+      </div>
 
-            <div class="lista-produtos row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-                
-                <div class="col">
-                    <div class="card border-0 h-100">
-                        <img src="img/gamepad.png" class="card-img-top" alt="Gamepad">
-                        <div class="card-body p-0 pt-2">
-                            <p class="fw-bold card-text">HAVIT HV-G82 Gamepad</p>
-                            <p class="product-price">
-                                <span class="current-price">R$100</span> 
-                                <del class="old-price">R$160</del>
-                            </p>
-                            <p>
-                                <span class="estrelas-rating text-warning">★★★★☆</span>
-                                <small class="rating-produto text-muted">(40)</small>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col">
-                     <div class="card border-0 h-100">
-                        <img src="img/keyboard.png" class="card-img-top" alt="Teclado com fio">
-                        <div class="card-body p-0 pt-2">
-                            <p class="fw-bold card-text">Ak-900 Wired Keyboard</p>
-                            <p class="product-price">
-                                <span class="current-price">R$200</span> 
-                                <del class="old-price">R$280</del>
-                            </p>
-                            <p>
-                                <span class="estrelas-rating text-warning">★★★★★</span>
-                                <small class="rating-produto text-muted">(75)</small>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col">
-                     <div class="card border-0 h-100">
-                        <img src="img/monitor.png" class="card-img-top" alt="Monitor Gamer">
-                        <div class="card-body p-0 pt-2">
-                            <p class="fw-bold card-text">IPS LCD Gaming Monitor</p>
-                            <p class="product-price">
-                                <span class="current-price">R$1015</span> 
-                                <del class="old-price">R$1450</del>
-                            </p>
-                            <p>
-                                <span class="estrelas-rating text-warning">★★★★☆</span>
-                                <small class="rating-produto text-muted">(90)</small>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col">
-                     <div class="card border-0 h-100">
-                        <img src="img/cooler.png" class="card-img-top" alt="Refrigerador de CPU">
-                        <div class="card-body p-0 pt-2">
-                            <p class="fw-bold card-text">RGB Liquid CPU Cooler</p>
-                            <p class="product-price">
-                                <span class="current-price">R$300</span> 
-                            </p>
-                            <p>
-                                <span class="estrelas-rating text-warning">★★★★☆</span>
-                                <small class="rating-produto text-muted">(35)</small>
-                            </p>
-                        </div>
-                    </div>
-                </div>
+      <hr class="my-3">
 
-            </div> </section>
-    </main>
+      <!-- especificações -->
+      <div class="spec-grid">
+        <div class="spec"><i class="bi bi-car-front"></i><div><b>Veículo</b><span>HB20 Sedan 1.6, ar, 4P</span></div></div>
+        <div class="spec"><i class="bi bi-person-check"></i><div><b>Máx. pessoas</b><span>3 passageiros</span></div></div>
+        <div class="spec"><i class="bi bi-calendar-week"></i><div><b>Dias</b><span>Seg–Qui · 19h</span></div></div>
+        <div class="spec"><i class="bi bi-shield-lock"></i><div><b>Políticas</b><span>Sem fumar • Pontualidade</span></div></div>
+        <div class="spec"><i class="bi bi-pin-map"></i><div><b>Origem</b><span>Centro → UNIFIO</span></div></div>
+        <div class="spec"><i class="bi bi-cash-coin"></i><div><b>Pagamento</b><span>PIX (0%) · Cartão (+juros)</span></div></div>
+      </div>
 
-    <footer class="main-footer text-white py-4 position-relative overflow-hidden" style="background-color: rgba(37, 81, 136, 1);">
-        <div class="container-fluid" style="padding: 0 10%;">
-            <div class="row justify-content-between align-items-start">
-                
-                <div class="col-md-auto mb-4 mb-md-0">
-                    <h1 class="skillswap">SKILL<br>SWAP</h1>
-                    <p class="ultimo-footer" style="margin-right: 50px;">Whatsapp: <br>(00)1234-5678</p>
-                    <p class="ultimo-footer">E-mail: <br>skillswap@email.com</p>
-                </div>
+      <!-- simulação -->
+      <div class="card border-0 shadow-sm rounded-4 mt-3">
+        <div class="card-body">
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <strong class="me-2">Simular valor</strong>
+            <span class="small text-muted">R$ 2,00 / km</span>
+          </div>
+          <div class="input-group calc-group">
+            <span class="input-group-text"><i class="bi bi-rulers"></i></span>
+            <input id="kmInput" type="number" inputmode="decimal" min="0.1" step="0.1" class="form-control" placeholder="Informe os km (ex.: 7.5)">
+            <button id="btnSimular" class="btn btn-primary btn-calc"><i class="bi bi-calculator me-2"></i>Calcular</button>
+          </div>
+          <div id="simResult" class="mt-2 small text-muted">Informe os km para ver o total.</div>
+        </div>
+      </div>
 
-                <div class="col-md-auto text-center mb-4 mb-md-0">
-                    <h2 class="sobre-nos-titulo">Sobre nós</h2>
-                    <div>
-                        <p class="faqs mt-4"><a href="#" class="text-white text-decoration-none">FAQ</a></p>
-                        <p class="faqs mt-4"><a href="#" class="text-white text-decoration-none">Termos de uso</a></p>
-                        <p class="faqs mt-4"><a href="#" class="text-white text-decoration-none">Política de privacidade</a></p>
-                    </div>
-                </div>  
+      <!-- ações -->
+      <div class="d-flex gap-2 mt-3">
+        <button id="btnEntrarEmContato" class="btn btn-primary btn-lg flex-grow-1"><i class="bi bi-chat-dots me-1"></i> Entrar em contato</button>
+        <button id="btnFavorito" class="btn btn-outline-secondary btn-lg" aria-pressed="false" aria-label="Salvar anúncio"><i class="bi bi-heart"></i></button>
+        <button id="btnShare" class="btn btn-outline-secondary btn-lg" aria-label="Compartilhar"><i class="bi bi-share"></i></button>
+      </div>
 
-                <div class="col-md-auto text-center" style="z-index: 2;">
-                    <h2 class="footer-download-titulo">Download</h2>
-                    <a href="#"><img src="img/botao-app-store.png" alt="App Store" width="180" class="d-block mt-4"></a>
-                    <a href="#"><img src="img/botao-google-play.png" alt="Google Play" width="180" class="d-block mt-4"></a>
-                </div>
+    </aside>
+  </section>
 
-            </div> </div> <div class="footer-circle"></div>
-        <div class="footer-circletwo"></div>
-    </footer>
+  <!-- RELACIONADOS -->
+  <section class="mb-5">
+    <div class="d-flex align-items-center gap-2 mt-2 mb-3">
+      <div style="width:12px;height:24px;background-color:rgba(37,81,136,1);border-radius:3px"></div>
+      <h3 class="m-0">Relacionados</h3>
+    </div>
 
-    <script>
-        // Espera o documento HTML ser totalmente carregado
-        document.addEventListener('DOMContentLoaded', () => {
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
 
-            // 1. Seleciona o botão "Entrar em contato"
-            // (Adicionei um ID 'btnEntrarEmContato' ao botão no HTML para facilitar)
-            const btnContato = document.getElementById('btnEntrarEmContato');
+      <!-- card pro -->
+      <div class="col">
+        <article class="card rel-card h-100 border-0">
+          <div class="rel-media">
+            <img src="https://images.unsplash.com/photo-1605515290091-7d65e82a1a42?q=80&w=1400&auto=format&fit=crop" class="card-img-top" alt="Sedan branco na rua" loading="lazy">
+            <span class="chip">Corrida</span>
+            <button class="rel-cta"><i class="bi bi-eye me-1"></i>ver mais</button>
+          </div>
+          <div class="card-body p-3">
+            <p class="fw-bold m-0">Trajeto Campus</p>
+            <p class="m-0 mt-1 price-line"><span class="price-now">R$ 2,10</span><small>/ km</small></p>
+            <p class="m-0 mt-1"><span class="text-warning">★★★★★</span> <small class="text-muted">(12)</small></p>
+          </div>
+        </article>
+      </div>
 
-            // 2. Seleciona o link do perfil do usuário
-            const linkPerfil = document.querySelector('.foto-gilberto a');
+      <div class="col">
+        <article class="card rel-card h-100 border-0">
+          <div class="rel-media">
+            <img src="https://images.unsplash.com/photo-1606662392205-0a42a9e5f76d?q=80&w=1400&auto=format&fit=crop" class="card-img-top" alt="Lateral do sedan" loading="lazy">
+            <span class="chip">Corrida</span>
+            <button class="rel-cta"><i class="bi bi-eye me-1"></i>ver mais</button>
+          </div>
+          <div class="card-body p-3">
+            <p class="fw-bold m-0">Centro ⇄ Unifio</p>
+            <p class="m-0 mt-1 price-line"><span class="price-now">R$ 2,00</span><small>/ km</small></p>
+            <p class="m-0 mt-1"><span class="text-warning">★★★★☆</span> <small class="text-muted">(9)</small></p>
+          </div>
+        </article>
+      </div>
 
-            if (btnContato && linkPerfil) {
-                
-                try {
-                    // 3. Pega o 'href' do link (ex: "pagina_perfil.html?id=4")
-                    const href = linkPerfil.getAttribute('href');
-                    
-                    // 4. Extrai o ID da URL
-                    const urlParams = new URLSearchParams(href.split('?')[1]);
-                    const usuarioId = urlParams.get('id'); // O valor será "4"
+      <div class="col">
+        <article class="card rel-card h-100 border-0">
+          <div class="rel-media">
+            <img src="https://images.unsplash.com/photo-1623045605147-3a0e32766952?q=80&w=1400&auto=format&fit=crop" class="card-img-top" alt="Porta-malas de sedan" loading="lazy">
+            <span class="chip">Corrida</span>
+            <button class="rel-cta"><i class="bi bi-eye me-1"></i>ver mais</button>
+          </div>
+          <div class="card-body p-3">
+            <p class="fw-bold m-0">Aeroporto</p>
+            <p class="m-0 mt-1 price-line"><span class="price-now">R$ 2,70</span><small>/ km</small></p>
+            <p class="m-0 mt-1"><span class="text-warning">★★★★★</span> <small class="text-muted">(15)</small></p>
+          </div>
+        </article>
+      </div>
 
-                    if (usuarioId) {
-                        // 5. Adiciona o evento de clique ao botão
-                        btnContato.addEventListener('click', () => {
-                            // 6. Redireciona para a página de chat com o ID correto
-                            window.location.href = `pagina_chat.html?id=${usuarioId}`;
-                        });
-                    } else {
-                        console.error("Não foi possível encontrar o ID do usuário no link do perfil.");
-                    }
+      <div class="col">
+        <article class="card rel-card h-100 border-0">
+          <div class="rel-media">
+            <img src="https://images.pexels.com/photos/34453314/pexels-photo-34453314.jpeg?auto=compress&cs=tinysrgb&w=1400" class="card-img-top" alt="Interior moderno" loading="lazy">
+            <span class="chip">Corrida</span>
+            <button class="rel-cta"><i class="bi bi-eye me-1"></i>ver mais</button>
+          </div>
+          <div class="card-body p-3">
+            <p class="fw-bold m-0">Noturno</p>
+            <p class="m-0 mt-1 price-line"><span class="price-now">R$ 2,30</span><small>/ km</small></p>
+            <p class="m-0 mt-1"><span class="text-warning">★★★★☆</span> <small class="text-muted">(8)</small></p>
+          </div>
+        </article>
+      </div>
 
-                } catch (error) {
-                    console.error("Erro ao processar o link do perfil:", error);
-                }
+    </div>
+  </section>
+</main>
 
-            } else {
-                console.error("Botão de contato ou link do perfil não encontrado.");
-            }
-        });
-        
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<footer class="main-footer text-white py-4 position-relative overflow-hidden" style="background-color:rgba(37,81,136,1);">
+  <div class="container-fluid" style="padding:0 10%;">
+    <div class="row justify-content-between align-items-start">
+      <div class="col-md-auto mb-4 mb-md-0">
+        <h1 class="skillswap">SKILL<br>SWAP</h1>
+        <p class="ultimo-footer" style="margin-right:50px;">Whatsapp: <br>(00)1234-5678</p>
+        <p class="ultimo-footer">E-mail: <br>skillswap@email.com</p>
+      </div>
+      <div class="col-md-auto text-center mb-4 mb-md-0">
+        <h2 class="sobre-nos-titulo">Sobre nós</h2>
+        <p class="faqs mt-4"><a href="#" class="text-white text-decoration-none">FAQ</a></p>
+        <p class="faqs mt-4"><a href="#" class="text-white text-decoration-none">Termos de uso</a></p>
+        <p class="faqs mt-4"><a href="#" class="text-white text-decoration-none">Política de privacidade</a></p>
+      </div>
+      <div class="col-md-auto text-center" style="z-index:2;">
+        <h2 class="footer-download-titulo">Download</h2>
+        <a href="#"><img src="img/botao-app-store.png" width="180" alt="App Store" class="d-block mt-4"></a>
+        <a href="#"><img src="img/botao-google-play.png" width="180" alt="Google Play" class="d-block mt-4"></a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-circle"></div>
+  <div class="footer-circletwo"></div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+const $=(s,c=document)=>c.querySelector(s), $$=(s,c=document)=>Array.from(c.querySelectorAll(s));
+
+/* GALERIA */
+(function(){
+  const main=$('#mainPhoto'); const thumbs=$$('.thumb'); let idx=0;
+  function setPhoto(i){
+    idx=(i+thumbs.length)%thumbs.length;
+    thumbs.forEach(t=>t.classList.remove('active')); thumbs[idx].classList.add('active');
+    const src=thumbs[idx].src, alt=thumbs[idx].alt; main.style.opacity=0.15;
+    const img=new Image(); img.onload=()=>{ main.src=src; main.alt=alt; main.style.opacity=1; }; img.src=src;
+  }
+  thumbs.forEach((t,i)=>t.addEventListener('click',()=>setPhoto(i)));
+  $('.gallery-nav.prev').addEventListener('click',()=>setPhoto(idx-1));
+  $('.gallery-nav.next').addEventListener('click',()=>setPhoto(idx+1));
+  document.addEventListener('keydown',e=>{ if(e.key==='ArrowLeft')setPhoto(idx-1); if(e.key==='ArrowRight')setPhoto(idx+1); });
+})();
+
+/* CTA STICKY */
+(function(){
+  const sticky=$('.cta-sticky'); const obs=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting?sticky.classList.remove('show'):sticky.classList.add('show')));
+  obs.observe($('#sentinel')); $('#ctaStickyBtn').addEventListener('click',()=>$('#btnEntrarEmContato').click());
+})();
+
+/* FAVORITO */
+(function(){
+  const key='ss_favs', id='ad_carona_hb20_001', btn=$('#btnFavorito'), icon=btn.querySelector('i');
+  const get=()=>new Set(JSON.parse(localStorage.getItem(key)||'[]'));
+  const save=s=>localStorage.setItem(key,JSON.stringify([...s]));
+  const render=()=>{const s=get(),on=s.has(id); btn.setAttribute('aria-pressed',on); icon.className=on?'bi bi-heart-fill text-danger':'bi bi-heart';};
+  btn.addEventListener('click',()=>{const s=get(); s.has(id)?s.delete(id):s.add(id); save(s); render(); toast(s.has(id)?'Adicionado aos favoritos':'Removido dos favoritos');});
+  render();
+})();
+
+/* COMPARTILHAR */
+$('#btnShare').addEventListener('click',async()=>{
+  const data={title:'Carona HB20 Sedan | SkillSwap',text:'Trajeto Unifio - R$ 2,00 / km',url:location.href};
+  try{ if(navigator.share){ await navigator.share(data);} else{ await navigator.clipboard.writeText(location.href); toast('Link copiado!'); } }catch{}
+});
+
+/* SIMULAÇÃO */
+(function(){
+  const km=$('#kmInput'), btn=$('#btnSimular'), out=$('#simResult'), price=2.00;
+  const fmt=v=>v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+  function calc(){
+    const n=parseFloat(km.value.replace(',','.')); if(!n||n<=0){ out.textContent='Informe os km para ver o total.'; return; }
+    const total=n*price;
+    out.innerHTML=`<b>Total estimado:</b> R$ ${fmt(total)} <span class="text-muted">(${n.toFixed(1)} km × R$ ${fmt(price)})</span><br><small class="text-muted">PIX 0% · Cartão pode ter juros.</small>`;
+  }
+  btn.addEventListener('click',calc); km.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); calc(); }});
+})();
+
+/* CONTATO */
+(function(){
+  const btn=document.getElementById('btnEntrarEmContato'); const link=document.querySelector('.text-color');
+  if(btn&&link){ try{ const href=link.getAttribute('href'); const id=new URLSearchParams(href.split('?')[1]).get('id');
+    if(id){ btn.addEventListener('click',()=>{ window.location.href=`pagina_chat.html?id=${id}`; toast('Contato iniciado. Abrindo chat…'); }); }
+  }catch(e){ console.error(e);} }
+})();
+
+/* TOAST PRO */
+function toast(msg){
+  const host=document.querySelector('.toast-container'); const el=document.createElement('div');
+  el.className='toast align-items-center text-bg-dark border-0 protoast'; el.role='status'; el.ariaLive='polite';
+  el.innerHTML=`<div class="d-flex"><div class="toast-body">${msg}</div><button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Fechar"></button></div><div class="progress toast-progress" style="height:3px;"><div class="progress-bar w-100"></div></div>`;
+  host.appendChild(el); const t=new bootstrap.Toast(el,{delay:3500,autohide:true}); t.show(); requestAnimationFrame(()=>el.querySelector('.progress-bar').style.width='0%'); el.addEventListener('hidden.bs.toast',()=>el.remove());
+}
+</script>
 </body>
 </html>

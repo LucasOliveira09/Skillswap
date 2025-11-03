@@ -213,6 +213,319 @@
     <button id="checkout-btn">Finalizar Compra</button>
   </div>
 </div> -->
+<script>
+/* SkillSwap — Eletrônicos (PRO) — 2025-11-03
+   - Força shape do carrinho: {id,name,price,qty,image,desc,variant:{cor,tamanho}}
+   - Migra carrinho legado preenchendo desc/variant
+   - Toast PRO: 8s, hover-pause, progress bar, CTAs
+   - Captura variantes de: <select>, botões data-variant-*, swatches e fallback
+   - Atualiza badge e ss_cart_subtotal (usado no resumo)
+*/
+(function(){
+  "use strict";
+
+  /* ================== CONSTANTES / HELPERS ================== */
+  const CART_KEY   = "ss_cart";
+  const COUPON_KEY = "ss_coupon";
+  const SHIP_KEY   = "ss_ship";
+
+  const $  = (s, p=document)=> p.querySelector(s);
+  const $$ = (s, p=document)=> [...p.querySelectorAll(s)];
+  const BRL = (n)=> Number(n||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+
+  const readJSON = (k, def)=>{ try{ return JSON.parse(localStorage.getItem(k) ?? def) }catch{ return JSON.parse(def) } };
+  const writeJSON= (k, v)=> localStorage.setItem(k, JSON.stringify(v));
+
+  /* ================== CSS INJETADO (Toast + Chips) ================== */
+  (function injectCSS(){
+    if (document.getElementById("ss-elec-pro-style")) return;
+    const css = `
+      #toast-pro-container{position:fixed;right:16px;bottom:16px;display:flex;flex-direction:column;gap:12px;z-index:2147483647}
+      .toast-pro{display:flex;gap:12px;align-items:center;max-width:min(420px,92vw);padding:12px 14px;border-radius:14px;color:#fff;
+        background:rgba(17,24,39,.94);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.12);box-shadow:0 10px 30px rgba(0,0,0,.28)}
+      .toast-pro img{width:56px;height:56px;border-radius:10px;object-fit:cover}
+      .toast-pro .t-info{flex:1;min-width:0}
+      .toast-pro .t-title{font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+      .toast-pro .t-sub{opacity:.9;font-size:.9rem;margin-top:2px}
+      .toast-pro .t-ctas{display:flex;gap:8px}
+      .toast-pro .t-ctas button{border:0;padding:8px 10px;border-radius:10px;cursor:pointer}
+      .toast-pro .t-ctas .light{background:#fff;color:#111827}
+      .toast-pro .t-ctas .dark{background:#111827;color:#fff;border:1px solid #374151}
+      .toast-pro .t-progress{height:3px;background:#10b981;border-radius:999px;width:0%;transition:width .2s linear;margin-top:8px}
+      /* chips pequenas de atributo */
+      .ss-chip{display:inline-flex;gap:6px;align-items:center;background:#eef6ff;border:1px solid #dbeafe;color:#1e3a8a;
+        padding:3px 8px;border-radius:9999px;font-size:.78rem;font-weight:700}
+    `;
+    const s = document.createElement("style");
+    s.id = "ss-elec-pro-style";
+    s.textContent = css;
+    document.head.appendChild(s);
+  })();
+
+  /* ================== TOAST PRO ================== */
+  function ensureToastBox(){
+    let c = document.getElementById("toast-pro-container");
+    if (!c){ c = document.createElement("div"); c.id = "toast-pro-container"; document.body.appendChild(c); }
+    return c;
+  }
+  function showToast({title="Produto adicionado", sub="", image="", onSee, onClose}={}){
+    const box = ensureToastBox();
+    const t   = document.createElement("div");
+    t.className = "toast-pro";
+    t.innerHTML = `
+      ${image?`<img src="${image}" alt="">`:``}
+      <div class="t-info">
+        <div class="t-title">${title}</div>
+        ${sub?`<div class="t-sub">${sub}</div>`:``}
+        <div class="t-progress"></div>
+      </div>
+      <div class="t-ctas">
+        <button class="dark" type="button">Continuar</button>
+        <button class="light" type="button">Ver resumo</button>
+      </div>
+    `;
+    const progress = t.querySelector(".t-progress");
+    let   dur = 8000;         // 8s padrão
+    let   left = dur;
+    let   start = Date.now();
+    let   raf;
+
+    function tick(){
+      const elapsed = Date.now() - start;
+      const pct = Math.min(1, (dur - left + elapsed)/dur);
+      progress.style.width = (pct*100).toFixed(2)+"%";
+      raf = requestAnimationFrame(tick);
+    }
+    function startTimer(){
+      start = Date.now();
+      raf = requestAnimationFrame(tick);
+      auto = setTimeout(remove, left);
+    }
+    function pauseTimer(){
+      cancelAnimationFrame(raf);
+      clearTimeout(auto);
+      left -= (Date.now() - start);
+    }
+    function remove(){
+      cancelAnimationFrame(raf);
+      clearTimeout(auto);
+      t.remove();
+      onClose && onClose();
+    }
+
+    box.appendChild(t);
+    let auto; startTimer();
+
+    t.addEventListener("mouseenter", pauseTimer);
+    t.addEventListener("mouseleave", startTimer);
+    t.querySelector(".dark").onclick = remove;
+    t.querySelector(".light").onclick = ()=>{
+      remove();
+      onSee && onSee();
+      // fallback: se não tiver callback, manda pro resumo
+      if (!onSee) window.location.href = "pagina-resumo.html";
+    };
+  }
+
+  /* ================== CARRINHO ================== */
+  const getCart = ()=> readJSON(CART_KEY, "[]");
+  const setCart = (arr)=>{
+    writeJSON(CART_KEY, arr);
+    updateBadge();
+    saveSubtotal();
+  };
+  function updateBadge(){
+    const count = getCart().reduce((a,b)=> a + (Number(b.qty)||0), 0);
+    const b = document.getElementById("cart-count") || document.getElementById("header-badge");
+    if (b) b.textContent = String(count);
+  }
+  function saveSubtotal(){
+    const sub = getCart().reduce((a,b)=> a + (Number(b.price)||0)*(Number(b.qty)||0), 0);
+    localStorage.setItem("ss_cart_subtotal", String(sub));
+  }
+
+  /* ================== COLETORES DE DADOS DO CARD ================== */
+  // Lê preço do DOM (R$)
+  function parsePriceFrom(text){
+    if (!text) return 0;
+    const num = text.replace(/\s/g,"").replace(/[^\d,.-]/g,"").replace(/\.(?=\d{3})/g,"").replace(",",".");
+    const n = Number(num);
+    return isFinite(n) ? n : 0;
+  }
+  // Captura variantes de N fontes
+  function captureVariants(card, trigger){
+    // 1) selects
+    const corSel = card.querySelector("select[name='cor'], select[data-variant='cor']");
+    const tamSel = card.querySelector("select[name='tamanho'], select[data-variant='tamanho']");
+    let cor = corSel?.value?.trim() || corSel?.selectedOptions?.[0]?.textContent?.trim();
+    let tamanho = tamSel?.value?.trim() || tamSel?.selectedOptions?.[0]?.textContent?.trim();
+
+    // 2) botões data-*
+    const btnCor = card.querySelector("[data-variant-cor].active, button[data-variant-cor][aria-pressed='true']");
+    const btnTam = card.querySelector("[data-variant-tamanho].active, button[data-variant-tamanho][aria-pressed='true']");
+    cor = cor || btnCor?.getAttribute("data-variant-cor");
+    tamanho = tamanho || btnTam?.getAttribute("data-variant-tamanho");
+
+    // 3) swatches acessíveis
+    const swatch = card.querySelector(".color-swatch[aria-checked='true']");
+    if (!cor && swatch) cor = swatch.getAttribute("aria-label") || swatch.textContent.trim();
+
+    // 4) se o botão que clicou carrega dataset
+    if (trigger){
+      cor = cor || trigger.getAttribute("data-cor") || trigger.getAttribute("data-color");
+      tamanho = tamanho || trigger.getAttribute("data-size") || trigger.getAttribute("data-tamanho");
+    }
+
+    // normaliza
+    if (cor) cor = String(cor).replace(/\s+/g, " ").trim();
+    if (tamanho) tamanho = String(tamanho).replace(/\s+/g, " ").trim();
+
+    const variant = (cor || tamanho) ? { cor, tamanho } : null;
+    return variant;
+  }
+
+  // Extrai dados mínimos do card
+  function getCardData(card, trigger){
+    const idAttr = card?.getAttribute("data-id");
+    const id = Number(idAttr) || Number(card?.dataset?.productId) || Number(Date.now()); // fallback
+
+    const name = card.querySelector(".products-name, .prod-name, [itemprop='name']")?.textContent?.trim()
+                || card.getAttribute("data-name") || "Produto";
+
+    const priceText = card.querySelector(".price-now, .prod-price, [itemprop='price']")?.textContent
+                   || card.getAttribute("data-price") || "0";
+    const price = parsePriceFrom(priceText);
+
+    const image = card.querySelector(".products-img, img[itemprop='image']")?.getAttribute("src")
+                 || card.getAttribute("data-image") || "img/placeholder.png";
+
+    const desc = card.querySelector(".products-description, .prod-desc, [itemprop='description']")?.textContent?.trim()
+              || card.getAttribute("data-desc") || "—";
+
+    const variant = captureVariants(card, trigger);
+    return { id, name, price, image, desc, variant };
+  }
+
+  /* ================== ADD TO CART ROBUSTO ================== */
+  function addToCart(payload){
+    const req = {
+      id: payload.id,
+      name: payload.name,
+      price: Number(payload.price)||0,
+      image: payload.image || "img/placeholder.png",
+      desc: payload.desc || "—",
+      variant: payload.variant || null
+    };
+    const cart = getCart();
+
+    // Mesclar por id + assinatura da variant (null == sem variações)
+    const signature = req.variant ? JSON.stringify(req.variant) : "none";
+    const idx = cart.findIndex(x =>
+      x.id === req.id &&
+      (x.variant ? JSON.stringify(x.variant) : "none") === signature
+    );
+
+    if (idx >= 0){
+      cart[idx].qty = Math.max(1, Number(cart[idx].qty||0) + 1);
+      // backfill caso item antigo não tivesse desc/variant
+      cart[idx].desc = cart[idx].desc || req.desc;
+      if (!cart[idx].variant && req.variant) cart[idx].variant = req.variant;
+      cart[idx].image = cart[idx].image || req.image;
+    } else {
+      cart.push({ ...req, qty: 1 });
+    }
+
+    setCart(cart);
+
+    showToast({
+      title: req.name,
+      sub: `Subtotal: <b>${BRL(cart.reduce((a,b)=> a + (Number(b.price)||0)*(Number(b.qty)||0), 0))}</b>` +
+           (req.variant ? ` • <span class="ss-chip">${req.variant.cor?`Cor: ${req.variant.cor}`:""}${req.variant.cor&&req.variant.tamanho?" · ":""}${req.variant.tamanho?`Tam: ${req.variant.tamanho}`:""}</span>` : ""),
+      image: req.image,
+      onSee: ()=> window.location.href = "pagina-resumo.html"
+    });
+  }
+
+  // Expor API para outros scripts, se preciso
+  window.SS = window.SS || {};
+  window.SS.addToCart = addToCart;
+
+  /* ================== DELEGAÇÃO DE CLIQUE ================== */
+  document.addEventListener("click", (e)=>{
+    const addBtn = e.target.closest(".products-button, .add-to-cart, [data-action='add-to-cart']");
+    if (addBtn){
+      const card = addBtn.closest(".products-card, .product-card, [data-product]");
+      if (!card) return;
+      const data = getCardData(card, addBtn);
+      addToCart(data);
+    }
+
+    // “Comprar agora” opcional
+    const buyNow = e.target.closest(".buy-now, [data-action='buy-now']");
+    if (buyNow){
+      const card = buyNow.closest(".products-card, .product-card, [data-product]");
+      if (!card) return;
+      const data = getCardData(card, buyNow);
+      addToCart(data);
+      // vai direto para o resumo
+      window.location.href = "pagina-resumo.html";
+    }
+  });
+
+  /* ================== MIGRAÇÃO DO CARRINHO ANTIGO ================== */
+  (function migrateCart(){
+    const cart = getCart();
+    let changed = false;
+
+    // helper para tentar enriquecer a partir do DOM
+    function enrichFromDOM(item){
+      const card = document.querySelector(`.products-card[data-id="${item.id}"], .product-card[data-product-id="${item.id}"]`);
+      if (!card) return item;
+      const probe = getCardData(card);
+      return {
+        ...item,
+        desc: item.desc || probe.desc || "—",
+        image: item.image || probe.image || "img/placeholder.png",
+        variant: item.variant || null // não força variant na migração
+      };
+    }
+
+    const migrated = cart.map(it=>{
+      let cur = {...it};
+      if (!("desc" in cur) || !cur.desc) { cur = enrichFromDOM(cur); changed = true; }
+      if (!("variant" in cur)) { cur.variant = null; changed = true; }
+      if (!("image" in cur) || !cur.image){ cur = enrichFromDOM(cur); changed = true; }
+      if (!("qty" in cur)) { cur.qty = 1; changed = true; }
+      return cur;
+    });
+
+    if (changed){
+      writeJSON(CART_KEY, migrated);
+      console.log("🛠️ Carrinho migrado para shape PRO.", migrated);
+    }
+  })();
+
+  /* ================== BADGE E SUBTOTAL NO LOAD ================== */
+  window.addEventListener("DOMContentLoaded", ()=>{
+    updateBadge();
+    saveSubtotal();
+
+    // Telemetria leve
+    console.log("%cSkillSwap PRO","background:#111827;color:#fff;padding:2px 6px;border-radius:6px",
+      "Vitrine pronta • Toast PRO • Carrinho shape {desc, variant}");
+  });
+
+  /* ================== OBSERVER (cards que chegam depois) ================== */
+  const observer = new MutationObserver((mut)=>{
+    // se elementos forem inseridos via sliders/ajax, o addToCart já funciona por delegação
+    // aqui só mantemos o badge/subtotal consistentes quando o DOM muda muito
+    // (não é estritamente necessário)
+  });
+  observer.observe(document.documentElement, {childList:true, subtree:true});
+
+})();
+</script>
+
 
 <!-- Scripts (ordem importa) -->
  <script src="js/electronicPage.js"></script>

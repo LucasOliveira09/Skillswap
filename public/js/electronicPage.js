@@ -1081,3 +1081,309 @@
     "✅ SAFE PATCH v10 aplicado (camadas + blur isolado + toast inline)."
   );
 })();
+/* ========================= SkillSwap PRO Patch v2 =========================
+ * Cola este bloco no FIM do seu pagina-eletronico.js (ou inclui como script).
+ * O que faz:
+ * - Garante desc e variantes no carrinho (ss_cart)
+ * - Intercepta "Adicionar ao carrinho" sem quebrar seu fluxo
+ * - Toast PRO (7s, pausa no hover, CTAs, z-index alto)
+ * - CSS injetado para toasts/labels sem conflitar com seu tema
+ * - Idempotente (não duplica handlers)
+ * ======================================================================== */
+(function(){
+  "use strict";
+
+  /* ---------- Config “big-tech” ---------- */
+  const THEME = {
+    brand:    "#8cc63f",
+    ink:      "#111827",
+    line:     "#e6eaf0",
+    ok:       "#10b981",
+    danger:   "#ef4444",
+    toastSec: 7_000,   // duração padrão do toast (ms)
+    toastSecAfterHover: 2600
+  };
+
+  const CART_KEY = "ss_cart";
+
+  /* ---------- Utils ---------- */
+  const $   = (s, p=document) => p.querySelector(s);
+  const $$  = (s, p=document) => [...p.querySelectorAll(s)];
+  const BRL = n => Number(n||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+
+  const once = (el, type, handler, opts) => {
+    const key = "__once__" + type + (handler.name||"");
+    if (el[key]) return;
+    el.addEventListener(type, handler, opts);
+    el[key] = true;
+  };
+
+  function ensureToastContainer(){
+    let c = document.getElementById("toast-container");
+    if (!c){
+      c = document.createElement("div");
+      c.id = "toast-container";
+      Object.assign(c.style, {
+        position:"fixed", right:"16px", bottom:"16px",
+        display:"flex", flexDirection:"column", gap:"12px",
+        zIndex: 2147483647, pointerEvents:"auto"
+      });
+      document.body.appendChild(c);
+    } else if (c.parentNode !== document.body){
+      c.remove(); document.body.appendChild(c);
+    }
+    return c;
+  }
+
+  function injectCSS(){
+    if (document.getElementById("ss-pro-styles")) return;
+    const css = `
+      /* Toast PRO */
+      #toast-container .ss-toast{
+        display:flex; gap:12px; align-items:center;
+        width:min(420px, 92vw);
+        padding:12px 14px; border-radius:14px;
+        color:#fff; background:rgba(17,24,39,.92);
+        backdrop-filter:blur(8px);
+        border:1px solid rgba(255,255,255,.15);
+        box-shadow:0 10px 30px rgba(0,0,0,.25);
+        animation:ssToastIn .18s ease-out;
+      }
+      #toast-container .ss-toast img{
+        width:56px; height:56px; border-radius:10px; object-fit:cover;
+      }
+      #toast-container .ss-toast .ss-info{ flex:1; min-width:0 }
+      #toast-container .ss-toast .ss-info strong{
+        display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+      }
+      #toast-container .ss-toast .ss-sub{
+        font-size:.9rem; opacity:.9; margin-top:2px;
+      }
+      #toast-container .ss-toast .ss-cta{ display:flex; gap:8px; }
+      #toast-container .ss-toast .ss-cta button{
+        border:0; padding:8px 10px; border-radius:10px; cursor:pointer;
+      }
+      #toast-container .ss-toast .see{ background:#fff; color:${THEME.ink} }
+      #toast-container .ss-toast .cont{ background:${THEME.ink}; color:#fff; border:1px solid #374151 }
+
+      @keyframes ssToastIn{ from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+      /* Badge/labels pequenos (se precisar em cards) */
+      .ss-chip-free{
+        display:inline-flex; align-items:center; gap:6px;
+        background:${THEME.ok}1a; border:1px solid ${THEME.ok}33; color:#065f46;
+        font-weight:600; border-radius:999px; padding:4px 8px; font-size:.82rem;
+      }
+    `;
+    const s = document.createElement("style");
+    s.id = "ss-pro-styles";
+    s.textContent = css;
+    document.head.appendChild(s);
+  }
+
+  /* ---------- Carrinho ---------- */
+  function getCart(){
+    try{ return JSON.parse(localStorage.getItem(CART_KEY) || "[]") }catch{ return [] }
+  }
+  function setCart(arr){
+    localStorage.setItem(CART_KEY, JSON.stringify(arr));
+    // atualiza badge comum
+    const count = arr.reduce((a,b)=> a + (Number(b.qty)||0), 0);
+    const badge = document.getElementById("cart-count") || document.getElementById("header-badge");
+    if (badge) badge.textContent = String(count);
+  }
+
+  function safeImageFromCard(card){
+    return card?.querySelector?.(".products-img")?.getAttribute("src")
+           || card?.querySelector?.("img")?.getAttribute("src")
+           || "img/placeholder.png";
+  }
+  function safeDescFromCard(card){
+    return card?.querySelector?.(".products-description")?.textContent?.trim()
+           || card?.querySelector?.(".desc")?.textContent?.trim()
+           || card?.getAttribute?.("data-desc")
+           || "—";
+  }
+
+  function getSelectedVariantFrom(card){
+    // 1) selects comuns
+    const selCor   = card.querySelector("select[name='cor'], select[name='color'], select[name='variantColor']");
+    const selTam   = card.querySelector("select[name='tamanho'], select[name='size'], select[name='variantSize']");
+
+    // 2) botões/bolinhas de cor/tamanho com seleção
+    const btnCor   = card.querySelector("[data-variant='cor'].selected, [data-variant='color'].selected, [data-variant='cor'][aria-pressed='true'], .swatch-color.selected");
+    const btnTam   = card.querySelector("[data-variant='tamanho'].selected, [data-variant='size'].selected, [data-variant='tamanho'][aria-pressed='true'], .swatch-size.selected");
+
+    // 3) data attributes diretos no card
+    const dataCor  = card.getAttribute("data-cor") || card.getAttribute("data-color");
+    const dataTam  = card.getAttribute("data-tamanho") || card.getAttribute("data-size");
+
+    const cor = (selCor?.value || selCor?.selectedOptions?.[0]?.text || btnCor?.dataset?.value || btnCor?.textContent || dataCor || "").trim() || undefined;
+    const tamanho = (selTam?.value || selTam?.selectedOptions?.[0]?.text || btnTam?.dataset?.value || btnTam?.textContent || dataTam || "").trim() || undefined;
+
+    return (cor || tamanho) ? { cor, tamanho } : null;
+  }
+
+  function normalizeProductFromCard(card){
+    // ID
+    const id = Number(card?.dataset?.id) || Number(card?.getAttribute?.("data-product-id")) || Date.now();
+
+    // Nome
+    const name =
+      card?.querySelector?.(".products-name")?.textContent?.trim() ||
+      card?.querySelector?.(".title, h3, h2")?.textContent?.trim() ||
+      "Produto";
+
+    // Preço atual
+    let price = 0;
+    const priceText =
+      card?.querySelector?.(".price-now")?.textContent ||
+      card?.querySelector?.("[data-price]")?.getAttribute?.("data-price") ||
+      card?.querySelector?.(".price, .valor, .preco")?.textContent || "0";
+    price = Number(
+      (priceText||"0").replace(/[^\d,.-]/g,"").replace(/\.(?=\d{3})/g,"").replace(",",".")
+    ) || 0;
+
+    // Imagem e descrição
+    const image = safeImageFromCard(card);
+    const desc  = safeDescFromCard(card);
+
+    // Variantes
+    const variant = getSelectedVariantFrom(card);
+
+    return { id, name, price, image, desc, variant };
+  }
+
+  function upsertCartItem(payload){
+    const cart = getCart();
+    // “Mesma variante” = mesmo id + JSON de variant igual (ou ambos nulos)
+    const sameVariant = (a,b) => JSON.stringify(a?.variant||null) === JSON.stringify(b?.variant||null);
+    const idx = cart.findIndex(x => x.id===payload.id && sameVariant(x, payload));
+
+    if (idx>=0){
+      cart[idx].qty = Math.max(1, Number(cart[idx].qty||1) + 1);
+      // completa campos faltantes (desc, image, variant)
+      cart[idx].image   = cart[idx].image   || payload.image;
+      cart[idx].desc    = cart[idx].desc    || payload.desc;
+      cart[idx].variant = cart[idx].variant || payload.variant || null;
+    } else {
+      cart.push({
+        id: payload.id,
+        name: payload.name,
+        price: Number(payload.price)||0,
+        qty: 1,
+        image: payload.image || "img/placeholder.png",
+        desc: payload.desc || "—",
+        variant: payload.variant || null
+      });
+    }
+    setCart(cart);
+    return cart;
+  }
+
+  /* ---------- Toast PRO (sobrepõe qualquer toast antigo) ---------- */
+  function showToastPRO({ id, name, image }){
+    const cont = ensureToastContainer();
+    const t = document.createElement("div");
+    t.className = "ss-toast";
+    t.innerHTML = `
+      <img src="${image||"img/placeholder.png"}" alt="">
+      <div class="ss-info">
+        <strong>${name||"Produto adicionado"}</strong>
+        <div class="ss-sub">Adicionado ao carrinho • Subtotal: <b>${BRL(
+          getCart().reduce((a,b)=>a+(+b.price||0)*(+b.qty||0),0)
+        )}</b></div>
+      </div>
+      <div class="ss-cta">
+        <button class="cont" type="button">Continuar</button>
+        <button class="see"  type="button">Ver carrinho</button>
+      </div>
+    `;
+    cont.appendChild(t);
+
+    // Fechamento com pausa no hover
+    let timer = setTimeout(()=> t.remove(), THEME.toastSec);
+    t.addEventListener("mouseenter", ()=> clearTimeout(timer));
+    t.addEventListener("mouseleave", ()=> timer = setTimeout(()=> t.remove(), THEME.toastSecAfterHover));
+
+    t.querySelector(".cont")?.addEventListener("click", ()=> t.remove());
+    t.querySelector(".see")?.addEventListener("click", ()=>{
+      t.remove();
+      // tenta abrir seu drawer se existir
+      const openBtn = document.getElementById("cart-button") || document.querySelector("[data-open-cart]");
+      if (openBtn){ openBtn.click(); }
+      else {
+        // fallback: redireciona para resumo
+        try{ window.location.href = "pagina-resumo.html"; }catch{}
+      }
+    });
+  }
+
+  // expõe como SS.showToast para substituir toasts antigos
+  window.SS = window.SS || {};
+  window.SS.showToast = showToastPRO;
+
+  /* ---------- Intercepta “Adicionar ao carrinho” ---------- */
+  function bindAddToCartButtons(root=document){
+    $$("[data-ss-bound!='1'] .products-button, .products-button", root).forEach(btn=>{
+      const host = btn.closest("[data-ss-bound='1']");
+      if (host) return; // já tratado via wrapper de container
+      const card = btn.closest(".products-card") || btn.closest("[data-product-id]") || btn.closest("article, .card, .produto");
+      if (!card) return;
+
+      // marca o card para não duplicar
+      card.setAttribute("data-ss-bound", "1");
+
+      once(btn, "click", (e)=>{
+        try{
+          const prod = normalizeProductFromCard(card);
+          const cart = upsertCartItem(prod);
+          showToastPRO({ id: prod.id, name: prod.name, image: prod.image });
+        }catch(err){ console.error("SS PRO Patch addToCart error:", err); }
+      });
+    });
+  }
+
+  // Observa DOM para cards carregados depois
+  let mo = null;
+  function startObserver(){
+    if (mo) return;
+    mo = new MutationObserver((muts)=>{
+      for (const m of muts){
+        if (m.type === "childList" && (m.addedNodes?.length||0)){
+          bindAddToCartButtons(document);
+        }
+      }
+    });
+    mo.observe(document.documentElement, {childList:true, subtree:true});
+  }
+
+  // Caso exista uma função global antiga, embrulha para forçar desc/variant
+  if (typeof window.addToCart === "function"){
+    const _oldAdd = window.addToCart;
+    window.addToCart = function(payload){
+      try{
+        // completa payload se veio sem desc/variant
+        if (!payload || typeof payload !== "object"){
+          return _oldAdd.apply(this, arguments);
+        }
+        const card = document.querySelector(`.products-card[data-id="${payload.id}"]`);
+        const extra = card ? { desc: safeDescFromCard(card), variant: getSelectedVariantFrom(card) } : {};
+        const full = { ...payload, ...extra };
+        // upsert no nosso formato também (garantindo no storage)
+        upsertCartItem(full);
+        showToastPRO({ id: full.id, name: full.name, image: full.image });
+      }catch(e){
+        console.warn("SS PRO Patch wrapper fallback:", e);
+      }
+      return _oldAdd.apply(this, arguments);
+    };
+  }
+
+  /* ---------- Boot ---------- */
+  injectCSS();
+  bindAddToCartButtons(document);
+  startObserver();
+
+  console.log("✅ SkillSwap PRO Patch v2 ativo — variantes/desc garantidos + toast PRO.");
+})();
