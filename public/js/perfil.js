@@ -1,5 +1,7 @@
 // public/js/perfil.js
 
+
+
 const API_USUARIOS_URL = 'http://localhost:3000/api/usuarios/';
 const API_SERVICOS_USUARIO_URL = 'http://localhost:3000/api/servicos/usuario/';
 let perfilId = null;
