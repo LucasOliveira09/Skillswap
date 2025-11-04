@@ -245,7 +245,7 @@ const produtos = [
     descricao: "Seg/Qua • 14h–15h • Aula individual",
     authorAvatar: "./img/avatar-matheus.jpg",
     authorName: "Matheus Souza.",
-    authorId: "4",
+    authorId: "5",
     stars: 4,
     needs: ["Corrida"],
     postedAtMs: Date.now() - 1500 * 80 * 90, // ex.: há 5 minutos

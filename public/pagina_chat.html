@@ -3,23 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/chat.css">
     <title>Chat | Skill Swap</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="css/chat.css">
+
+    <style>
+       
+    </style>
 </head>
 <body>
 
-    <div>
+    <div class="container-geral">
+
         <div class="coluna-esquerda">
             <div class="detalhes-david">
                 <div class="foto-david">
-                    <img src="img/foto-david.png" alt="Foto de David Peters" height="60px">
+                    <img src="img/avatar-lucas.jpg" class="rounded-circle" alt="Foto de Lucas Oliveira" height="60px">
                 </div>
                 <div class="david">
-                    <h4>David Peters</h4>
-                    <span>Desenvolvedor Sênior</span>
+                    <h4>Lucas Oliveira</h4>
                 </div>
                 <div class="editar-perfil">
-                    <button><img src="img/lapis.png" alt="editar"></button>
+                    <button class="botao-icone"><img src="img/lapis.png" alt="editar" width="24"></button>
                 </div>
             </div>
             
@@ -27,140 +34,293 @@
                 <input type="text" placeholder="Pesquisar aqui...">
             </div>
             <hr class="linha">
+            
             <div class="chat-lista">
                 <div class="chat-item">
-                    <img src="img/foto-lisa.png" class="chat-avatar" alt="Foto de Lisa Roy">
+                    <img src="img/avatar-matheus.jpg" class="chat-avatar" alt="Foto de Matheus de Souza">
                     <div class="chat-info">
-                        <h4>Lisa Roy</h4>
-                        <p>Olá, você poderia me avaliar...?</p>
+                        <h4>Matheus de Souza</h4>
+                        <p>Opa, tudo certo! Isso mesmo...</p>
                     </div>
-                    <span>10:45 AM</span>
+                    <span>10:45</span>
                 </div>
-                <div class="chat-item">
-                    <img src="img/foto-jamie.png" class="chat-avatar" alt="Foto de Jamie Taylor">
-                    <div class="chat-info">
-                        <h4>Jamie Taylor</h4>
-                        <p>OK, nós vamos seguir...</p>
-                    </div>
-                    <span>10:38 AM</span>
                 </div>
-                <div class="chat-item">
-                    <img src="img/foto-jason.png" class="chat-avatar" alt="Foto de Jason Roy">
-                    <div class="chat-info">
-                        <h4>Jason Roy</h4>
-                        <p>Bom dia, Jason...</p>
-                    </div>
-                    <span>10:22 AM</span>
-                </div>
-                <div class="chat-item">
-                    <img src="img/foto-amy.png" class="chat-avatar" alt="Foto de Amy Frost">
-                    <div class="chat-info">
-                        <h4>Amy Frost</h4>
-                        <p>Oi, você pode me ajudar...</p>
-                    </div>
-                    <span>10:12 AM</span>
-                </div>
-                <div class="chat-item">
-                    <img src="img/foto-paul.png" class="chat-avatar" alt="Foto de Paul Wilson">
-                    <div class="chat-info">
-                        <h4>Paul Wilson</h4>
-                        <p>Você pode me enviar a...</p>
-                    </div>
-                    <span>10:00 AM</span>
-                </div>
-                <div class="chat-item">
-                    <img src="img/foto-ana.png" class="chat-avatar" alt="Foto de Ana Williams">
-                    <div class="chat-info">
-                        <h4>Ana Williams</h4>
-                        <p>Oi, o projeto...</p>
-                    </div>
-                    <span>10:00 AM</span>
-                </div>
-            </div>
 
             <div class="logo">
                 <img src="img/logo-skill-swap.png" alt="Logotipo Skill Swap" width="250">
             </div>
         </div>
 
-        <div class="coluna-meio">   
+        <div class="coluna-meio">   
             <div class="chat-header">
-                <img src="img/foto-diane.png" alt="Foto de Dianne Jhonson" class="user-photo">
+                <img src="img/avatar-matheus.jpg" alt="Foto de Matheus de Souza" class="user-photo">
                 <div class="user-name">
-                    <h4>Dianne Jhonson</h4>
+                    <h4>Matheus de Souza</h4>
                 </div>
-                <button class="botao-acao"><img src="img/telefone.png"Telefone" width="45px"></button>
-                <button class="botao-acao"><img src="img/videochamada.png" alt="VideoChamada" width="45px"></button>
+                <button class="botao-acao botao-icone"><img src="img/telefone.png" alt="Telefone" width="45px"></button>
+                <button class="botao-acao botao-icone"><img src="img/videochamada.png" alt="VideoChamada" width="45px"></button>
             </div>
             
-            <div class="chat-messages">
-                <div class="mensagem">
-                    <img src="img/diane-pequena.png" class="foto-perfil" alt="Foto de Dianne">
-                    <p class="texto-mensagem">Oi David, você pegou o pdf do relatório do projeto?</p>
-                </div>
+            <div class="chat-messages" id="chat-messages-container">
+                
+                
+
                 <div class="mensagem enviada">
-                    <p class="texto-mensagem">NÃO. Não peguei.</p>
-                </div>
-                <span class="divider">Ontem</span>
-                <div class="mensagem">
-                    <img src="img/diane-pequena.png" class="foto-perfil" alt="Foto de Dianne">
-                    <p class="texto-mensagem">Ok, vou enviar agora. Por favor, preencha os detalhes até o final do dia.</p>
-                </div>
-                <div class="mensagem">
-                    <img src="img/diane-pequena.png" class="foto-perfil" alt="Foto de Dianne">
                     <div class="texto-mensagem">
-                        <img src="img/projeto-diane.png" alt="Miniatura do PDF">
-                        <p>projeto_relatorio.pdf</p>
+                        Opa, tudo bem? Você é o Matheus das caronas?
                     </div>
                 </div>
+
                 <div class="mensagem">
-                    <div class="mensagem enviada">
-                        <p class="texto-mensagem">Teria que enviar por e-mail também e depois de preencher os detalhes?</p>
+                    <img src="img/avatar-matheus.jpg" alt="Foto" class="foto-perfil">
+                    <div class="texto-mensagem">
+                        Opa, tudo certo! Isso mesmo...
                     </div>
                 </div>
-                <div class="mensagem">
-                    <img src="img/diane-pequena.png" class="foto-perfil" alt="Foto de Dianne">
-                    <p class="texto-mensagem">Sim. Estarei adicionando mais membros à equipe.</p>
                 </div>
-                <div class="mensagem enviada">
-                    <p class="texto-mensagem">OK.</p>
-                </div>
-            </div>
             
             <div class="chat-input">
-                <input type="text" placeholder="Escreva algo...">
-                <button class="chat-input-mic"><img src="img/microfone.PNG" alt="Mic" width="25px"></button>
-                <button><img src="img/emoji.PNG" alt="Emotes" width="30px"></button>
-                <button><img src="img/camera.PNG" alt="Camera" width="30px"></button>
-                <button><img src="img/clips.PNG" alt="Anexar" width="30px"></button>
-                <button><img src="img/enviar.PNG" alt="Enviar" width="60px"></button>
+                <input type="text" id="message-input" placeholder="Escreva algo...">
+                
+                <button class="botao-icone"><img src="img/emoji.PNG" alt="Emotes" width="30px"></button>
+                <button class="botao-icone"><img src="img/camera.PNG" alt="Camera" width="30px"></button>
+                <button class="botao-icone"><img src="img/clips.PNG" alt="Anexar" width="30px"></button>
+
+                <button id="payment-button" class="botao-icone">
+        <img src="img/cifrao.png" alt="Pagamento" width="30px"> </button>
+                
+                <button id="send-button" class="botao-icone"><img src="img/enviar.PNG" alt="Enviar" width="60px"></button>
             </div>
         </div>
 
         <div class="coluna-direita">
             <div class="coluna-apresentacao">
-                <img src="img/diane-grande.png" alt="Foto de Dianne">
-                <h4>Dianne Jhonson</h4>
-                <span>Desenvolvedor Júnior</span>
+                <img src="img/avatar-matheus.jpg" alt="Foto de Matheus de Souza">
+                <h4>Matheus de Souza</h4>
+                <span>Taxista</span>
             </div>
             
             <div>
-                <button class="botao-descricao"><img src="img/amigos.png" alt="Amigos">Ver Amigos</button>
-                <button class="botao-descricao"><img src="img/favoritos.png" alt="Favoritos">Adicionar aos Favoritos</button>
+                <button class="botao-descricao"><img src="img/amigos.png" alt="Amigos" width="24">Ver Amigos</button>
+                <button class="botao-descricao"><img src="img/favoritos.png" alt="Favoritos" width="24">Adicionar aos Favoritos</button>
             </div>
 
             <div class="anexos">
                 <h4>Anexos</h4>
                 <div>
-                    <button class="botoes-perfil"><img src="img/pdf.PNG" alt="PDF" width="70px"></button>
-                    <button class="botoes-perfil"><img src="img/video.PNG" alt="Videos" width="70px"></button>
-                    <button class="botoes-perfil"><img src="img/mp3.PNG" alt="MP3" width="70px"></button>
-                    <button class="botoes-perfil"><img src="img/imagens.PNG" alt="Imagens" width="70px"></button>
+                    <button class="botoes-perfil"><img src="img/pdf.PNG" alt="PDF"></button>
+                    <button class="botoes-perfil"><img src="img/video.PNG" alt="Videos"></button>
+                    <button class="botoes-perfil"><img src="img/mp3.PNG" alt="MP3"></button>
+                    <button class="botoes-perfil"><img src="img/imagens.PNG" alt="Imagens"></button>
                 </div>
-                <button class="botao-ver"><img src="img/ver todos.png" alt="Ver todos" width="120px"></button>
+                <button class="botao-ver botao-icone"><img src="img/ver todos.png" alt="Ver todos" width="120px"></button>
             </div>
         </div>
-    </div>
 
-</body>
+    </div> 
+    
+    <div class="modal-pagamento-overlay" id="payment-modal-overlay">
+    <div class="modal-pagamento-content">
+        <form id="payment-form">
+            <div class="modal-header">
+                <h3>Propor Pagamento</h3>
+                <button type="button" class="botao-icone" id="close-modal-button">&times;</button>
+            </div>
+
+            <div class="form-group">
+                <label for="payment-description">Descrição do Serviço</label>
+                <input type="text" id="payment-description" required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="payment-amount">Valor (R$)</label>
+                    <input type="number" id="payment-amount" step="0.01" min="0" placeholder="50.00" required>
+                </div>
+                <div class="form-group">
+                    <label for="payment-unit">Tipo de Cobrança</label>
+                    <select id="payment-unit" required>
+                        <option value="Serviço">Por Serviço (Total)</option>
+                        <option value="Unidade">Por Unidade</option>
+                        <option value="Dia">Por Dia</option>
+                        <option value="Semana">Por Semana</option>
+                        <option value="Mês">Por Mês</option>
+                        <option value="Km">Por Km</option>
+                        <option value="M²">Por M²</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="payment-method">Método de Pagamento</label>
+                <select id="payment-method" required>
+                    <option value="Pix">Pix</option>
+                    <option value="Cartão de Crédito">Cartão de Crédito</option>
+                    <option value="Boleto">Boleto</Ooption>
+                    <option value="Saldo da Plataforma">Saldo (Skill Swap)</option>
+                </select>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="payment-date">Data do Pagamento</label>
+                    <input type="date" id="payment-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="payment-release">Liberação do Valor</label>
+                    <select id="payment-release" required>
+                        <option value="Após a conclusão">Após a conclusão</option>
+                        <option value="Imediata">Imediata (Na data do pag.)</option>
+                        <option value="D+7">7 dias após pag.</option>
+                        <option value="D+30">30 dias após pag.</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="botao-enviar-proposta">Enviar Proposta</button>
+        </form>
+    </div>
+</div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <script>
+        // --- REFERÊNCIAS DOS ELEMENTOS DO CHAT ---
+    const messageInput = document.getElementById('message-input');
+    const sendButton = document.getElementById('send-button');
+    const chatContainer = document.getElementById('chat-messages-container');
+
+    // --- REFERÊNCIAS DOS ELEMENTOS DO MODAL DE PAGAMENTO ---
+    const paymentModalOverlay = document.getElementById('payment-modal-overlay');
+    const paymentButton = document.getElementById('payment-button');
+    const closeModalButton = document.getElementById('close-modal-button');
+    const paymentForm = document.getElementById('payment-form');
+
+    // --- LÓGICA DO CHAT ---
+
+    // 1. Função para enviar MENSAGEM DE TEXTO
+    function sendTextMessage() {
+        const messageText = messageInput.value.trim();
+        if (messageText !== '') {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('mensagem', 'enviada');
+
+            const textElement = document.createElement('div');
+            textElement.classList.add('texto-mensagem');
+            textElement.textContent = messageText;
+
+            messageElement.appendChild(textElement);
+            chatContainer.appendChild(messageElement);
+
+            messageInput.value = '';
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+    }
+
+    // --- LÓGICA DO MODAL DE PAGAMENTO ---
+
+    // 2. Função para ABRIR o modal
+    function openPaymentModal() {
+        paymentModalOverlay.classList.add('show');
+    }
+
+    // 3. Função para FECHAR o modal
+    function closePaymentModal() {
+        paymentModalOverlay.classList.remove('show');
+    }
+
+    // 4. Função para ENVIAR A PROPOSTA DE PAGAMENTO (O CARD)
+    function sendPaymentProposal(event) {
+        event.preventDefault(); // Impede o recarregamento da página
+
+        // Pega os dados do formulário
+        const details = {
+            description: document.getElementById('payment-description').value,
+            amount: document.getElementById('payment-amount').value,
+            unit: document.getElementById('payment-unit').value,
+            method: document.getElementById('payment-method').value,
+            date: document.getElementById('payment-date').value,
+            release: document.getElementById('payment-release').value
+        };
+
+        // Cria o HTML para o Card de Pagamento
+        const proposalElement = createPaymentCardHTML(details);
+        
+        // Adiciona o card ao chat
+        chatContainer.appendChild(proposalElement);
+
+        // Rola o chat para baixo
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+
+        // Limpa o formulário e fecha o modal
+        paymentForm.reset();
+        closePaymentModal();
+    }
+
+    // 5. Função para CRIAR O HTML DO CARD
+    function createPaymentCardHTML(details) {
+        // Formata a data (de AAAA-MM-DD para DD/MM/AAAA)
+        const formattedDate = details.date.split('-').reverse().join('/');
+        
+        // Formata o valor (de 50.5 para R$ 50,50)
+        const formattedAmount = parseFloat(details.amount).toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+        });
+
+        // Cria o elemento <div> principal
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('mensagem', 'enviada');
+        
+        // Cria o HTML interno do Card
+        messageElement.innerHTML = `
+            <div class="payment-proposal-card">
+                <h4>Proposta de Pagamento</h4>
+                <div class="valor-proposta">
+                    ${formattedAmount} <span>(${details.unit})</span>
+                </div>
+                <ul>
+                    <li><strong>Serviço:</strong> ${details.description}</li>
+                    <li><strong>Método:</strong> ${details.method}</li>
+                    <li><strong>Pagar em:</strong> ${formattedDate}</li>
+                    <li><strong>Liberar:</strong> ${details.release}</li>
+                </ul>
+            </div>
+        `;
+        
+        return messageElement;
+    }
+
+
+    // --- ESCUTADORES DE EVENTOS (EVENT LISTENERS) ---
+    
+    // Chat: Enviar mensagem com clique
+    sendButton.addEventListener('click', sendTextMessage);
+
+    // Chat: Enviar mensagem com "Enter"
+    messageInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            sendTextMessage();
+        }
+    });
+
+    // Modal: Abrir modal ao clicar no ícone R$
+    paymentButton.addEventListener('click', openPaymentModal);
+
+    // Modal: Fechar modal ao clicar no 'X'
+    closeModalButton.addEventListener('click', closePaymentModal);
+
+    // Modal: Fechar modal ao clicar fora (no overlay)
+    paymentModalOverlay.addEventListener('click', (event) => {
+        if (event.target === paymentModalOverlay) {
+            closePaymentModal();
+        }
+    });
+
+    // Modal: Enviar proposta ao submeter o formulário
+    paymentForm.addEventListener('submit', sendPaymentProposal);
+
+    </script>
+    </body>
 </html>
